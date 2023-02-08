@@ -1,0 +1,69 @@
+:root {
+
+    /* Color styles */
+    --black: #000000;
+    --black-40: #000000;
+    --light: #FFFFFF;
+    --background: #FAFAFA;
+    --sticker--b-g-1: #D5EAFF;
+    --sticker--text-1: #405D7D;
+    --sticker--descr-1: #405D7D;
+    --sticker--b-g-2: #FEF9C3;
+    --sticker--text-2: #854D0E;
+    --sticker--descr-2: #854D0E;
+    --sticker--b-g-3: #DCFCE7;
+    --sticker--text-3: #404843;
+    --sticker--descr-3: #404843;
+    --sticker--b-g-4: #F3E8FF;
+    --sticker--text-4: #6B21A8;
+    --sticker--descr-4: #6B21A8;
+    --sticker--d-b-5: #FFEDD5;
+    --sticker--text-5: #9A3412;
+    --sticker--descr-5: #9A3412;
+    --sticker--b-g-6: #FEE2E2;
+    --sticker--text-6: #BE185D;
+    --sticker--descr-6: #BE185D;
+    --sticker--b-g-7: #F3F4F6;
+    --sticker--text-7: #1F2937;
+    --sticker--descr-7: #1F2937;
+    --red-color: #D84E6D;
+    --black20: #000000;
+    --black10: #000000;
+    --green--online: #58CF75;
+    --gray-nomal: #9C9E9D;
+    --green-color: #65C25D;
+    --nail-color-1: #00429D;
+
+    /* Effect styles */
+    --box-shadow-black: 0px 4px 8px rgba(186, 186, 186, 0.25);
+    --box-shadow-light: 0px 4px 8px rgba(186, 186, 186, 0.25);
+    --box-shadow-photos: 0px 2px 8px rgba(0, 0, 0, 0.25);
+    --box-shadow-slider: 0px 4px 12px rgba(186, 186, 186, 0.3), 0px 14px 34px rgba(186, 186, 186, 0.2);
+    --backdrop-light: ;
+    --box-shadow-fat-shadow: 0px 4px 8px rgba(186, 186, 186, 0.4);
+    --box-shadow--nail-color-1: -2px 0px 4px rgba(0, 66, 157, 0.24), -2px 5px 5px rgba(4, 4, 4, 0.3);
+
+}
+
+body {
+    background: var(--background);
+}
+
+header {
+    width: 157px;
+    height: 31px;
+
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 31px;
+
+    color: var(--color-black)
+}
+
+.header-b main {}
+
+nav {}
+
+.content {}
