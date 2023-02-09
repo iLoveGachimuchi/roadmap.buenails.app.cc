@@ -1,0 +1,90 @@
+{
+    "v": 0.01,
+    "time": 1675933200940,
+    "data": [
+        {
+            "id": 10,
+            "date": 1675733200940,
+            "type": "hand-write",
+            "v": 0.01,
+            "event": null
+        },
+        {
+            "id": 10,
+            "date": 1675833200940,
+            "type": "sticker",
+            "v": 0.01,
+            "event": null,
+            "data": [
+                {
+                    "descr": "ланирование, макетиро",
+                    "time": 1675833200940
+                },
+                {
+                    "text": "Планирование, макетирование, проработка идеи",
+                    "descr": "ланирование, макетиро",
+                    "time": 1675833200940
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "date": 1675933200940,
+            "type": "sticker",
+            "v": 0.01,
+            "event": null,
+            "data": {
+                "text": "Планирование, макетирование, проработка идеи",
+                "descr": "ланирование, макетиро",
+                "time": 1675933200940,
+                "img": [
+                    {
+                        "src": "/assets/img/exphoto-1.jpg"
+                    },
+                    {
+                        "src": "/assets/img/exphoto-2.jpg"
+                    },
+                    {
+                        "src": "/assets/img/exphoto-3.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 12,
+            "date": 1675933200940,
+            "type": "photo",
+            "v": 0.01,
+            "event": null,
+            "data": {
+                "text": "Планирование, макетирование, проработка идеи",
+                "time": 1675933200940,
+                "img": [
+                    {
+                        "src": "/assets/img/exphoto-3.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 14,
+            "date": 1678482000000,
+            "type": "animate",
+            "v": 0.01,
+            "event": {
+                "click": null,
+                "hover": "default"
+            },
+            "data": {
+                "text": "Йо... с др",
+                "time": 1678482000000,
+                "img": [
+                    {
+                        "src": "/assets/img/trash.png",
+                        "height": "400px"
+                    }
+                ]
+            }
+        }
+    ]
+}
