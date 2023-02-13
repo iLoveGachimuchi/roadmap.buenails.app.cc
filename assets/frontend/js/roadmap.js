@@ -411,8 +411,6 @@ class Sticker {
 
         if (typeof this.sticker.data.img == 'undefined')
             return this.stickerBox;
-
-
             
         this.stickerBox.classList.add(this.animateClass);
 
@@ -425,20 +423,6 @@ class Sticker {
 
         stickerInsp.appendChild(stickerAnimate);
 
-        `<div class="sticker-box animate evented">
-        <div class="sticker-insp sticker-color-2">
-            <div class="sticker-padding">
-                <p class="sticker-text">Йо, с др</p>
-                <small class="sticker-date">11 март</small>
-            </div>
-            <div class="sticker-animate">
-                <div class="sticker-animate-img">
-                    <!-- <img src="/assets/frontend/img/partycapfront.png" style="height: 400px"> -->
-                    <img src="/assets/frontend/img/trash.png" style="height: 400px">
-                </div>
-            </div>
-        </div>
-    </div>`;
         return this.stickerBox;
     }
 
