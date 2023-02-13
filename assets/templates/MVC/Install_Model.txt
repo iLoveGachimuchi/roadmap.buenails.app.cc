@@ -1,0 +1,11 @@
+<?
+
+namespace Models;
+
+final class #name# {
+
+    public function __construct() { }
+
+    public function __invoke() { }
+
+}

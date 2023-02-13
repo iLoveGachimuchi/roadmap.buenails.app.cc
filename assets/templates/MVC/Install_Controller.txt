@@ -1,0 +1,14 @@
+<?
+
+namespace Controllers;
+
+class #name# extends \System\Controllers
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    
+}
