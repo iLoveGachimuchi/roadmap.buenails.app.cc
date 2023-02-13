@@ -19,7 +19,7 @@
     max-width: 360px;
     max-height: 400px;
 
-    cursor: pointer;
+    cursor: default;
     height: auto;
 }
 
@@ -31,9 +31,12 @@
 
 .sticker-box:empty {
     display: block;
-    cursor: default;
     position: relative;
     min-height: 84px;
+}
+
+.sticker-box .evented {
+    cursor: pointer;
 }
 
 .sticker-insp {
@@ -51,7 +54,7 @@
     min-height: 200px;
 }
 
-.sticker-box .sticker-insp:hover {
+.sticker-box .sticker-insp.evented:hover {
     transform: scale(.98);
 }
 
@@ -169,11 +172,11 @@
     z-index: 4;
 }
 
-.sticker-img-group:hover .sticker-img-box:nth-child(2) {
+.evented .sticker-img-group:hover .sticker-img-box:nth-child(2) {
     transform: rotate(-4deg);
 }
 
-.sticker-img-group:hover .sticker-img-box:nth-child(3) {
+.evented .sticker-img-group:hover .sticker-img-box:nth-child(3) {
     transform: rotate(4deg);
 }
 

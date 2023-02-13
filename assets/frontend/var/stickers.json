@@ -1,0 +1,135 @@
+{
+    "version": 1.00,
+    "time": 1664582400000,
+    "data": [
+        {
+            "id": 10,
+            "date": 1664586000000,
+            "type": "hand-write",
+            "version": 1.00,
+            "event": null,
+            "data": {
+                "time": 1664586000000,
+                "text": "Новая идея проекта под названием MANICURE APP"
+            }
+        },
+        {
+            "id": 11,
+            "date": 1669856400000,
+            "type": "two-stickers",
+            "version": 1.00,
+            "data": [
+                {
+                    "descr": "ланирование, макетиро",
+                    "time": 1669856400000,
+                    "color": 1,
+                    "event": true
+                },
+                {
+                    "text": "Планирование, макетирование, проработка идеи",
+                    "descr": "ланирование, макетиро",
+                    "time": 1669856400000,
+                    "color": 4
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "date": 1673658000000,
+            "type": "album",
+            "version": 1.00,
+            "event": null,
+            "color": 2,
+            "data": {
+                "text": "Планирование, макетирование, проработка идеи",
+                "descr": "ланирование, макетиро",
+                "time": 1673658000000,
+                "img": [
+                    {
+                        "src": "/assets/frontend/img/exphoto-1.jpg"
+                    },
+                    {
+                        "src": "/assets/frontend/img/exphoto-2.jpg"
+                    },
+                    {
+                        "src": "/assets/frontend/img/exphoto-3.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "date": 1672534800000,
+            "type": "sticker",
+            "version": 1.00,
+            "event": null,
+            "color": 5,
+            "data": {
+                "text": "Переработка идей",
+                "descr": "Доработка идей",
+                "time": 1672534800000
+            }
+        },
+        {
+            "id": 12,
+            "date": 1676595600000,
+            "type": "album",
+            "version": 1.00,
+            "event": null,
+            "color": 6,
+            "data": {
+                "text": "Планирование, макетирование, проработка идеи",
+                "time": 1676595600000,
+                "img": [
+                    {
+                        "src": "/assets/frontend/img/exphoto-3.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 12,
+            "date": 1676595600000,
+            "type": "photo",
+            "version": 1.00,
+            "event": null,
+            "data": {
+                "text": "Планирование, макетирование, проработка идеи",
+                "time": 1676595600000,
+                "img": {
+                    "src": "/assets/frontend/img/exphoto-3.jpg"
+                }
+            }
+        },
+        {
+            "id": 14,
+            "date": 1678482000000,
+            "type": "animate",
+            "version": 1.00,
+            "event": {
+                "click": null,
+                "hover": "default"
+            },
+            "color": 7,
+            "data": {
+                "text": "Йо... с др",
+                "time": 1678482000000,
+                "img": {
+                    "src": "/assets/frontend/img/trash.png",
+                    "height": "400px",
+                    "style": "height: 400px"
+                }
+            }
+        }
+    ],
+    "nav": [
+        {
+            "t": 1664571600000,
+            "text": "Этап: концепты и планы"
+        },
+        {
+            "t": 1672520400000,
+            "text": "Этап: инвестиции"
+        }
+    ]
+}
