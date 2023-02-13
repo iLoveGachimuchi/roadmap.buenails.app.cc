@@ -3,7 +3,7 @@
 return array(
     'https_only' => true,
     'info' => [
-        'version' => '0.0.2'
+        'version' => '0.1.0a'
     ],
     'contentType' => 'text',
     'acceptMethods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
