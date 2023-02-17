@@ -11,20 +11,9 @@ class Index extends \System\Views
         parent::__construct($responce);
     }
 
-    public function HelpView($args)
+    public function StickersView($args)
     {
-        // \System\Helper\Debug::varDump($args);
-        return $this->responce->withJson($args);
+        return $this->responce->setContentType('json')->withText($args);
     }
 
-    public function HelpSwitch($args, $module)
-    {
-        switch (strtolower($module)) {
-            case 'translate':
-                return $this->responce->withText($args);
-            default:
-                return $this->responce->withJson($args);
-        }
-        // \System\Helper\Debug::varDump($args);
-    }
 }

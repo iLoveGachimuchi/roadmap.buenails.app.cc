@@ -1,0 +1,305 @@
+.modal-wrap {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+
+    /* overflow: auto; */
+    overflow: hidden;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    z-index: 40;
+
+    transition: all .2s ease;
+}
+
+.modal-wrap {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.modal-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-wrap.apblur {
+    background: rgba(142, 142, 142, 0.8);
+}
+
+.modal-wrap.apclick {
+    cursor: pointer;
+}
+
+
+
+/* *********** ALBUM MODAL TYPE ************* */
+.modal-album-layer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.modal-album-layer .modal-album-card {
+    position: absolute;
+    transform: none;
+    transform-origin: 50% 50% 0px;
+    width: 440px;
+    height: 270px;
+    z-index: 40;
+    /* opacity: 0; */
+}
+
+.modal-album-layer .modal-album-card:nth-child(1),
+.clone-album-container .modal-photo:nth-child(1) {
+    cursor: default;
+    z-index: 43
+}
+
+.modal-album-layer .modal-album-card:nth-child(2),
+.clone-album-container .modal-photo:nth-child(2) {
+    cursor: default;
+    z-index: 42
+}
+
+.modal-album-layer .modal-album-card:nth-child(3),
+.clone-album-container .modal-photo:nth-child(3) {
+    cursor: default;
+    z-index: 41
+}
+
+.modal-album-layer .modal-album-card:nth-child(4),
+.clone-album-container .modal-photo:nth-child(4) {
+    cursor: default;
+    z-index: 45
+}
+
+.modal-album-layer .modal-album-info {
+    cursor: default;
+    z-index: 45;
+    transform: none;
+}
+
+
+.modal-album-layer .modal-album-card .modal-photo {
+    opacity: 0;
+}
+
+.modal-album-layer .modal-album-card .modal-photo,
+.clone-album-container .modal-photo {
+    height: 100%;
+    width: 100%;
+    /* transition: transform .2s ease; */
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--box-shadow-fat-shadow);
+    cursor: default;
+
+}
+
+.modal-album-card .modal-photo img,
+.clone-album-container .modal-photo img {
+    min-height: 102%;
+    width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.modal-album-layer .modal-album-card:nth-child(1) .modal-photo {
+    transform: translateX(-40%) translateY(44%) rotate(3deg);
+}
+
+.modal-album-layer .modal-album-card:nth-child(2) .modal-photo {
+    transform: translateX(40%) translateY(-41%) rotate(8deg);
+}
+
+.modal-album-layer .modal-album-card:nth-child(3) .modal-photo {
+    transform: translateX(-40%) translateY(-40%) rotate(-7deg);
+}
+
+.modal-album-layer .modal-album-card:nth-child(4) .modal-photo {
+    transform: translateX(40%) translateY(40%) rotate(-5deg);
+}
+
+
+
+.modal-album-layer .modal-album-info .modal-info-card {
+    position: relative;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    width: 460px;
+    /* height: 270px; */
+    min-height: 270px;
+    height: auto;
+    padding: 20px 40px 0px;
+
+    border-radius: 12px;
+    background: var(--background);
+    box-shadow: var(--box-shadow-photos);
+    transform: translateX(35%) translateY(44%);
+
+    transition: transform .5s ease-in-out;
+
+    opacity: 0;
+
+    z-index: 45;
+
+    animation: card-info-in .5s ease-in-out;
+
+    cursor: default;
+}
+
+
+.modal-info-card .modal-action-x-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.modal-album-info .modal-info-card p {
+    padding: 0;
+}
+
+.modal-album-info .modal-info-card .modal-title {
+    font-weight: 700;
+    font-size: 28px;
+    margin-top: 10px;
+}
+
+.modal-album-info .modal-info-card .modal-text {
+    font-size: 18px;
+    text-align: center;
+    margin: 10px 0 15px;
+}
+
+
+
+@keyframes card-info-in {
+    from {
+        transform: translateX(35%) translateY(250%);
+    }
+
+    to {
+        transform: translateX(35%) translateY(44%)
+    }
+}
+
+/* *********** ALBUM MODAL TYPE ************* */
+
+
+
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0 0 20px 0;
+}
+
+.modal-actions .modal-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--light);
+    background: var(--black);
+    /* height: 50px; */
+    flex-grow: 0;
+
+    padding: 0 16px;
+    margin: 0px 10px;
+
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 32px;
+
+    border-radius: 12px;
+    transition: all .2s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    text-align: center;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--box-shadow-fat-shadow);
+    outline: none !important;
+}
+
+.modal-button.custom-1 {
+    height: 34px;
+    background: rgb(29, 161, 242);
+}
+
+.modal-actions .modal-button svg {
+    display: inline !important;
+}
+
+.modal-actions .modal-button span+svg, .modal-actions .modal-button svg+span,
+.modal-actions .modal-button span+img, .modal-actions .modal-button img+span {
+    margin-left: 6px;
+}
+
+.modal-actions .modal-button:hover {
+    filter: brightness(115%);
+}
+
+.modal-actions .modal-button:active {
+    box-shadow: inset 0 0 4px 2px rgba(53, 53, 53, 1)
+}
+
+
+
+.modal-actions .modal-button.custom-1:active {
+    box-shadow: inset 0 0 100px 100px rgba(83, 82, 82, 0.1);
+}
+
+
+
+
+
+.modal-actions .modal-button.modal-action-close:hover {
+    filter: brightness(100%);
+    background: rgba(53, 53, 53, 1);
+}
+
+
+
+.modal-actions .modal-button.button-light {
+    color: var(--black);
+    background: var(--light);
+}
+
+.modal-actions .modal-button.button-light:hover {
+    filter: brightness(95%);
+}
+
+.modal-actions .modal-button.button-light:active {
+    filter: brightness(85%);
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+}
+
+
+@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+
+    .modal-wrap.apblur {
+        background: rgba(205, 205, 205, 0.5);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+    }
+
+}

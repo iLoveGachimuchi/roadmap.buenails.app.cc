@@ -100,6 +100,7 @@ class Responce
 
     public function withText($data = null)
     {
+        $this->sendHeader($this->contentType[$this->contentTypeResponce]);
         $this->sendCode($this->codeResponce);
         echo print_r($data === null ? $this->dataResponce : $data, true);
     }

@@ -18,9 +18,6 @@ try {
     $app = new System\App($config);
 
     $app($routes);
-} catch (\Throwable $e) {
-    ob_end_clean();
-    throw new \Exception($e->getMessage());
 } catch (Exception $e) {
 
     $responce = new System\Responce();

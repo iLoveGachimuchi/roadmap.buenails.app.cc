@@ -1,26 +1,3 @@
-const Months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-
-
-const documentLoadEvent = (responce) => {
-    console.log(responce);
-
-    let nav = new NavConstruct;
-    let cont = new ContentConstruct;
-
-    nav.render(responce.nav);
-    cont.render(responce.data)
-}
-
-fetch('/assets/frontend/var/stickers.json').then(function (response) {
-    if (response.ok) {
-        response.json().then(function (json) {
-            documentLoadEvent(json);
-        });
-    } else {
-        console.log('Network request for products.json failed with response ' + response.status + ': ' + response.statusText);
-    }
-});
-
 const _doc = {
 
     createElement(element, param = {}) {
@@ -40,6 +17,53 @@ const _doc = {
 
         return el;
 
+    },
+
+    addStyles(element, param) {
+        if (typeof element.length !== 'undefined') {
+            element.forEach(el => {
+                _doc.addStyles(el, param);
+            });
+        } else {
+            for (let style in param) {
+                let styleParam = param[style];
+
+                element.style[style] = styleParam;
+            }
+        }
+    },
+
+    removeStyles(element, param) {
+        if (typeof element.length !== 'undefined') {
+            element.forEach(el => {
+                _doc.removeStyles(el, param);
+            });
+        }
+        else {
+            if (typeof param === 'string') {
+                element.style[param] = null;
+            }
+            else if (Array.isArray(param)) {
+                param.forEach(el => {
+                    element.style[el] = null;
+                });
+            } else {
+                for (let style in param) {
+                    element[style] = null;
+                }
+            }
+        }
+    },
+
+    htmlToElement(htmltext) {
+        htmltext = htmltext.replace('    ', '').replace("\n", '');
+
+        let element = _doc.createElement('div', { innerHTML: htmltext });
+
+        if (element.children.length > 1)
+            return element.childNodes;
+
+        return element.firstChild;
     }
 }
 
@@ -130,7 +154,6 @@ class ContentConstruct {
             if ((i == 0 && days[i] > 5) || days[i - 1] - days[i] >= 5)
                 columnBody.appendChild(new Sticker().getHtml());
 
-            console.log(days[i], data[i]);
             columnBody.appendChild(new Sticker(data[i]).getHtml());
         }
 
@@ -161,10 +184,12 @@ class ContentConstruct {
     }
 }
 
+
 class Sticker {
     constructor(stickerData = null) {
         this.sticker = stickerData;
         this.type = this.sticker !== null ? this.sticker.type : 'space';
+
 
         this.stickerBoxClass = 'sticker-box';
 
@@ -183,6 +208,7 @@ class Sticker {
 
         this.stickerColorClass = 'sticker-color';
 
+
         this.stickerImgSoloClass = 'sticker-img-solo';
         this.stickerImgGroupClass = 'sticker-img-group';
         this.stickerImgBoxClass = 'sticker-img-box';
@@ -193,7 +219,7 @@ class Sticker {
         this.stickerFullImgClass = 'sticker-full-img';
 
 
-        
+
         this.animateClass = 'animate';
         this.stickerAnimateClass = 'sticker-animate';
         this.StickerAnimateImgClass = 'sticker-animate-img';
@@ -411,7 +437,7 @@ class Sticker {
 
         if (typeof this.sticker.data.img == 'undefined')
             return this.stickerBox;
-            
+
         this.stickerBox.classList.add(this.animateClass);
 
         let stickerAnimate = _doc.createElement('div', { class: this.stickerAnimateClass });
@@ -426,12 +452,21 @@ class Sticker {
         return this.stickerBox;
     }
 
+
+
+
     stickerEventSet(event, stickerInsp) {
         if (event === null || typeof event == 'undefined')
             return;
 
         stickerInsp.classList.add(this.stickerEventedClass);
+
+        if (typeof event === 'object')
+            stickerEvents.add(event, stickerInsp);
     }
+
+
+
 
     getHtml() {
 
@@ -443,10 +478,100 @@ class Sticker {
             case 'photo': return this.typePhoto();
             case 'animate': return this.typeAnimate();
             case 'space': return this.space();
-            default: return _doc.createElement('div', { class: 'sticker-box' }); this.space();
+            default: return this.space();
         }
 
     }
 
 
+}
+
+
+class StickerEvents {
+    constructor() {
+        this.stickerEvents = {};
+    }
+
+    add(eventObj, element) {
+        let type = (typeof eventObj.type == 'undefined' ? null : eventObj.type);
+        let call = (typeof eventObj.call == 'undefined' ? null : eventObj.call);
+        let event = (typeof eventObj.event == 'undefined' ? null : eventObj.event);
+        let func = (typeof eventObj.func == 'undefined' ? null : eventObj.func);
+        let eventdata = (typeof eventObj.data == 'undefined' ? null : eventObj.data);
+
+        let eventFunc = null;
+
+        let toHex = (s) => {
+            for (var h = 0, i = 0; i < s.length; h &= h)
+                h = 31 * h + s.charCodeAt(i++);
+            return h;
+        }
+
+        let eventName = toHex(new Date().getTime().toString());
+
+
+
+
+        switch (type) {
+            case 'modal': eventFunc = new ModalConstruct(eventObj); break;
+            default: break;
+        }
+
+
+
+        let stickerEvent = (e, k) => {
+            e.preventDefault();
+
+            if (typeof func === 'string')
+                func = window[func];
+
+            if (typeof func === 'object' && func !== null) {
+                func.call(eventName);
+            } else if (typeof func === 'function')
+                func(eventName);
+
+
+
+            if (typeof eventFunc === 'object') {
+                eventFunc.call(eventName);
+            } else if (typeof eventFunc === 'function')
+                eventFunc(eventName);
+        }
+
+
+
+        element.addEventListener(event, stickerEvent);
+        element.setAttribute('data-event-' + event, eventName);
+
+        this.stickerEvents[eventName] = {
+            "type": type,
+            "call": call,
+            "event": event,
+            "func": stickerEvent,
+        }
+    }
+
+    remove(eventName, element) {
+        let eventData = this.get(eventName);
+
+        if (!eventData)
+            return false;
+
+        element.removeEventListener(eventData.event, eventData.func);
+
+        element.classList.remove('evented');
+
+        if (typeof element.getAttribute('data-event-' + eventData.event) !== 'undefined')
+            delete element.removeAttribute('data-event-' + eventData.event);
+
+        delete this.stickerEvents[eventName];
+
+        return true;
+    }
+
+    get(eventName) {
+        if (typeof this.stickerEvents[eventName] !== 'undefined')
+            return this.stickerEvents[eventName];
+        return null;
+    }
 }

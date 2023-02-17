@@ -32,4 +32,12 @@ class Files
         chmod($filePath, 0777);
         clearstatcache();
     }
+
+    public static function getFileContent($filePath){
+        if (!file_exists($filePath)) {
+            throw new \Exception("File '$filePath' is not found", 404); 
+        }
+
+        return file_get_contents($filePath);
+    }
 }

@@ -177,6 +177,16 @@ class Request
         return true;
     }
 
+
+    /**
+     * @param string $valueName
+     */
+    public function requireValue($valueName, $requestMethod = null)
+    {
+        return $this->throwIfValueNotExist($valueName, $requestMethod);
+    }
+    
+
     /**
      * $param - @array (
      *      host: String,

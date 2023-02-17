@@ -1,4 +1,4 @@
-.sticker-box audio, .sticker-box img, .sticker-box svg, video {
+.sticker-box audio, .sticker-box img, video {
     display: block;
     vertical-align: middle;
 }

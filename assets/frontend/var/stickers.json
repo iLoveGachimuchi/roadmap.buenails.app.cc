@@ -38,7 +38,14 @@
             "date": 1673658000000,
             "type": "album",
             "version": 1.00,
-            "event": null,
+            "event": {
+                "event": "click",
+                "type": "modal",
+                "call": null,
+                "data": {
+                    "src": "/assets/frontend/var/modal/4-1673658000000.json"
+                }
+            },
             "color": 2,
             "data": {
                 "text": "Планирование, макетирование, проработка идеи",
@@ -107,8 +114,12 @@
             "type": "animate",
             "version": 1.00,
             "event": {
-                "click": null,
-                "hover": "default"
+                "event": "click",
+                "type": "modal",
+                "call": null,
+                "data": {
+                    "src": "/stickers/modal/14-1678482000000"
+                }
             },
             "color": 7,
             "data": {
@@ -119,6 +130,28 @@
                     "height": "400px",
                     "style": "height: 400px"
                 }
+            }
+        },
+        {
+            "id": 4,
+            "date": 1694779317832,
+            "type": "album",
+            "version": 1.00,
+            "color": 2,
+            "data": {
+                "text": "Перерабатываем прототип",
+                "time": 1694779317832,
+                "img": [
+                    {
+                        "src": "/assets/frontend/img/exphoto-1.jpg"
+                    },
+                    {
+                        "src": "/assets/frontend/img/exphoto-2.jpg"
+                    },
+                    {
+                        "src": "/assets/frontend/img/exphoto-3.jpg"
+                    }
+                ]
             }
         }
     ],
