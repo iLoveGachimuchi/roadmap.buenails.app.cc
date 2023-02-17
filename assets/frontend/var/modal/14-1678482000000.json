@@ -29,7 +29,7 @@
         }
     },
     "events": {
-        "onstart": "bithShowsMe",
+        "onload": "bithShowsMe",
         "onclose": "bithShowsMe3"
     },
     "params": {

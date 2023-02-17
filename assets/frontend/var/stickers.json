@@ -23,7 +23,14 @@
                     "descr": "ланирование, макетиро",
                     "time": 1669856400000,
                     "color": 1,
-                    "event": true
+                    "event": {
+                        "event": "click",
+                        "type": "modal",
+                        "call": null,
+                        "data": {
+                            "src": "/stickers/modal/11-1669856400000"
+                        }
+                    }
                 },
                 {
                     "text": "Планирование, макетирование, проработка идеи",
@@ -152,6 +159,30 @@
                         "src": "/assets/frontend/img/exphoto-3.jpg"
                     }
                 ]
+            }
+        },
+        {
+            "id": 16,
+            "date": 1671275028217,
+            "type": "sticker",
+            "version": 1.00,
+            "event": null,
+            "color": 6,
+            "data": {
+                "text": "Прорабатывание прототипа",
+                "time": 1671275028217
+            }
+        },
+        {
+            "id": 15,
+            "date": 1674903603891 ,
+            "type": "sticker-3d",
+            "version": 1.00,
+            "event": null,
+            "color": 1,
+            "data": {
+                "descr": "Решено! В продукте будут личные кабинеты",
+                "time": 1674903603891 
             }
         }
     ],

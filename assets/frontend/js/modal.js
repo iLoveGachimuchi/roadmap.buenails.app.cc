@@ -99,19 +99,28 @@ class ModalStruct {
         return !(typeof this.data === 'undefined');
     }
 
+    callModalEvents(eventName) {
+        try {
+            if (typeof this.modalEvents[eventName] !== 'undefined' && typeof window[this.modalEvents[eventName]] === 'function')
+                window[this.modalEvents[eventName]]();
+        } catch (ex) { console.log(ex) }
+    }
+
+
+
 
 
     setModalWrap() {
         this.modal = _doc.createElement('div', { class: this.styles.modalWrap });
         this.modalApplyParams();
 
-        try {
-            if (typeof this.modalEvents.onstart !== 'undefined' && typeof window[this.modalEvents.onstart] === 'function')
-                window[this.modalEvents.onstart]();
-        } catch (ex) { console.log(ex) }
+        this.callModalEvents('onstart');
 
         return this.modal;
     }
+
+
+
 
 
 
@@ -351,6 +360,8 @@ class ModalStruct {
 
     innerModal(element) {
         element.appendChild(this.modal);
+
+        this.callModalEvents('onload');
     }
 
 
@@ -392,12 +403,7 @@ class ModalStruct {
         }, this.desctructTimeOut);
 
 
-        
-        try {
-            if (typeof this.modalEvents.onclose !== 'undefined' && typeof window[this.modalEvents.onclose] === 'function')
-                window[this.modalEvents.onclose]();
-        } catch (ex) { console.log(ex) }
-
+        this.callModalEvents('onclose');
 
     }
 }
@@ -801,4 +807,41 @@ class ModalAlbum extends ModalStruct {
 
 class ModalField extends ModalStruct { }
 
-class ModalStory extends ModalStruct { }
+class ModalStory extends ModalStruct {
+    getLocalStyles() {
+        return {
+
+        }
+    }
+
+    getImages() {
+        let imgs = [];
+
+        this.data.content.forEach(el => {
+            imgs.push(el.src);
+        });
+
+        return imgs;
+    }
+
+    render(callelement) {
+
+        if (!this.modalDataIsset())
+            return;
+
+        this.addStyles(this.getLocalStyles());
+        this.setModalWrap();
+
+        this.innerPreload();
+
+        this.modalPreload(this.getImages(), () => {
+
+            this.removePreload();
+
+
+        });
+
+        this.innerModal(document.querySelector('body'));
+    }
+
+}

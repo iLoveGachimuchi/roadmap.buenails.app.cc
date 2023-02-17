@@ -147,15 +147,12 @@ class ContentConstruct {
 
         let columnBody = _doc.createElement('div', { class: this.columnBodyClass });
 
-        let days = [];
-        for (let i = 0; i < data.length; i++) {
-            days[i] = new Date(data[i].date).getDate();
+        let stickers = new StickerStruct(data).extract();
 
-            if ((i == 0 && days[i] > 5) || days[i - 1] - days[i] >= 5)
-                columnBody.appendChild(new Sticker().getHtml());
+        stickers.forEach(stickerEl => {
+            columnBody.appendChild(stickerEl);
+        });
 
-            columnBody.appendChild(new Sticker(data[i]).getHtml());
-        }
 
         return columnBody;
     }
@@ -185,6 +182,52 @@ class ContentConstruct {
 }
 
 
+
+class StickerStruct {
+    constructor(stickersObj) {
+        this.stickersData = stickersObj;
+        this.stickers = [];
+    }
+
+
+    sortByDate() {
+        let newData = [];
+
+        for (let index in this.stickersData) {
+            newData.push([index, this.stickersData[index]]);
+        }
+
+        newData.sort(function (a, b) {
+            return a[1].date - b[1].date;
+        });
+
+        this.stickersData = [];
+
+        for (let index in newData) {
+            this.stickersData.push(newData[index][1]);
+        }
+
+    }
+
+
+    extract() {
+        this.sortByDate(this.stickersData);
+
+        let days = [];
+        for (let i in this.stickersData) {
+            days[i] = new Date(this.stickersData[i].date).getDate();
+
+            if ((i == 0 && days[i] > 5) || days[i] - days[i - 1] >= 5)
+                this.stickers.push(new Sticker().getHtml());
+
+            this.stickers.push(new Sticker(this.stickersData[i]).getHtml());
+        }
+
+        return this.stickers;
+    }
+}
+
+
 class Sticker {
     constructor(stickerData = null) {
         this.sticker = stickerData;
@@ -206,6 +249,7 @@ class Sticker {
         this.stickerDateClass = 'sticker-date';
 
 
+        this.sticker3dClass = 'sticker-3d';
         this.stickerColorClass = 'sticker-color';
 
 
@@ -329,6 +373,14 @@ class Sticker {
         return this.stickerBox;
     }
 
+    typeSticker3d() {
+        this.typeSticker();
+
+        this.stickerBox.querySelector('.' + this.stickerInspClass).classList.add(this.sticker3dClass);
+
+        return this.stickerBox;
+    }
+
     typeTwoStickers() {
         this.stickerBox = this.createStickerBox();
 
@@ -358,6 +410,13 @@ class Sticker {
             this.stickerEventSet(data0.event, insp0);
         if (typeof data1.event != 'undefined')
             this.stickerEventSet(data1.event, insp1);
+
+
+        if (typeof data0['insp-mod'] != 'undefined')
+            insp0.classList.add(data0['insp-mod']);
+        if (typeof data1['insp-mod'] != 'undefined')
+            insp1.classList.add(data1['insp-mod']);
+
 
         this.stickerBox.appendChild(insp0);
         this.stickerBox.appendChild(insp1);
@@ -472,6 +531,7 @@ class Sticker {
 
         switch (this.type) {
             case 'sticker': return this.typeSticker();
+            case 'sticker-3d': return this.typeSticker3d();
             case 'two-stickers': return this.typeTwoStickers()
             case 'hand-write': return this.typeHandWrite();
             case 'album': return this.typeAlbum();
@@ -575,3 +635,18 @@ class StickerEvents {
         return null;
     }
 }
+
+
+
+// TODO: make scroll effects on sticker load 
+// {
+//     out {
+//         opacity: 0;
+//         transform: scale(0.35) translateZ(0px);
+//         transition: 0s;
+//     }
+//     in {
+//         opacity: 1;
+//         transition: .3s;
+//     }
+// }

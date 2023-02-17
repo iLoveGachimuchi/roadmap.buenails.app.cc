@@ -147,7 +147,7 @@
 }
 
 .sticker-img-group .sticker-img-box .sticker-img {
-    height: 240px;
+    height: 220px;
 }
 
 .sticker-img-solo .sticker-img-box .sticker-img {
@@ -244,11 +244,11 @@
 }
 
 .sticker-box.animate .sticker-animate {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .sticker-animate .sticker-animate-img {
@@ -261,15 +261,15 @@
 }
 
 .sticker-animate .sticker-animate-img img {
-	position: absolute;
-	left: 35%;
-	bottom: 0;
-	transform: translateY(-10%) translateX(75%) rotate(10deg);
-	transition: transform .5s ease;
-	bottom: 50%;
-	transform: translateY(50%) translateX(75%) rotate(10deg) scale(.55);
-	/* height: 100%; */
-	width: 100%;
+    position: absolute;
+    left: 35%;
+    bottom: 0;
+    transform: translateY(-10%) translateX(75%) rotate(10deg);
+    transition: transform .5s ease;
+    bottom: 50%;
+    transform: translateY(50%) translateX(75%) rotate(10deg) scale(.55);
+    /* height: 100%; */
+    width: 100%;
 }
 
 .sticker-box.animate:hover .sticker-animate-img img {
@@ -278,6 +278,43 @@
 
 
 
+
+.sticker-3d {
+	border-radius: 0px 10px 160px / 0 200px 55px 160px;
+	-webkit-box-shadow: -3px 5px 12px 0 rgba(0, 0, 0, 0.06);
+	-moz-box-shadow: -3px 5px 12px 0 rgba(0, 0, 0, 0.06);
+	box-shadow: -3px 5px 8px 0 rgba(0, 0, 0, 0.06);
+}
+.sticker-3d::before {
+	content: '';
+	display: block;
+	position: absolute;
+	z-index: -1;
+	width: 90%;
+	height: 20px;
+	-webkit-box-shadow: 3px 17px 6px rgba(0, 0, 0, .20);
+	-moz-box-shadow: 3px 17px 6px rgba(0, 0, 0, .20);
+	box-shadow: 3px 17px 6px rgba(0, 0, 0, 0.20);
+	bottom: 33px;
+	right: 8px;
+	-ms-transform: skew(-10deg, 1deg);
+	-webkit-transform: skew(-10deg, 1deg);
+	transform: skew(-10deg, 1deg);
+}
+
+.sticker-3d::after {
+	content: '';
+	display: block;
+	position: absolute;
+	width: 0;
+	height: 0;
+	right: 19px;
+	bottom: 10px;
+	border-top: 14px solid rgba(63, 63, 63, 0.14);
+	border-right: 14px solid transparent;
+	-webkit-transform: skew(-55deg, 11deg);
+	transform: skew(-55deg, 11deg);
+}
 
 /*********** STICKER COLORS ***********/
 
