@@ -395,10 +395,14 @@ class ModalStruct {
         this.modal.style.opacity = '0';
 
         setTimeout(() => {
-            if (this.modal.parentNode)
-                this.modal.parentNode.removeChild(this.modal);
+            this.modal.style.opacity = '0';
 
-            this.modal = null;
+            setTimeout(() => {
+                if (this.modal.parentNode)
+                    this.modal.parentNode.removeChild(this.modal);
+
+                this.modal = null;
+            }, 300);
 
         }, this.desctructTimeOut);
 
@@ -531,6 +535,7 @@ class ModalAlbum extends ModalStruct {
     infoCardAnimateIn(element) {
         this.originalElementPosition = element;
 
+
         let imgs = element.querySelectorAll('.sticker-img-box');
 
         if (imgs.length == 0)
@@ -640,7 +645,7 @@ class ModalAlbum extends ModalStruct {
                     transform: 'translate(' + originalPosition[index].x + 'px, ' + originalPosition[index].y + 'px) rotate(' + originalPosition[index].rotation + ')'
                 });
             })
-        }, 5);
+        }, 100);
 
 
         setTimeout(() => {
@@ -730,7 +735,7 @@ class ModalAlbum extends ModalStruct {
         });
 
 
-        setTimeout(() => {
+        // setTimeout(() => {
             clonnedNodes.forEach((el, index) => {
                 // imgs.forEach((el, index) => {
 
@@ -743,16 +748,18 @@ class ModalAlbum extends ModalStruct {
                 let transitonProp = (index == 0 ? 'transform .5s ease-in-out' : (index == 1 ? 'transform .55s ease' : (index == 2 ? 'transform .4s ease-in' : 'transform .46s ease-in-out')));
 
                 _doc.addStyles(el, {
+                    transition: transitonProp,
+                    
                     width: viewportOffset.width + 'px',
                     height: viewportOffset.height + 'px',
+                    opacity: 1,
 
-                    transition: transitonProp,
 
                     transform: 'translate(' + viewportOffset.x + 'px, ' + viewportOffset.y + 'px) rotate(' + rotation + ')'
                 });
 
             })
-        }, 5);
+        // }, 50);
 
         setTimeout(() => {
             _doc.addStyles(animateElment, { opacity: 0 });
@@ -793,7 +800,7 @@ class ModalAlbum extends ModalStruct {
 
             this.infoCardAnimateIn(callelement)
 
-            this.desctructTimeOut = 400;
+            this.desctructTimeOut = 600;
             this.onDesctruct = () => {
                 this.infoCardAnimateOut(callelement);
             }

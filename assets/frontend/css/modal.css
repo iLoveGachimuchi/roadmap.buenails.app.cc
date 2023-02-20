@@ -99,7 +99,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--box-shadow-fat-shadow);
+    /* box-shadow: var(--box-shadow-fat-shadow); */
+    box-shadow: rgba(80, 80, 80, 0.58) 0px 7px 13px;
     cursor: default;
 
 }
@@ -297,9 +298,9 @@
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
 
     .modal-wrap.apblur {
-        background: rgba(205, 205, 205, 0.5);
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
+        background: rgba(0, 0, 0, 0.02);
+        -webkit-backdrop-filter: blur(30px);
+        backdrop-filter: blur(30px);
     }
 
 }

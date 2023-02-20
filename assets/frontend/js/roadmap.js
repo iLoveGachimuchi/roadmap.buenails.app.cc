@@ -198,6 +198,12 @@ class StickerStruct {
         }
 
         newData.sort(function (a, b) {
+            if (typeof a[1].date === 'undefined' || !a[1].date)
+                a[1].date = 0;
+
+            if (typeof b[1].date === 'undefined' || !b[1].date)
+                b[1].date = 0;
+
             return a[1].date - b[1].date;
         });
 
@@ -215,7 +221,11 @@ class StickerStruct {
 
         let days = [];
         for (let i in this.stickersData) {
-            days[i] = new Date(this.stickersData[i].date).getDate();
+
+            if (typeof this.stickersData[i].date === 'undefined' || !this.stickersData[i].date)
+                days[i] = 0;
+            else
+                days[i] = new Date(this.stickersData[i].date).getDate();
 
             if ((i == 0 && days[i] > 5) || days[i] - days[i - 1] >= 5)
                 this.stickers.push(new Sticker().getHtml());
@@ -339,6 +349,9 @@ class Sticker {
 
 
     timeToFormat(time) {
+        if (!time)
+            return '';
+
         time = new Date(time)
 
         return (time.getDate() > 9 ? time.getDate() : '0' + time.getDate()) + ' ' + Months[time.getMonth()];
@@ -429,9 +442,11 @@ class Sticker {
 
         this.stickerBox.querySelector('.' + this.stickerInspClass).classList.add(this.stickerHandWriteClass);
 
-        if (typeof this.sticker.data.text)
+        if (typeof this.sticker.data.text === 'string')
             this.setStickerText(this.sticker.data.text, this.stickerBox.querySelector('.' + this.stickerInspClass));
 
+        if (typeof this.sticker.data.rotate !== 'undefined')
+            this.stickerBox.querySelector('.' + this.stickerTextClass).style.transform = 'rotate(' + this.sticker.data.rotate + (typeof this.sticker.data.rotate === 'string' ? + '' : 'deg') + ')';
 
         return this.stickerBox;
     }
@@ -561,13 +576,9 @@ class StickerEvents {
 
         let eventFunc = null;
 
-        let toHex = (s) => {
-            for (var h = 0, i = 0; i < s.length; h &= h)
-                h = 31 * h + s.charCodeAt(i++);
-            return h;
-        }
+        let genRanHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 
-        let eventName = toHex(new Date().getTime().toString());
+        let eventName = genRanHex(8);
 
 
 
@@ -638,7 +649,7 @@ class StickerEvents {
 
 
 
-// TODO: make scroll effects on sticker load 
+// TODO: make scroll effects on sticker load
 // {
 //     out {
 //         opacity: 0;

@@ -19,7 +19,7 @@
     "descr": "",
     "buttons": {
         "x-close": true,
-        "close": {
+        "bithShowsMe2": {
             "text": "с др... 🍰",
             "style": "background: rgb(51, 133, 35);",
             "event": {
@@ -33,6 +33,7 @@
         "onclose": "bithShowsMe3"
     },
     "params": {
+        "overlay-blur": true,
         "overlay-click-to-close": true,
         "overlay-hotkey-to-lose": true
     }

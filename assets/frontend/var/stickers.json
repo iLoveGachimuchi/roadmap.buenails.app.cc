@@ -10,7 +10,8 @@
             "event": null,
             "data": {
                 "time": 1664586000000,
-                "text": "Новая идея проекта под названием MANICURE APP"
+                "text": "Новая идея проекта под названием MANICURE APP",
+                "rotate": 15    
             }
         },
         {
