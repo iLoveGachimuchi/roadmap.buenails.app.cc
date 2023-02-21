@@ -48,7 +48,6 @@ function bithShowsMe(e) {
 
 function bithShowsMe2(e) {
 
-    console.log('Woof');
     let text = `
     <div class="take-cake-wrap">
         <div class="take-cake">
@@ -101,11 +100,7 @@ function bithShowsMe3(e) {
     cBithx = 0.0;
     cBithy = 0.0;
 
-    // add Confetto/Sequin objects to arrays to draw them
     confetti = []
-    sequins = []
-
-    console.log('Meow');
 
 }
 
@@ -129,12 +124,9 @@ function bithShowsMe3(e) {
 
 
 const confettiCount = 200;
-const sequinCount = 0;
 
 const gravityConfetti = 0.3
-const gravitySequins = 0.55
 const dragConfetti = 0.015
-const dragSequins = 0.02
 const terminalVelocity = 3
 
 
@@ -148,7 +140,6 @@ let cBithx = 0.0;
 let cBithy = 0.0;
 
 let confetti = [];
-let sequins = [];
 
 let settedTimeOutBiths = [];
 
@@ -172,65 +163,43 @@ initConfettoVelocity = (xRange, yRange) => {
     return { x: x, y: -y }
 }
 
-function Confetto() {
-    this.randomModifier = randomRange(0, 99)
-    this.color = colors[Math.floor(randomRange(0, colors.length))]
-    this.dimensions = {
-        x: randomRange(10, 21),
-        y: randomRange(12, 24),
-    }
-    this.position = {
-        x: randomRange(canvasBithElement.width / 2 - startPointElement.offsetWidth / 4, canvasBithElement.width / 2 + startPointElement.offsetWidth / 4),
-        y: randomRange(canvasBithElement.height / 2 + startPointElement.offsetHeight / 2 + 8, canvasBithElement.height / 2 + (1.5 * startPointElement.offsetHeight) - 8),
-    }
-    this.rotation = randomRange(0, 2 * Math.PI)
-    this.scale = {
-        x: 1,
-        y: 1,
-    }
-    this.velocity = initConfettoVelocity([-15, 15], [4, 18])
-}
-
-
-Confetto.prototype.update = function () {
-    this.velocity.x -= this.velocity.x * dragConfetti
-    this.velocity.y = Math.min(this.velocity.y + gravityConfetti, terminalVelocity)
-    this.velocity.x += Math.random() > 0.5 ? Math.random() : -Math.random()
-
-    this.position.x += this.velocity.x
-    this.position.y += this.velocity.y
-
-    this.scale.y = Math.cos((this.position.y + this.randomModifier) * 0.09)
-}
-
-function Sequin() {
-    this.color = colors[Math.floor(randomRange(0, colors.length))].back,
-        this.radius = randomRange(1, 2),
-        this.position = {
-            x: randomRange(canvasBithElement.width / 2 - startPointElement.offsetWidth / 3, canvasBithElement.width / 2 + startPointElement.offsetWidth / 3),
-            y: randomRange(canvasBithElement.height / 2 + startPointElement.offsetHeight / 2 + 8, canvasBithElement.height / 2 + (1.5 * startPointElement.offsetHeight) - 8),
-        },
-        this.velocity = {
-            x: randomRange(-6, 6),
-            y: randomRange(-8, -12)
+class Confetto {
+    constructor() {
+        this.randomModifier = randomRange(0, 99);
+        this.color = colors[Math.floor(randomRange(0, colors.length))];
+        this.dimensions = {
+            x: randomRange(10, 21),
+            y: randomRange(12, 24),
         }
+        this.position = {
+            x: randomRange(canvasBithElement.width / 2 - startPointElement.offsetWidth / 4, canvasBithElement.width / 2 + startPointElement.offsetWidth / 4),
+            y: randomRange(canvasBithElement.height / 2 + startPointElement.offsetHeight / 2 + 8, canvasBithElement.height / 2 + (1.5 * startPointElement.offsetHeight) - 8),
+        }
+        this.rotation = randomRange(0, 2 * Math.PI);
+        this.scale = {
+            x: 1,
+            y: 1,
+        }
+        this.velocity = initConfettoVelocity([-15, 15], [4, 18]);
+    }
+
+    update = function () {
+        this.velocity.x -= this.velocity.x * dragConfetti
+        this.velocity.y = Math.min(this.velocity.y + gravityConfetti, terminalVelocity)
+        this.velocity.x += Math.random() > 0.5 ? Math.random() : -Math.random()
+
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
+
+        this.scale.y = Math.cos((this.position.y + this.randomModifier) * 0.09)
+    }
 }
 
 
-Sequin.prototype.update = function () {
-    this.velocity.x -= this.velocity.x * dragSequins
-    this.velocity.y = this.velocity.y + gravitySequins
-
-    this.position.x += this.velocity.x
-    this.position.y += this.velocity.y
-}
 
 initBurst = () => {
     for (let i = 0; i < confettiCount; i++) {
         confetti.push(new Confetto())
-    }
-    for (let i = 0; i < sequinCount; i++) {
-        sequins.push(new Sequin())
     }
 }
 
@@ -258,30 +227,12 @@ renderConfetti = () => {
             }
         })
 
-        sequins.forEach((sequin, index) => {
-            ctxBithElement.translate(sequin.position.x, sequin.position.y)
-
-            sequin.update()
-
-            ctxBithElement.fillStyle = sequin.color
-
-            ctxBithElement.beginPath()
-            ctxBithElement.arc(0, 0, sequin.radius, 0, 2 * Math.PI)
-            ctxBithElement.fill()
-
-            ctxBithElement.setTransform(1, 0, 0, 1, 0, 0)
-
-            if (sequin.velocity.y < 0) {
-                ctxBithElement.clearRect(canvasBithElement.width / 2 - startPointElement.offsetWidth / 2, canvasBithElement.height / 2 + startPointElement.offsetHeight / 2, startPointElement.offsetWidth, startPointElement.offsetHeight)
-            }
-        })
+        
 
         confetti.forEach((confetto, index) => {
             if (confetto.position.y >= canvasBithElement.height) confetti.splice(index, 1)
         })
-        sequins.forEach((sequin, index) => {
-            if (sequin.position.y >= canvasBithElement.height) sequins.splice(index, 1)
-        })
+        
 
 
         reqAnimFrameBith = window.requestAnimationFrame(renderConfetti);
