@@ -22,6 +22,10 @@
                         "func": "bithShowsMe2"
                     }
                 }
+            },
+            "styles": {
+                "animation-duration": "7s",
+                "background": "/assets/frontend/img/slide-1.jpg"
             }
         },
         {
@@ -40,9 +44,6 @@
             "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore"
         }
     ],
-    "buttons": {
-        "x-close": true
-    },
     "params": {
         "overlay-click-to-close": true,
         "overlay-hotkey-to-lose": true

@@ -25,9 +25,7 @@
     display: none;
 }
 
-.modal-wrap.apblur {
-    background: rgba(142, 142, 142, 0.8);
-}
+.modal-wrap.apblur {}
 
 .modal-wrap.apclick {
     cursor: pointer;
@@ -199,10 +197,286 @@
     }
 }
 
-/* *********** ALBUM MODAL TYPE ************* */
+/* *********** END ALBUM MODAL TYPE ************* */
 
 
 
+
+
+/* *********** STORY MODAL TYPE ************* */
+
+.modal-story-wrap {
+
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #fff;
+    width: 400px;
+    height: 550px;
+    border-radius: 12px;
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    opacity: 0;
+    transition: .4s;
+
+    z-index: 41;
+}
+
+
+.modal-story-content-wrap {
+	position: relative;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	border-radius: 12px;
+	cursor: default;
+	transition: .6s cubic-bezier(.46,0,0,1.17);
+	overflow: hidden;
+}
+
+
+.modal-story--container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	transform: none;
+	user-select: none;
+	touch-action: pan-y;
+	/* transition: all 0.6s cubic-bezier(.46,0,0,1.01) 0s; */
+	transition: 0s;
+}
+   
+.modal-story--image {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+.modal-story--image::before {
+    content: "";
+    position: fixed;
+    background: inherit;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-size: cover;
+    z-index: 0;
+    border-radius: 12px;
+    filter: blur(20px);
+    background-size: 150%, 150%;
+    box-shadow: 0px 15px 20px #080A0FC7;
+    opacity: 1;
+    z-index: -1;
+}
+
+
+.modal-story--event-close {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    right: 15px;
+    top: 25px;
+    background: #ffffff8a;
+    border-radius: 50%;
+    z-index: 45;
+}
+
+.modal-story--event-close::after, .modal-story--event-close::before {
+    content: '';
+    width: 16px;
+    height: 3px;
+    display: block;
+    background-color: #fff;
+    border-radius: 2px;
+    position: absolute;
+    top: 13px;
+    right: 6px;
+}
+
+.modal-story--event-close:before {
+    -webkit-transform: rotate(-45deg) !important;
+    transform: rotate(-45deg) !important;
+}
+
+.modal-story--event-close:after {
+    -webkit-transform: rotate(45deg) !important;
+    transform: rotate(45deg) !important;
+}
+
+.modal-story--loader {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 43;
+}
+
+.progress-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 20px);
+    padding: 10px;
+    cursor: pointer;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0) 100%);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.progress {
+    height: 3px;
+    flex-grow: 1;
+    border-radius: 10px;
+    margin: 0 5px;
+    display: flex;
+    background-image: -webkit-linear-gradient(left, #ffffff 0%, #ffffff 50%, #53535366 50.001%, #53535366 100%);
+    background-repeat: no-repeat;
+    background-size: 200%;
+    background-color: #53535366;
+    background-position: 100% 50%;
+    animation-timing-function: linear;
+    animation-delay: .2s;
+    box-shadow: 0px 2px 6px 1px #171717bf;
+}
+
+.progress.active {
+    animation-name: Loader;
+}
+
+.progress.passed {
+    background-position: 0 0 !important;
+}
+
+.progress.pause {
+    animation-play-state: paused;
+}
+
+@-webkit-keyframes Loader {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+
+.modal-story--content {
+    position: relative;
+    margin-top: 60px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    height: calc(100% - 100px);
+    width: calc(100% - 40px);
+}
+
+.modal-story--content::before {
+    content: '';
+    position: absolute;
+    z-index: 41;
+    bottom: 0;
+    left: 0;
+    height: 50%;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.81) 100%);
+    border-radius: 0px 0px 12px 12px;
+}
+
+.modal-story--content::after {
+    content: '';
+    position: absolute;
+    z-index: 40;
+    top: -60px;
+    left: 0;
+    height: 25%;
+    width: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%);
+    border-radius: 12px 12px 0px 0px;
+}
+
+.modal-story--content-header {
+    color: #fff;
+    font-size: 35px;
+    font-weight: 700;
+    z-index: 44;
+    margin-bottom: 25px;
+    word-wrap: normal;
+    text-align: center;
+}
+
+.modal-story--content p {
+    position: relative;
+    z-index: 44;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+    display: block;
+    opacity: .7;
+}
+
+.modal-story--event-back, .modal-story--event-next {
+    position: absolute;
+    height: calc(100% - 80px);
+    width: 20%;
+    top: 80px;
+    z-index: 43;
+    cursor: pointer;
+}
+
+.modal-story--event-back {
+    left: 0;
+}
+
+.modal-story--event-pause {
+    position: absolute;
+    height: calc(100% - 80px);
+    top: 80px;
+    left: 30%;
+    right: 30%;
+    z-index: 43;
+    cursor: pointer;
+}
+
+.modal-story--event-next {
+    right: 0;
+}
+
+
+
+/* *********** END STORY MODAL TYPE ************* */
+
+
+
+
+
+
+
+
+
+/* *********** MODAL ACTIONS ************* */
 
 .modal-actions {
     display: flex;
@@ -295,6 +569,9 @@
 }
 
 
+/* *********** END MODAL ACTIONS ************* */
+
+
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
 
     .modal-wrap.apblur {
@@ -303,4 +580,22 @@
         backdrop-filter: blur(30px);
     }
 
+
+    .progress-container .progress {
+
+        -webkit-backdrop-filter: blur(30px);
+        backdrop-filter: blur(30px);
+        background-image: -webkit-linear-gradient(left, #ffffffa9 0%, #ffffffa9 50%, #53535366 50.001%, #53535366 100%);
+        background-color: #dcdcdc66;
+        background-position: 100% 50%;
+        animation-timing-function: linear;
+        animation-delay: .2s;
+        box-shadow: none;
+    }
+
+    .modal-story--event-close {
+        -webkit-backdrop-filter: blur(30px);
+        backdrop-filter: blur(30px);
+        background: rgba(180, 180, 180, 0.5);
+    }
 }

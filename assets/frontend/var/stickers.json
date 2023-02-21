@@ -29,7 +29,7 @@
                         "type": "modal",
                         "call": null,
                         "data": {
-                            "src": "/stickers/modal/11-1669856400000"
+                            "src": "/assets/frontend/var/modal/11-1669856400000.json"
                         }
                     }
                 },
@@ -126,7 +126,7 @@
                 "type": "modal",
                 "call": null,
                 "data": {
-                    "src": "/stickers/modal/14-1678482000000"
+                    "src": "/assets/frontend/var/modal/14-1678482000000.json"
                 }
             },
             "color": 7,

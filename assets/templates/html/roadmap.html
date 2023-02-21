@@ -25,15 +25,401 @@
         ManicureApp <small class="header-b">RoadMap</small>
     </header>
 
-    <main>
+    <main></main>
 
-        
-    </main>
+    <div class="modal-wrap apclick">
 
+        <div class="modal-story-wrap">
+            <div class="modal-story-events">
+                <div class="modal-story--event-close"></div>
+                <div class="modal-story--loader">
+                    <div class="progress-container"></div>
+                </div>
+                <div class="modal-story--event-back"></div>
+                <div class="modal-story--event-pause"></div>
+                <div class="modal-story--event-next"></div>
+            </div>
 
+            <div class="modal-story-content-wrap">
+                <div class="modal-story--container">
+                    <div class="modal-story--content">
+                        <div clas="modal-story--content-header"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <script>
-        
+
+        setTimeout(processModalStory, 400);
+
+        let mainElement = null;
+
+        let progressContent = null;
+
+
+
+
+        function processModalStory() {
+
+            let mainElement = document.querySelector('[data-event-click]');
+
+            let elementEvent = stickerEvents.get(mainElement.getAttribute('data-event-click'));
+            makeFetchJson(elementEvent.data.src, (r) => {
+
+                showModal(elementEvent);
+                renderModalContent(r.content, 0);
+            });
+
+        }
+
+
+        function showModal() {
+
+            function overlayClose() {
+                document.querySelector('.modal-story-wrap').style.opacity = '0';
+                document.querySelector('.modal-story--event-close').removeEventListener('click', overlayClose);
+
+                setTimeout(function () {
+                    document.getElementsByTagName('body')[0].removeChild(document.querySelector('.modal-wrap'));
+
+                    progressContent.destroy();
+                }, 300);
+            }
+
+            function overlayOpen() {
+                document.querySelector('.modal-story-wrap').style.opacity = '1';
+
+                setTimeout(function () {
+
+
+                }, 300);
+            }
+
+            // if (document.querySelector('.modal-wrap')) {
+            //     overlayClose();
+            //     return;
+            // }
+
+            document.querySelector('.modal-story--event-close').addEventListener('click', overlayClose);
+
+            overlayOpen();
+        }
+
+        function renderModalContent(storyesPages, storyStartPage = 0) {
+            progressContent = new ModalStoryProcess(storyesPages);
+            progressContent.run(storyStartPage);
+        }
+
+
+
+
+        class ModalStoryProcess {
+
+            constructor(storyesPages) {
+                this.storyesPages = storyesPages;
+
+                this.progressContainer = document.querySelector('.progress-container');
+                this.progress = [];
+                this.backClick = document.querySelector('.modal-story--event-back');
+                this.nextClick = document.querySelector('.modal-story--event-next');
+                this.pauseClick = document.querySelector('.modal-story--event-pause');
+            }
+
+
+            instalProgress() {
+                this.storyesPages.forEach(el => {
+                    let styles = {
+                        'class': 'progress',
+                        'style': {
+                            'animation-duration': "4s"
+                        }
+                    };
+
+                    if (typeof el.styles !== 'undefined' && typeof el.styles['animation-duration'] !== 'undefined')
+                        styles.style['animation-duration'] = el.styles['animation-duration'];
+
+                    let progress = _doc.createElement('div', styles);
+
+                    this.progress.push(progress);
+                    this.progressContainer.appendChild(progress);
+                });
+            }
+
+
+            getCurrentActive() {
+                let current = 0;
+                let mapBreak = false;
+                this.progress.map((el) => {
+                    if (mapBreak)
+                        return;
+                    if (el.classList.contains('active')) {
+                        mapBreak = true;
+                        return;
+                    } else
+                        current++;
+                });
+
+                return current;
+            }
+
+
+            animateMoving(activeNumber, next = true) {
+                let wrap = document.querySelector('.modal-story-content-wrap');
+
+                let element = wrap.querySelector('.modal-story--container');
+                let elementNext = element.cloneNode(true);
+
+                if (activeNumber === -1) {
+                    activeNumber = 0;
+                    this.drawContent(element, this.storyesPages[activeNumber]);
+                    return;
+                }
+
+                let moveLength = element.offsetWidth;
+
+                _doc.addStyles(element, 'transform: translateX(0px)');
+                _doc.addStyles(elementNext, {
+                    'transform': 'translateX(' + (moveLength * (next ? 1 : -1) + 'px)')
+                });
+
+
+                (next ?
+                    wrap.appendChild(elementNext) :
+                    wrap.insertBefore(elementNext, wrap.firstChild)
+                );
+
+                this.drawContent(elementNext, this.storyesPages[activeNumber]);
+
+
+
+
+                let posx = (moveLength * (next ? -1 : 1));
+                setTimeout(() => {
+                    _doc.addStyles(element, {
+                        'transition': 'all 0.6s cubic-bezier(.46,0,0,1.01) 0s',
+                        'transform': 'translateX(' + posx + 'px)'
+                    });
+
+                    setTimeout(() => {
+                        _doc.addStyles(elementNext, {
+                            'transition': 'all 0.6s cubic-bezier(.46,0,0,1.01) 0s',
+                            'transform': 'translateX(0px)'
+                        })
+                    }, 50);
+                }, 50);
+
+
+
+                setTimeout(() => {
+                    wrap.removeChild(element);
+                    _doc.removeStyles(elementNext, ['transform', 'transition']);
+                }, 600);
+
+            }
+
+
+            drawContent(element, content) {
+
+                let modalContent = element.querySelector('.modal-story--content');
+
+                let styles = {};
+
+                if (typeof content.styles !== 'undefined')
+                    styles = content.styles;
+
+
+                if (typeof content.src !== 'undefined')
+                    styles.background = 'url(' + content.src + ')';
+
+                if (typeof styles['background-size'] === 'undefined') {
+                    styles['background-size'] = 'cover';
+                    // styles['background-size'] = 'contain';
+                    styles['background-repeat'] = 'no-repeat';
+                    styles['background-position'] = 'center';
+
+                }
+
+                // for (let style in styles)
+                //     element.querySelector('.modal-story--container').style.cssText += style + ':' + styles[style] + ';';
+
+
+
+                let img = element.querySelector('.modal-story--image');
+
+                if (!img) {
+                    img = _doc.createElement('div', { class: 'modal-story--image' });
+                    element.appendChild(img);
+                }
+
+                for (let style in styles)
+                    img.style.cssText += style + ':' + styles[style] + ';';
+
+
+                while (modalContent.firstChild) {
+                    modalContent.removeChild(modalContent.lastChild);
+                }
+
+                if (typeof content.title === 'string') {
+                    modalContent.appendChild(
+                        _doc.createElement('div', {
+                            class: 'modal-story--content-header',
+                            innerText: content.title
+                        })
+                    )
+                }
+
+
+                if (typeof content.text === 'string') {
+                    modalContent.appendChild(
+                        _doc.createElement('p', {
+                            innerText: content.text
+                        })
+                    )
+                }
+
+            }
+
+
+
+
+            playNextAnimate(e) {
+                // setTimeout(() => { quweySelector('.modal-story--container').style.pointerEvents = 'none'; }, 2000);
+                this.playNext();
+            };
+
+            playNext(e) {
+                let current = this.getCurrentActive();
+
+
+                if (current + 1 > this.progress.length - 1) {
+                    current = 0;
+                    this.progress.map((el) => {
+                        el.classList.remove('active');
+                        el.classList.remove('passed');
+                        this.progress[current].classList.remove('pause');
+                    });
+                } else {
+                    this.progress[current].classList.remove('active');
+                    this.progress[current].classList.add('passed');
+                    current++;
+                }
+
+                this.progress[current].classList.add('active');
+
+                if (typeof e === 'number')
+                    current = -1;
+
+                this.animateMoving(current, true);
+                // this.drawContent(current);
+            };
+
+            playPreview() {
+                let current = this.getCurrentActive();
+
+                this.progress[current].classList.remove('active');
+                this.progress[current].classList.remove('passed');
+                this.progress[current].classList.remove('pause');
+
+                if (current - 1 < 0) {
+                    current = this.progress.length - 1;
+                    this.progress.map((el) => {
+                        el.classList.remove('active');
+                        el.classList.add('passed');
+                    });
+                } else
+                    current--;
+
+                this.progress[current].classList.remove('passed');
+                this.progress[current].classList.add('active');
+                this.animateMoving(current, false);
+                // this.drawContent(current);
+
+            };
+
+            clickHandler() {
+                if (!e.target)
+                    return;
+
+                let current = 0;
+                let mapBreak = false;
+
+                this.progress.map((el) => {
+                    if (!mapBreak)
+                        current++;
+                    if (el == e.target) {
+                        mapBreak = true;
+                    }
+                    el.classList.remove('active');
+                    el.classList.remove('passed');
+                });
+
+                current--;
+                if (current < 1) {
+                    current = 0;
+                    this.progress[current].classList.add('active');
+                } else {
+                    for (let i = 0; i < current; i++)
+                        this.progress[i].classList.add('passed');
+
+                    this.progress[current].classList.add('active');
+                }
+                this.animateMoving(current, true);
+                // this.drawContent(current);
+            }
+
+            pauseIt(e) {
+                let current = this.getCurrentActive();
+                this.progress[current].classList.toggle('pause');
+            }
+
+
+
+            moveProcess(index) {
+
+                if (index < 1)
+                    return;
+
+
+                let progress = Array.from(this.progressContainer.querySelectorAll('.progress'));
+                for (let i = 0; i < index; i++)
+                    progress[i].classList.add('passed');
+
+                this.progressContainer.childNodes[index - 1].classList.add('active');
+
+            }
+
+
+
+            run(startIndex = 0) {
+
+                this.instalProgress();
+                this.moveProcess(startIndex);
+
+
+                this.backClick.addEventListener('click', (e) => { this.playPreview(e) }, false);
+                this.nextClick.addEventListener('click', (e) => { this.playNext(e) }, false);
+                this.pauseClick.addEventListener('click', (e) => { this.pauseIt(e) }, false);
+
+                this.progress.map(el => el.addEventListener('animationend', (e) => { this.playNextAnimate(e) }, false));
+                this.progress.map(el => el.addEventListener('click', (e) => { this.clickHandler(e) }, false));
+
+
+                this.playNext(-1);
+            }
+
+
+            destroy() {
+                while (this.progressContainer.firstChild) {
+                    this.progressContainer.removeChild(this.progressContainer.lastChild);
+                }
+            }
+
+        }
+
+
     </script>
 </body>
 
