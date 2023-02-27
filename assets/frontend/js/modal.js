@@ -1343,6 +1343,8 @@ class ModalStoryProcess {
             // handler: document.querySelector('.' + this.styles.modalStoryWrap),
             handler: document.querySelector('.' + this.styles.modalWrap),
             move: document.querySelector('.' + this.styles.modalStoryContainer),
+            xMove: true,
+            yMove: true,
             whileMove: () => {
                 let current = this.getCurrentActive();
                 if (!this.progress[current].classList.contains('pause'))
@@ -1429,7 +1431,8 @@ class DragAndMoveMe {
 
         this.whileMove = typeof config.whileMove === 'function' ? config.whileMove : null;
         this.afterMoveCall = typeof config.afterMove === 'function' ? config.afterMove : null;
-        this.xMove = typeof config.xMove === 'boolean' ? config.xMove : false;
+        this.xMove = typeof config.xMove === 'boolean' ? config.xMove : true;
+        this.yMove = typeof config.yMove === 'boolean' ? config.yMove : true;
 
         this.pos = { top: 0, left: 0, x: 0, y: 0 };
 
@@ -1447,7 +1450,8 @@ class DragAndMoveMe {
         });
 
         this.afterMove = false;
-        this.movePos = 0;
+        this.movePosX = 0;
+        this.movePosY = 0;
     }
 
     resetMoveContent(moveElement) {
@@ -1475,7 +1479,9 @@ class DragAndMoveMe {
 
         this.pos = {
             left: this.contentMove.scrollLeft,
+            top: this.contentMove.scrollTop,
             x: e.clientX,
+            y: e.clientY,
         };
 
         this.mousemoveHandler = this.mouseMoveHandler.bind(this);
@@ -1493,9 +1499,24 @@ class DragAndMoveMe {
 
     mouseMoveHandler(e) {
         let dx = (e.clientX - this.pos.x) * -1;
-        this.movePos = this.pos.left - dx;
+        let dy = (e.clientY - this.pos.y) * -1;
 
-        this.contentMove.style.transform = 'translateX(' + (this.movePos) + 'px)';
+        this.movePosX = this.pos.left - dx;
+        this.movePosY = this.pos.top - dy;
+
+        let transform = '';
+
+        if (this.xMove) {
+            transform = 'translateX(' + (this.movePosX) + 'px)';
+        } 
+        if (this.yMove) {
+            transform = 'translateY(' + (this.movePosY) + 'px)';
+        } 
+        if (this.xMove && this.yMove) {
+            transform = 'translate(' + (this.movePosX) + 'px, ' + this.movePosY + 'px)';
+        }
+
+        this.contentMove.style.transform = transform;
 
         if (typeof this.whileMove === 'function')
             this.whileMove(e);
@@ -1524,7 +1545,7 @@ class DragAndMoveMe {
 
         if (this.afterMove) {
             if (typeof this.afterMoveCall === 'function')
-                this.afterMoveCall(e, this.movePos);
+                this.afterMoveCall(e, this.movePosX, this.movePosY);
 
             this.afterMove = false;
         }
