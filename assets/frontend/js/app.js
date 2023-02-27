@@ -230,7 +230,6 @@ const makeFetchJson = (request, callback) => {
 
 
 const documentLoadEvent = (responce) => {
-    return;
 
     let nav = new NavConstruct;
     let cont = new ContentConstruct;

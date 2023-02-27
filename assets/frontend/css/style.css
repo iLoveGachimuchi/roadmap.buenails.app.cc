@@ -104,7 +104,8 @@ main {
 
     -ms-overflow-style: none;
     scrollbar-width: none;
-
+    
+    scroll-behavior: smooth;
 }
 
 main::-webkit-scrollbar {
@@ -247,6 +248,8 @@ nav .nav-step {
     overflow-y: auto;
 
     padding-bottom: 250px;
+
+    scroll-behavior: smooth;
 
 }
 

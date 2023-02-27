@@ -21,6 +21,9 @@
 
     cursor: default;
     height: auto;
+    
+	user-select: none;
+	touch-action: pan-y;
 }
 
 .sticker-box:not(.evented) {

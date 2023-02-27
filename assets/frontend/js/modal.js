@@ -136,6 +136,9 @@ class ModalStruct {
             this.modalElement.classList.add(this.styles.modalCursorPointer);
             this.modalElement.addEventListener('click', (e) => {
 
+                if (isDragging())
+                    return;
+
                 if (!e.target.classList.contains(this.styles.modalCursorPointer))
                     return;
                 e.preventDefault();
@@ -378,6 +381,22 @@ class ModalStruct {
 
 
 
+    initRender(localRender) {
+        if (!this.modalDataIsset())
+            return;
+
+        this.addStyles(this.getLocalStyles());
+        this.setModalWrap();
+
+        this.innerPreload();
+
+
+        localRender();
+
+
+        this.innerModal(document.querySelector('body'));
+    }
+
 
     destroy() {
 
@@ -418,12 +437,6 @@ class ModalStruct {
 
 
 class ModalAlbum extends ModalStruct {
-    constructor(modalData) {
-        super(modalData);
-
-        this.animation = new ModalAlbumAnimation();
-    }
-
 
     getLocalStyles() {
         return {
@@ -540,7 +553,7 @@ class ModalAlbum extends ModalStruct {
     albumDestruct() {
         this.animation.infoCardAnimateOut(this.elementCall);
 
-        this.originalElementPosition = null;
+        this.elementCall = null;
         this.onDesctruct = null;
         this.destroy();
     }
@@ -549,33 +562,27 @@ class ModalAlbum extends ModalStruct {
     render(callelement) {
 
         this.elementCall = callelement;
-
-        if (!this.modalDataIsset())
-            return;
-
-        this.addStyles(this.getLocalStyles());
-        this.setModalWrap();
-
-        this.innerPreload();
+        this.animation = new ModalAlbumAnimation();
+        this.animation.setStyles(this.styles);
 
 
+        this.initRender(() => {
+            this.modalPreload(this.getImages(), () => {
 
-        this.modalPreload(this.getImages(), () => {
-
-            this.removePreload();
-            this.makeModalAlbum();
+                this.removePreload();
+                this.makeModalAlbum();
 
 
-            this.animation.infoCardAnimateIn(this.elementCall)
+                this.animation.infoCardAnimateIn(this.elementCall)
 
-            this.desctructTimeOut = 600;
-            this.onDesctruct = () => {
-                this.animation.infoCardAnimateOut(this.elementCall);
-            }
+                this.desctructTimeOut = 600;
+                this.onDesctruct = () => {
+                    this.animation.infoCardAnimateOut(this.elementCall);
+                }
 
-        });
+            });
+        })
 
-        this.innerModal(document.querySelector('body'));
     }
 
 }
@@ -585,6 +592,23 @@ class ModalField extends ModalStruct { }
 class ModalStory extends ModalStruct {
     getLocalStyles() {
         return {
+            modalStoryWrap: 'modal-story-wrap',
+            modalStoryEvents: 'modal-story-events',
+            modalStoryProgressContainer: 'progress-container',
+
+            modalStoryEventClose: 'modal-story--event-close',
+            modalStoryLoader: 'modal-story--loader',
+            modalStoryEventBack: 'modal-story--event-back',
+            modalStoryEventPause: 'modal-story--event-pause',
+            modalStoryEventNext: 'modal-story--event-next',
+
+            modalStoryContentWrap: 'modal-story-content-wrap',
+            modalStoryContainer: 'modal-story--container',
+            modalStoryContent: 'modal-story--content',
+            modalStoryContentHeader: 'modal-story--content-header',
+
+
+            modalStoryImage: 'modal-story--image'
 
         }
     }
@@ -599,24 +623,123 @@ class ModalStory extends ModalStruct {
         return imgs;
     }
 
-    render(callelement) {
+    makeModalStory() {
 
-        if (!this.modalDataIsset())
-            return;
+        let storyElement = {
+            "tagName": "div",
+            "class": this.styles.modalStoryWrap,
+            "children": {
+                "1": {
+                    "tagName": "div",
+                    "class": this.styles.modalStoryEvents,
+                    "children": {
+                        "1": {
+                            "tagName": "div",
+                            "class": this.styles.modalStoryEventClose
+                        },
+                        "3": {
+                            "tagName": "div",
+                            "class": this.styles.modalStoryLoader,
+                            "children": {
+                                "1": {
+                                    "tagName": "div",
+                                    "class": this.styles.modalStoryProgressContainer
+                                }
+                            }
+                        },
+                        "5": {
+                            "tagName": "div",
+                            "class": this.styles.modalStoryEventBack
+                        },
+                        "7": {
+                            "tagName": "div",
+                            "class": this.styles.modalStoryEventPause
+                        },
+                        "9": {
+                            "tagName": "div",
+                            "class": this.styles.modalStoryEventNext
+                        }
+                    }
+                },
+                "3": {
+                    "tagName": "div",
+                    "class": this.styles.modalStoryContentWrap,
+                    "children": {
+                        "1": {
+                            "tagName": "div",
+                            "class": this.styles.modalStoryContainer,
+                            "children": {
+                                "1": {
+                                    "tagName": "div",
+                                    "class": this.styles.modalStoryContent,
+                                    "children": {
+                                        "1": {
+                                            "tagName": "div",
+                                            "class": this.styles.modalStoryContentHeader
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
 
-        this.addStyles(this.getLocalStyles());
-        this.setModalWrap();
 
-        this.innerPreload();
-
-        this.modalPreload(this.getImages(), () => {
-
-            this.removePreload();
+        this.modalElement.appendChild(_doc.formatToElement(storyElement));
 
 
+        this.progressModal = new ModalStoryProcess(this.data.content, this.styles);
+        this.progressModal.run(0);
+
+        document.querySelector('.' + this.styles.modalStoryEventClose).addEventListener('click', () => {
+            this.storyDesctruct();
         });
 
-        this.innerModal(document.querySelector('body'));
+        this.animation.animateIn(this.elementCall);
+
+    }
+
+    storyDesctruct() {
+        this.animation.animateOut(this.elementCall);
+
+        setTimeout(() => {
+            this.progressModal.destroy();
+        }, 300);
+
+        this.elementCall = null;
+        this.onDesctruct = null;
+        this.destroy();
+    }
+
+    render(callelement) {
+
+        this.elementCall = callelement;
+        this.animation = new ModalStoryAnimation();
+        this.animation.setStyles(this.styles);
+
+
+        this.initRender(() => {
+            this.modalPreload(this.getImages(), () => {
+
+                this.removePreload();
+
+                this.makeModalStory();
+
+
+                this.desctructTimeOut = 400;
+                this.onDesctruct = () => {
+                    this.animation.animateOut(this.elementCall);
+
+                    setTimeout(() => {
+                        this.progressModal.destroy();
+                    }, 300);
+                }
+
+            });
+        });
+
     }
 
 }
@@ -624,31 +747,55 @@ class ModalStory extends ModalStruct {
 
 
 
+class AnimationSctruct {
 
-class ModalAlbumAnimation {
+    constructor() {
+        this.styles = {};
+    }
+
+    setStyles(styles) {
+        this.styles = Object.assign(styles, this.styles);
+    }
+
+}
+
+class ModalAlbumAnimation extends AnimationSctruct {
+
+    constructor() {
+        super();
+
+        this.setStyles({
+            stickerImgBox: 'sticker-img-box',
+            stikerPadding: 'sticker-padding',
+
+            cloneAlbumContainer: 'clone-album-container',
+
+        });
+    }
+
 
     // DONT TOUCH - tce zalupa, yebet
     infoCardAnimateIn(element) {
 
 
-        let imgs = element.querySelectorAll('.sticker-img-box');
+        let imgs = element.querySelectorAll('.' + this.styles.stickerImgBox);
 
         if (imgs.length == 0)
-            imgs = element.querySelectorAll('.sticker-padding');
+            imgs = element.querySelectorAll('.' + this.styles.stikerPadding);
 
 
 
-        let modalWrap = document.querySelector('.modal-wrap');
-        let animateElment = modalWrap.querySelectorAll('.modal-album-layer .modal-photo');
+        let modalWrap = document.querySelector('.' + this.styles.modalWrap);
+        let animateElment = modalWrap.querySelectorAll('.' + this.styles.modalAlbumLayer + ' .' + this.styles.modalPhoto);
 
 
-        let infoCardAnimate = document.querySelector('.modal-info-card');
+        let infoCardAnimate = document.querySelector('.' + this.styles.modalInfoCard);
         if (!infoCardAnimate)
             infoCardAnimate = null;
 
 
 
-        let clonnedNodesContainer = _doc.createElement('div', { class: "clone-album-container" });
+        let clonnedNodesContainer = _doc.createElement('div', { class: this.styles.cloneAlbumContainer });
         let clonnedNodes = [];
         let originalPosition = [];
 
@@ -710,6 +857,8 @@ class ModalAlbumAnimation {
                 zIndex: (index > 2 ? 11 : 10 - index)
             });
 
+            if (typeof imgs[index] !== 'undefined')
+                _doc.addStyles(imgs[index], { opacity: 0 });
         });
 
 
@@ -753,18 +902,18 @@ class ModalAlbumAnimation {
 
     infoCardAnimateOut(element) {
 
-        let imgs = element.querySelectorAll('.sticker-img-box');
+        let imgs = element.querySelectorAll('.' + this.styles.stickerImgBox);
 
         if (imgs.length == 0)
-            imgs = element.querySelectorAll('.sticker-padding');
+            imgs = element.querySelectorAll('.' + this.styles.stikerPadding);
 
 
 
-        let modalWrap = document.querySelector('.modal-wrap');
-        let animateElment = modalWrap.querySelectorAll('.modal-album-layer .modal-photo');
+        let modalWrap = document.querySelector('.' + this.styles.modalWrap);
+        let animateElment = modalWrap.querySelectorAll('.' + this.styles.modalAlbumLayer + ' .' + this.styles.modalPhoto);
 
 
-        let infoCardAnimate = document.querySelector('.modal-info-card');
+        let infoCardAnimate = document.querySelector('.' + this.styles.modalInfoCard);
         if (infoCardAnimate) {
             _doc.addStyles(infoCardAnimate, { transform: 'translateX(35%) translateY(250%)' });
 
@@ -776,7 +925,7 @@ class ModalAlbumAnimation {
 
 
 
-        let clonnedNodesContainer = _doc.createElement('div', { class: "clone-album-container" });
+        let clonnedNodesContainer = _doc.createElement('div', { class: this.styles.cloneAlbumContainer });
         let clonnedNodes = [];
         let originalPosition = [];
 
@@ -831,6 +980,7 @@ class ModalAlbumAnimation {
 
         // setTimeout(() => {
         clonnedNodes.forEach((el, index) => {
+
             // imgs.forEach((el, index) => {
 
             if (typeof imgs[index] === 'undefined')
@@ -858,6 +1008,10 @@ class ModalAlbumAnimation {
         setTimeout(() => {
             _doc.addStyles(animateElment, { opacity: 0 });
 
+            imgs.forEach((el, index) => {
+                _doc.addStyles(el, { opacity: 1 });
+            });
+
             modalWrap.removeChild(clonnedNodesContainer);
 
         }, 600);
@@ -867,3 +1021,516 @@ class ModalAlbumAnimation {
     }
 
 }
+
+class ModalStoryAnimation extends AnimationSctruct {
+
+    constructor() {
+        super();
+
+        this.setStyles({
+            stickerImgBox: 'sticker-img-box',
+            stikerPadding: 'sticker-padding',
+
+            cloneAlbumContainer: 'clone-album-container',
+
+        });
+    }
+
+
+    animateIn(element) {
+
+        setTimeout(() => {
+            document.querySelector('.' + this.styles.modalStoryWrap).style.opacity = '1';
+        }, 300)
+
+    }
+
+    animateOut(element) {
+        document.querySelector('.' + this.styles.modalStoryWrap).style.opacity = '0';
+
+    }
+}
+
+
+
+
+
+
+
+
+class ModalStoryProcess {
+
+    constructor(storyesPages, styles) {
+        this.storyesPages = storyesPages;
+        this.styles = styles;
+
+        this.progressContainer = document.querySelector('.' + this.styles.modalStoryProgressContainer);
+        this.progress = [];
+        this.backClick = document.querySelector('.' + this.styles.modalStoryEventBack);
+        this.nextClick = document.querySelector('.' + this.styles.modalStoryEventNext);
+        this.pauseClick = document.querySelector('.' + this.styles.modalStoryEventPause);
+
+        this.currentPosition = null;
+        this.dragAndMoveRange = 110;
+    }
+
+
+    instalProgress() {
+        this.storyesPages.forEach(el => {
+            let styles = {
+                'class': 'progress',
+                'style': {
+                    'animation-duration': "4s"
+                }
+            };
+
+            if (typeof el.styles !== 'undefined' && typeof el.styles['animation-duration'] !== 'undefined')
+                styles.style['animation-duration'] = el.styles['animation-duration'];
+
+            let progress = _doc.createElement('div', styles);
+
+            this.progress.push(progress);
+            this.progressContainer.appendChild(progress);
+        });
+    }
+
+
+    getCurrentActive() {
+        let current = 0;
+        let mapBreak = false;
+        this.progress.map((el) => {
+            if (mapBreak)
+                return;
+            if (el.classList.contains('active')) {
+                mapBreak = true;
+                return;
+            } else
+                current++;
+        });
+
+        return current;
+    }
+
+
+    animateMoving(activeNumber, next = true) {
+        let wrap = document.querySelector('.' + this.styles.modalStoryContentWrap);
+
+        let element = wrap.querySelector('.' + this.styles.modalStoryContainer);
+        let elementNext = element.cloneNode(true);
+
+        if (activeNumber === -1) {
+            activeNumber = 0;
+            this.drawContent(element, this.storyesPages[activeNumber]);
+            return;
+        }
+
+        let moveLength = element.offsetWidth + 40;
+
+        if (!this.currentPosition)
+            _doc.addStyles(element, 'transform: translateX(0px)');
+
+        _doc.addStyles(elementNext, {
+            'transform': 'translateX(' + (moveLength * (next ? 1 : -1) + 'px)')
+        });
+
+
+        (next ?
+            wrap.appendChild(elementNext) :
+            wrap.insertBefore(elementNext, wrap.firstChild)
+        );
+
+        this.drawContent(elementNext, this.storyesPages[activeNumber]);
+
+
+
+
+        let posx = (moveLength * (next ? -1 : 1));
+        setTimeout(() => {
+            _doc.addStyles(element, {
+                'transition': 'all 0.' + (this.currentPosition === null ? 6 : 4) + 's cubic-bezier(.46,0,0,1.01) 0s',
+                'transform': 'translateX(' + posx + 'px)'
+            });
+
+            setTimeout(() => {
+                _doc.addStyles(elementNext, {
+                    'transition': 'all 0.6s cubic-bezier(.46,0,0,1.01) 0s',
+                    'transform': 'translateX(0px)'
+                })
+            }, 50);
+        }, 50);
+
+
+
+        setTimeout(() => {
+            wrap.removeChild(element);
+            _doc.removeStyles(elementNext, ['transform', 'transition']);
+        }, 600);
+
+        this.currentPosition = null;
+        this.dragAndMove.resetMoveContent(elementNext);
+    }
+
+
+    drawContent(element, content) {
+
+        let modalContent = element.querySelector('.' + this.styles.modalStoryContent);
+
+        let styles = {};
+
+        if (typeof content.styles !== 'undefined')
+            styles = content.styles;
+
+
+        if (typeof content.src !== 'undefined')
+            styles.background = 'url(' + content.src + ')';
+
+        if (typeof styles['background-size'] === 'undefined') {
+            styles['background-size'] = 'cover';
+            // styles['background-size'] = 'contain';
+            styles['background-repeat'] = 'no-repeat';
+            styles['background-position'] = 'center';
+
+        }
+
+
+        let img = element.querySelector('.' + this.styles.modalStoryImage);
+
+        if (!img) {
+            img = _doc.createElement('div', { class: this.styles.modalStoryImage });
+            element.appendChild(img);
+        }
+
+        for (let style in styles)
+            img.style.cssText += style + ':' + styles[style] + ';';
+
+
+        while (modalContent.firstChild) {
+            modalContent.removeChild(modalContent.lastChild);
+        }
+
+        if (typeof content.title === 'string') {
+            modalContent.appendChild(
+                _doc.createElement('div', {
+                    class: this.styles.modalStoryContentHeader,
+                    innerText: content.title
+                })
+            )
+        }
+
+
+        if (typeof content.text === 'string') {
+            modalContent.appendChild(
+                _doc.createElement('p', {
+                    innerText: content.text
+                })
+            )
+        }
+
+    }
+
+
+
+
+    playNextAnimate(e) {
+        // setTimeout(() => { quweySelector('.modal-story--container').style.pointerEvents = 'none'; }, 2000);
+        this.playNext();
+    };
+
+    playNext(e) {
+        let current = this.getCurrentActive();
+
+
+        if (current + 1 > this.progress.length - 1) {
+            current = 0;
+            this.progress.map((el) => {
+                el.classList.remove('active');
+                el.classList.remove('passed');
+                this.progress[current].classList.remove('pause');
+            });
+        } else {
+            this.progress[current].classList.remove('active');
+            this.progress[current].classList.add('passed');
+            current++;
+        }
+
+        this.progress[current].classList.add('active');
+
+        if (typeof e === 'number')
+            current = -1;
+
+        this.animateMoving(current, true);
+        // this.drawContent(current);
+    };
+
+    playPreview() {
+        let current = this.getCurrentActive();
+
+        this.progress[current].classList.remove('active');
+        this.progress[current].classList.remove('passed');
+        this.progress[current].classList.remove('pause');
+
+        if (current - 1 < 0) {
+            current = this.progress.length - 1;
+            this.progress.map((el) => {
+                el.classList.remove('active');
+                el.classList.add('passed');
+            });
+        } else
+            current--;
+
+        this.progress[current].classList.remove('passed');
+        this.progress[current].classList.add('active');
+        this.animateMoving(current, false);
+        // this.drawContent(current);
+
+    };
+
+    clickHandler() {
+        if (!e.target)
+            return;
+
+        let current = 0;
+        let mapBreak = false;
+
+        this.progress.map((el) => {
+            if (!mapBreak)
+                current++;
+            if (el == e.target) {
+                mapBreak = true;
+            }
+            el.classList.remove('active');
+            el.classList.remove('passed');
+        });
+
+        current--;
+        if (current < 1) {
+            current = 0;
+            this.progress[current].classList.add('active');
+        } else {
+            for (let i = 0; i < current; i++)
+                this.progress[i].classList.add('passed');
+
+            this.progress[current].classList.add('active');
+        }
+        this.animateMoving(current, true);
+        // this.drawContent(current);
+    }
+
+    pauseIt(e) {
+        let current = this.getCurrentActive();
+        this.progress[current].classList.toggle('pause');
+    }
+
+
+
+    moveProcess(index) {
+
+        if (index < 1)
+            return;
+
+
+        let progress = Array.from(this.progressContainer.querySelectorAll('.progress'));
+        for (let i = 0; i < index; i++)
+            progress[i].classList.add('passed');
+
+        this.progressContainer.childNodes[index - 1].classList.add('active');
+
+    }
+
+
+    dragAndMoveInit() {
+        this.dragAndMove = new DragAndMoveMe({
+            // handler: document.querySelector('.' + this.styles.modalStoryWrap),
+            handler: document.querySelector('.' + this.styles.modalWrap),
+            move: document.querySelector('.' + this.styles.modalStoryContainer),
+            whileMove: () => {
+                let current = this.getCurrentActive();
+                if (!this.progress[current].classList.contains('pause'))
+                    this.progress[current].classList.toggle('pause');
+            },
+            afterMove: (e, newPos) => {
+                let current = this.getCurrentActive();
+                if (this.progress[current].classList.contains('pause'))
+                    this.progress[current].classList.toggle('pause');
+
+
+                this.currentPosition = newPos;
+
+                if (newPos > this.dragAndMoveRange) {
+                    this.playPreview();
+                }
+                else if (newPos < -this.dragAndMoveRange) {
+                    this.playNext();
+                } else {
+                    this.currentPosition = null;
+
+                    let storyContainer = document.querySelector('.' + this.styles.modalStoryContainer);
+
+                    setTimeout(() => {
+                        _doc.addStyles(storyContainer, {
+                            'transition': 'all 0.3s cubic-bezier(.46,0,0,1.01) 0s',
+                            'transform': 'translateX(0px)'
+                        })
+
+                        setTimeout(() => {
+                            _doc.removeStyles(storyContainer, ['transform', 'transition']);
+                        }, 300);
+                    }, 50);
+                }
+            }
+        });
+    }
+
+
+    run(startIndex = 0) {
+
+        this.instalProgress();
+        this.moveProcess(startIndex);
+
+
+        this.backClick.addEventListener('click', (e) => { this.playPreview(e) }, false);
+        this.nextClick.addEventListener('click', (e) => { this.playNext(e) }, false);
+        this.pauseClick.addEventListener('click', (e) => { this.pauseIt(e) }, false);
+
+        this.progress.map(el => el.addEventListener('animationend', (e) => { this.playNextAnimate(e) }, false));
+        this.progress.map(el => el.addEventListener('click', (e) => { this.clickHandler(e) }, false));
+
+
+        this.playNext(-1);
+
+        this.dragAndMoveInit();
+
+    }
+
+
+    destroy() {
+        while (this.progressContainer.firstChild) {
+            this.progressContainer.removeChild(this.progressContainer.lastChild);
+        }
+    }
+
+}
+
+
+class DragAndMoveMe {
+    /**
+     * 
+     * @param {Object} config 
+     * @param {NodeElement} config.contentHandler
+     * @param {NodeElement} config.contentMove
+     * @param {function} config.whileMove
+     * @param {function} config.afterMoveCall
+     * @param {Boolean} config.xMove
+     * 
+     */
+    constructor(config) {
+        this.contentHandler = config.handler;
+        this.contentMove = config.move;
+
+        this.whileMove = typeof config.whileMove === 'function' ? config.whileMove : null;
+        this.afterMoveCall = typeof config.afterMove === 'function' ? config.afterMove : null;
+        this.xMove = typeof config.xMove === 'boolean' ? config.xMove : false;
+
+        this.pos = { top: 0, left: 0, x: 0, y: 0 };
+
+        this.mousemoveHandler = null;
+        this.mouseupHandler = null;
+        // this.touchmoveHandler = null;
+        // this.touchendHandler = null;
+
+        this.contentHandler.addEventListener('mousedown', (e) => {
+            this.mouseDownHandler(e)
+        });
+
+        this.contentHandler.addEventListener('touchmove', (e) => {
+            this.mouseDownHandler(e)
+        });
+
+        this.afterMove = false;
+        this.movePos = 0;
+    }
+
+    resetMoveContent(moveElement) {
+        this.contentMove = moveElement;
+    }
+
+    mouseDownHandler(e) {
+        if (this.mousemoveHandler) {
+            this.contentHandler.removeEventListener('mousemove', this.mousemoveHandler);
+            this.contentHandler.removeEventListener('mouseup', this.mouseupHandler);
+            // this.contentHandler.removeEventListener('touchmove', this.touchmoveHandler);
+            // this.contentHandler.removeEventListener('touchend', this.touchendHandler);
+
+            // ddEventListener('touchend', function(e) {
+
+            this.afterMove = false;
+            removeDragging();
+        }
+
+        if (e.button > 0)
+            return;
+
+        this.contentHandler.style.cursor = 'grabbing';
+        this.contentHandler.style.userSelect = 'none';
+
+        this.pos = {
+            left: this.contentMove.scrollLeft,
+            x: e.clientX,
+        };
+
+        this.mousemoveHandler = this.mouseMoveHandler.bind(this);
+        this.mouseupHandler = this.mouseUpHandler.bind(this);
+        // this.touchmoveHandler = this.mouseMoveHandler.bind(this);
+        // this.touchendHandler = this.mouseUpHandler.bind(this);
+
+        this.contentHandler.addEventListener('mousemove', this.mousemoveHandler);
+        this.contentHandler.addEventListener('mouseup', this.mouseupHandler);
+        // this.contentHandler.addEventListener('touchmove', this.touchmoveHandler);
+        // this.contentHandler.addEventListener('touchend', this.touchendHandler);
+
+
+    }
+
+    mouseMoveHandler(e) {
+        let dx = (e.clientX - this.pos.x) * -1;
+        this.movePos = this.pos.left - dx;
+
+        this.contentMove.style.transform = 'translateX(' + (this.movePos) + 'px)';
+
+        if (typeof this.whileMove === 'function')
+            this.whileMove(e);
+
+        this.afterMove = true;
+        setDragging();
+
+    }
+
+    mouseUpHandler(e) {
+        this.contentHandler.removeEventListener('mousemove', this.mousemoveHandler);
+        this.contentHandler.removeEventListener('mouseup', this.mouseupHandler);
+        // this.contentHandler.removeEventListener('touchmove', this.touchmoveHandler);
+        // this.contentHandler.removeEventListener('touchend', this.touchendHandler);
+
+        removeDragging();
+
+        this.mousemoveHandler = null;
+        this.mouseupHandler = null;
+        this.touchmoveHandler = null;
+        this.touchendHandler = null;
+
+        this.contentHandler.style.cursor = null;
+        this.contentHandler.style.removeProperty('user-select');
+
+
+        if (this.afterMove) {
+            if (typeof this.afterMoveCall === 'function')
+                this.afterMoveCall(e, this.movePos);
+
+            this.afterMove = false;
+        }
+    }
+
+}
+
+
+
