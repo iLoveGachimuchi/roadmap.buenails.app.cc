@@ -36,17 +36,16 @@ class ModalConstruct {
             return false;
 
         let modalView = null;
+        let elementCall = document.querySelector("[data-event-click=\"" + eventCallName + "\"]").parentNode;
 
-        switch (this.modal.view) {
+        switch (this.modal.view.toLowerCase()) {
             case 'album': modalView = new ModalAlbum(this.modal); break;
             case 'field': modalView = new ModalField(this.modal); break;
             case 'story': modalView = new ModalStory(this.modal); break;
             default: return;
         }
 
-        let elementClick = document.querySelector("[data-event-click=\"" + eventCallName + "\"]").parentNode;
-
-        modalView.render(elementClick);
+        modalView.render(elementCall);
 
     }
 }
@@ -60,9 +59,16 @@ class ModalConstruct {
 class ModalStruct {
     constructor(modalData) {
         this.data = modalData;
-        this.modal = null;
+        this.modalElement = null;
 
         this.hotkeyCloseHandler = null;
+
+
+        this.desctructTimeOut = 300;
+        this.onDesctruct = null;
+
+        this.modalEvents = typeof this.data.events !== 'undefined' ? this.data.events : {};
+
 
         this.styles = {
             'modalWrap': 'modal-wrap',
@@ -81,12 +87,6 @@ class ModalStruct {
             'modalCursorPointer': 'apclick'
 
         };
-
-        this.desctructTimeOut = 300;
-        this.onDesctruct = null;
-
-        this.modalEvents = typeof this.data.events !== 'undefined' ? this.data.events : {};
-
     }
 
 
@@ -111,12 +111,12 @@ class ModalStruct {
 
 
     setModalWrap() {
-        this.modal = _doc.createElement('div', { class: this.styles.modalWrap });
+        this.modalElement = _doc.createElement('div', { class: this.styles.modalWrap });
         this.modalApplyParams();
 
         this.callModalEvents('onstart');
 
-        return this.modal;
+        return this.modalElement;
     }
 
 
@@ -130,11 +130,11 @@ class ModalStruct {
     modalApplyParams() {
 
         if (typeof this.data.params['overlay-blur'] !== 'undefined')
-            this.modal.classList.add(this.styles.modalBlur)
+            this.modalElement.classList.add(this.styles.modalBlur)
 
         if (typeof this.data.params['overlay-click-to-close'] !== 'undefined') {
-            this.modal.classList.add(this.styles.modalCursorPointer);
-            this.modal.addEventListener('click', (e) => {
+            this.modalElement.classList.add(this.styles.modalCursorPointer);
+            this.modalElement.addEventListener('click', (e) => {
 
                 if (!e.target.classList.contains(this.styles.modalCursorPointer))
                     return;
@@ -359,7 +359,7 @@ class ModalStruct {
 
 
     innerModal(element) {
-        element.appendChild(this.modal);
+        element.appendChild(this.modalElement);
 
         this.callModalEvents('onload');
     }
@@ -385,23 +385,23 @@ class ModalStruct {
             document.removeEventListener('keyup', this.hotkeyCloseHandler);
 
 
-        if (!this.modal)
-            this.modal = document.querySelector('.modal-wrap');
+        if (!this.modalElement)
+            this.modalElement = document.querySelector('.modal-wrap');
 
         if (this.onDesctruct)
             this.onDesctruct();
 
 
-        this.modal.style.opacity = '0';
+        // this.modal.style.opacity = '0';
 
         setTimeout(() => {
-            this.modal.style.opacity = '0';
+            this.modalElement.style.opacity = '0';
 
             setTimeout(() => {
-                if (this.modal.parentNode)
-                    this.modal.parentNode.removeChild(this.modal);
+                if (this.modalElement.parentNode)
+                    this.modalElement.parentNode.removeChild(this.modalElement);
 
-                this.modal = null;
+                this.modalElement = null;
             }, 300);
 
         }, this.desctructTimeOut);
@@ -418,6 +418,13 @@ class ModalStruct {
 
 
 class ModalAlbum extends ModalStruct {
+    constructor(modalData) {
+        super(modalData);
+
+        this.animation = new ModalAlbumAnimation();
+    }
+
+
     getLocalStyles() {
         return {
             'modalAlbumLayer': 'modal-album-layer',
@@ -472,7 +479,7 @@ class ModalAlbum extends ModalStruct {
 
 
         if (this.data.img.length > 3)
-            return this.modal.appendChild(modalAlbumlayer);
+            return this.modalElement.appendChild(modalAlbumlayer);
 
 
 
@@ -526,14 +533,102 @@ class ModalAlbum extends ModalStruct {
         modalAlbumlayer.appendChild(modalAlbumInfo);
 
 
-        return this.modal.appendChild(modalAlbumlayer);
+        return this.modalElement.appendChild(modalAlbumlayer);
     }
 
 
+    albumDestruct() {
+        this.animation.infoCardAnimateOut(this.elementCall);
+
+        this.originalElementPosition = null;
+        this.onDesctruct = null;
+        this.destroy();
+    }
+
+
+    render(callelement) {
+
+        this.elementCall = callelement;
+
+        if (!this.modalDataIsset())
+            return;
+
+        this.addStyles(this.getLocalStyles());
+        this.setModalWrap();
+
+        this.innerPreload();
+
+
+
+        this.modalPreload(this.getImages(), () => {
+
+            this.removePreload();
+            this.makeModalAlbum();
+
+
+            this.animation.infoCardAnimateIn(this.elementCall)
+
+            this.desctructTimeOut = 600;
+            this.onDesctruct = () => {
+                this.animation.infoCardAnimateOut(this.elementCall);
+            }
+
+        });
+
+        this.innerModal(document.querySelector('body'));
+    }
+
+}
+
+class ModalField extends ModalStruct { }
+
+class ModalStory extends ModalStruct {
+    getLocalStyles() {
+        return {
+
+        }
+    }
+
+    getImages() {
+        let imgs = [];
+
+        this.data.content.forEach(el => {
+            imgs.push(el.src);
+        });
+
+        return imgs;
+    }
+
+    render(callelement) {
+
+        if (!this.modalDataIsset())
+            return;
+
+        this.addStyles(this.getLocalStyles());
+        this.setModalWrap();
+
+        this.innerPreload();
+
+        this.modalPreload(this.getImages(), () => {
+
+            this.removePreload();
+
+
+        });
+
+        this.innerModal(document.querySelector('body'));
+    }
+
+}
+
+
+
+
+
+class ModalAlbumAnimation {
 
     // DONT TOUCH - tce zalupa, yebet
     infoCardAnimateIn(element) {
-        this.originalElementPosition = element;
 
 
         let imgs = element.querySelectorAll('.sticker-img-box');
@@ -657,7 +752,6 @@ class ModalAlbum extends ModalStruct {
     }
 
     infoCardAnimateOut(element) {
-        this.originalElementPosition = null;
 
         let imgs = element.querySelectorAll('.sticker-img-box');
 
@@ -736,29 +830,29 @@ class ModalAlbum extends ModalStruct {
 
 
         // setTimeout(() => {
-            clonnedNodes.forEach((el, index) => {
-                // imgs.forEach((el, index) => {
+        clonnedNodes.forEach((el, index) => {
+            // imgs.forEach((el, index) => {
 
-                if (typeof imgs[index] === 'undefined')
-                    index = 0;
+            if (typeof imgs[index] === 'undefined')
+                index = 0;
 
-                let viewportOffset = imgs[index].getBoundingClientRect();
-                let rotation = getCurrentRotation(imgs[index]) + 'deg';
+            let viewportOffset = imgs[index].getBoundingClientRect();
+            let rotation = getCurrentRotation(imgs[index]) + 'deg';
 
-                let transitonProp = (index == 0 ? 'transform .5s ease-in-out' : (index == 1 ? 'transform .55s ease' : (index == 2 ? 'transform .4s ease-in' : 'transform .46s ease-in-out')));
+            let transitonProp = (index == 0 ? 'transform .5s ease-in-out' : (index == 1 ? 'transform .55s ease' : (index == 2 ? 'transform .4s ease-in' : 'transform .46s ease-in-out')));
 
-                _doc.addStyles(el, {
-                    transition: transitonProp,
-                    
-                    width: viewportOffset.width + 'px',
-                    height: viewportOffset.height + 'px',
-                    opacity: 1,
+            _doc.addStyles(el, {
+                transition: transitonProp,
+
+                width: viewportOffset.width + 'px',
+                height: viewportOffset.height + 'px',
+                opacity: 1,
 
 
-                    transform: 'translate(' + viewportOffset.x + 'px, ' + viewportOffset.y + 'px) rotate(' + rotation + ')'
-                });
+                transform: 'translate(' + viewportOffset.x + 'px, ' + viewportOffset.y + 'px) rotate(' + rotation + ')'
+            });
 
-            })
+        })
         // }, 50);
 
         setTimeout(() => {
@@ -770,85 +864,6 @@ class ModalAlbum extends ModalStruct {
 
 
 
-    }
-
-
-
-
-    albumDestruct() {
-        this.infoCardAnimateOut(this.originalElementPosition);
-
-        this.onDesctruct = null;
-        this.destroy();
-    }
-
-
-    render(callelement) {
-
-        if (!this.modalDataIsset())
-            return;
-
-        this.addStyles(this.getLocalStyles());
-        this.setModalWrap();
-
-        this.innerPreload();
-
-        this.modalPreload(this.getImages(), () => {
-
-            this.removePreload();
-            this.makeModalAlbum();
-
-            this.infoCardAnimateIn(callelement)
-
-            this.desctructTimeOut = 600;
-            this.onDesctruct = () => {
-                this.infoCardAnimateOut(callelement);
-            }
-
-        });
-
-        this.innerModal(document.querySelector('body'));
-    }
-
-}
-
-class ModalField extends ModalStruct { }
-
-class ModalStory extends ModalStruct {
-    getLocalStyles() {
-        return {
-
-        }
-    }
-
-    getImages() {
-        let imgs = [];
-
-        this.data.content.forEach(el => {
-            imgs.push(el.src);
-        });
-
-        return imgs;
-    }
-
-    render(callelement) {
-
-        if (!this.modalDataIsset())
-            return;
-
-        this.addStyles(this.getLocalStyles());
-        this.setModalWrap();
-
-        this.innerPreload();
-
-        this.modalPreload(this.getImages(), () => {
-
-            this.removePreload();
-
-
-        });
-
-        this.innerModal(document.querySelector('body'));
     }
 
 }

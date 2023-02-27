@@ -160,20 +160,22 @@ class StickerStruct {
                 days[i] = new Date(this.stickersData[i].date).getDate();
 
             if ((i == 0 && days[i] > 5) || days[i] - days[i - 1] >= 5)
-                this.stickers.push(new Sticker().getHtml());
+                this.stickers.push(new StickerType().getHtml());
 
-            this.stickers.push(new Sticker(this.stickersData[i]).getHtml());
+            this.stickers.push(new StickerType(this.stickersData[i]).getHtml());
         }
 
         return this.stickers;
     }
 }
 
+class Sticker
+{
+    constructor()
+    {
+        this.sticker = null;
 
-class Sticker {
-    constructor(stickerData = null) {
-        this.sticker = stickerData;
-        this.type = this.sticker !== null ? this.sticker.type : 'space';
+        this.type = 'space';
 
 
         this.stickerBoxClass = 'sticker-box';
@@ -212,7 +214,12 @@ class Sticker {
 
 
         this.stickerEventedClass = 'evented';
+    }
 
+    setStuckerData(stickerData) {
+        this.sticker = stickerData;
+
+        this.type = this.sticker !== null ? this.sticker.type : 'space';
     }
 
     createStickerBox() {
@@ -289,8 +296,16 @@ class Sticker {
         return (time.getDate() > 9 ? time.getDate() : '0' + time.getDate()) + ' ' + Months[time.getMonth()];
     }
 
+}
 
 
+
+class StickerType extends Sticker {
+    constructor(stickerData = null) {
+        super();
+
+        this.setStuckerData(stickerData);
+    }
 
     space() {
         let space = this.createStickerBox();
@@ -299,8 +314,6 @@ class Sticker {
 
         return space;
     }
-
-
 
 
     typeSticker() {
@@ -475,7 +488,6 @@ class Sticker {
 
 
     getHtml() {
-
         switch (this.type) {
             case 'sticker': return this.typeSticker();
             case 'sticker-3d': return this.typeSticker3d();
@@ -489,8 +501,6 @@ class Sticker {
         }
 
     }
-
-
 }
 
 
