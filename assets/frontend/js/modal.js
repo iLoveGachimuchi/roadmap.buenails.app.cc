@@ -1039,15 +1039,96 @@ class ModalStoryAnimation extends AnimationSctruct {
 
     animateIn(element) {
 
+        let timeoutLength = 300;
+
         setTimeout(() => {
             document.querySelector('.' + this.styles.modalStoryWrap).style.opacity = '1';
-        }, 300)
+        }, 300);
+
+        return timeoutLength;
 
     }
 
     animateOut(element) {
+
         document.querySelector('.' + this.styles.modalStoryWrap).style.opacity = '0';
 
+
+        let timeoutLength = 300;
+
+        return timeoutLength;
+    }
+
+
+    /**
+     * 
+     * @param {Object} params 
+     * @param {HTMLElement} params.wrap
+     * @param {HTMLElement} params.element
+     * @param {Boolean} params.next
+     * @param {function} params.onDrawCall
+     * @param {Object} params.content
+     * @param {number} params.currentPosition
+     */
+    changeContentanimate(params) {
+        let wrap = params.wrap;
+        let element = params.element;
+        let content = params.content;
+        let next = params.next;
+        let onDrawCall = params.onDrawCall;
+
+        let currentPosition = params.currentPosition;
+
+        let elementNext = element.cloneNode(true);
+
+        let moveLength = element.offsetWidth + 40;
+
+        let timeoutLength = 600;
+
+
+
+        if (!currentPosition)
+            _doc.addStyles(element, 'transform: translateX(0px)');
+
+        _doc.addStyles(elementNext, {
+            'transform': 'translateX(' + (moveLength * (next ? 1 : -1) + 'px)')
+        });
+
+
+        (next ?
+            wrap.appendChild(elementNext) :
+            wrap.insertBefore(elementNext, wrap.firstChild)
+        );
+
+        onDrawCall(elementNext, content);
+
+
+
+
+        let posx = (moveLength * (next ? -1 : 1));
+        setTimeout(() => {
+            _doc.addStyles(element, {
+                'transition': 'all 0.' + (currentPosition === null ? 6 : 4) + 's cubic-bezier(.46,0,0,1.01) 0s',
+                'transform': 'translateX(' + posx + 'px)'
+            });
+
+            setTimeout(() => {
+                _doc.addStyles(elementNext, {
+                    'transition': 'all 0.6s cubic-bezier(.46,0,0,1.01) 0s',
+                    'transform': 'translateX(0px)'
+                })
+            }, 50);
+        }, 50);
+
+
+
+        setTimeout(() => {
+            wrap.removeChild(element);
+            _doc.removeStyles(elementNext, ['transform', 'transition']);
+        }, timeoutLength);
+
+
+        return timeoutLength;
     }
 }
 
@@ -1072,10 +1153,13 @@ class ModalStoryProcess {
 
         this.currentPosition = null;
         this.dragAndMoveRange = 110;
+
+        this.storyAnimation = new ModalStoryAnimation;
+
     }
 
 
-    instalProgress() {
+    installProgress() {
         this.storyesPages.forEach(el => {
             let styles = {
                 'class': 'progress',
@@ -1111,63 +1195,91 @@ class ModalStoryProcess {
         return current;
     }
 
+    getStoryContainer() {
+        return document.querySelector('.' + this.styles.modalStoryContainer);
+    }
 
     animateMoving(activeNumber, next = true) {
-        let wrap = document.querySelector('.' + this.styles.modalStoryContentWrap);
-
-        let element = wrap.querySelector('.' + this.styles.modalStoryContainer);
-        let elementNext = element.cloneNode(true);
 
         if (activeNumber === -1) {
-            activeNumber = 0;
-            this.drawContent(element, this.storyesPages[activeNumber]);
+            this.drawContent(this.getStoryContainer(), this.storyesPages[0]);
             return;
         }
 
-        let moveLength = element.offsetWidth + 40;
 
-        if (!this.currentPosition)
-            _doc.addStyles(element, 'transform: translateX(0px)');
-
-        _doc.addStyles(elementNext, {
-            'transform': 'translateX(' + (moveLength * (next ? 1 : -1) + 'px)')
+        let timeoutLength = this.storyAnimation.changeContentanimate({
+            wrap: document.querySelector('.' + this.styles.modalStoryContentWrap),
+            element: this.getStoryContainer(),
+            content: this.storyesPages[activeNumber],
+            activeNumber: activeNumber,
+            next: next,
+            currentPosition: this.currentPosition,
+            onDrawCall: (el, cont) => {
+                this.drawContent(el, cont);
+            }
         });
 
-
-        (next ?
-            wrap.appendChild(elementNext) :
-            wrap.insertBefore(elementNext, wrap.firstChild)
-        );
-
-        this.drawContent(elementNext, this.storyesPages[activeNumber]);
-
-
-
-
-        let posx = (moveLength * (next ? -1 : 1));
-        setTimeout(() => {
-            _doc.addStyles(element, {
-                'transition': 'all 0.' + (this.currentPosition === null ? 6 : 4) + 's cubic-bezier(.46,0,0,1.01) 0s',
-                'transform': 'translateX(' + posx + 'px)'
-            });
-
-            setTimeout(() => {
-                _doc.addStyles(elementNext, {
-                    'transition': 'all 0.6s cubic-bezier(.46,0,0,1.01) 0s',
-                    'transform': 'translateX(0px)'
-                })
-            }, 50);
-        }, 50);
-
-
-
-        setTimeout(() => {
-            wrap.removeChild(element);
-            _doc.removeStyles(elementNext, ['transform', 'transition']);
-        }, 600);
-
         this.currentPosition = null;
-        this.dragAndMove.resetMoveContent(elementNext);
+
+        setTimeout(() => {
+            this.dragAndMove.resetMoveContent(this.getStoryContainer());
+        }, timeoutLength);
+
+        // let wrap = document.querySelector('.' + this.styles.modalStoryContentWrap);
+
+        // let element = wrap.querySelector('.' + this.styles.modalStoryContainer);
+        // let elementNext = element.cloneNode(true);
+
+        // if (activeNumber === -1) {
+        //     activeNumber = 0;
+        //     this.drawContent(element, this.storyesPages[activeNumber]);
+        //     return;
+        // }
+
+        // let moveLength = element.offsetWidth + 40;
+
+        // if (!this.currentPosition)
+        //     _doc.addStyles(element, 'transform: translateX(0px)');
+
+        // _doc.addStyles(elementNext, {
+        //     'transform': 'translateX(' + (moveLength * (next ? 1 : -1) + 'px)')
+        // });
+
+
+        // (next ?
+        //     wrap.appendChild(elementNext) :
+        //     wrap.insertBefore(elementNext, wrap.firstChild)
+        // );
+
+        // this.drawContent(elementNext, this.storyesPages[activeNumber]);
+
+
+
+
+        // let posx = (moveLength * (next ? -1 : 1));
+        // setTimeout(() => {
+        //     _doc.addStyles(element, {
+        //         'transition': 'all 0.' + (this.currentPosition === null ? 6 : 4) + 's cubic-bezier(.46,0,0,1.01) 0s',
+        //         'transform': 'translateX(' + posx + 'px)'
+        //     });
+
+        //     setTimeout(() => {
+        //         _doc.addStyles(elementNext, {
+        //             'transition': 'all 0.6s cubic-bezier(.46,0,0,1.01) 0s',
+        //             'transform': 'translateX(0px)'
+        //         })
+        //     }, 50);
+        // }, 50);
+
+
+
+        // setTimeout(() => {
+        //     wrap.removeChild(element);
+        //     _doc.removeStyles(elementNext, ['transform', 'transition']);
+        // }, 600);
+
+        // this.currentPosition = null;
+        // this.dragAndMove.resetMoveContent(elementNext);
     }
 
 
@@ -1230,12 +1342,6 @@ class ModalStoryProcess {
 
 
 
-
-    playNextAnimate(e) {
-        // setTimeout(() => { quweySelector('.modal-story--container').style.pointerEvents = 'none'; }, 2000);
-        this.playNext();
-    };
-
     playNext(e) {
         let current = this.getCurrentActive();
 
@@ -1258,8 +1364,8 @@ class ModalStoryProcess {
         if (typeof e === 'number')
             current = -1;
 
+
         this.animateMoving(current, true);
-        // this.drawContent(current);
     };
 
     playPreview() {
@@ -1280,9 +1386,9 @@ class ModalStoryProcess {
 
         this.progress[current].classList.remove('passed');
         this.progress[current].classList.add('active');
-        this.animateMoving(current, false);
-        // this.drawContent(current);
 
+
+        this.animateMoving(current, false);
     };
 
     clickHandler() {
@@ -1338,47 +1444,58 @@ class ModalStoryProcess {
     }
 
 
+    whileMoveProcess() {
+        let current = this.getCurrentActive();
+        if (!this.progress[current].classList.contains('pause'))
+            this.progress[current].classList.toggle('pause');
+    }
+
+    afterMoveProcess(e, newPosX) {
+        let current = this.getCurrentActive();
+
+        if (this.progress[current].classList.contains('pause'))
+            this.progress[current].classList.toggle('pause');
+
+
+        this.currentPosition = newPosX;
+
+        if (newPosX > this.dragAndMoveRange)
+            return this.playPreview();
+
+        if (newPosX < -this.dragAndMoveRange)
+            return this.playNext();
+
+        this.currentPosition = null;
+
+        let storyContainer = document.querySelector('.' + this.styles.modalStoryContainer);
+
+        setTimeout(() => {
+            _doc.addStyles(storyContainer, {
+                'transition': 'all 0.3s cubic-bezier(.46,0,0,1.01) 0s',
+                'transform': 'translateX(0px)'
+            })
+
+            setTimeout(() => {
+                _doc.removeStyles(storyContainer, ['transform', 'transition']);
+            }, 300);
+        }, 50);
+
+    }
+
+
+
     dragAndMoveInit() {
         this.dragAndMove = new DragAndMoveMe({
             // handler: document.querySelector('.' + this.styles.modalStoryWrap),
             handler: document.querySelector('.' + this.styles.modalWrap),
             move: document.querySelector('.' + this.styles.modalStoryContainer),
             xMove: true,
-            yMove: true,
+            yMove: false,
             whileMove: () => {
-                let current = this.getCurrentActive();
-                if (!this.progress[current].classList.contains('pause'))
-                    this.progress[current].classList.toggle('pause');
+                this.whileMoveProcess();
             },
-            afterMove: (e, newPos) => {
-                let current = this.getCurrentActive();
-                if (this.progress[current].classList.contains('pause'))
-                    this.progress[current].classList.toggle('pause');
-
-
-                this.currentPosition = newPos;
-
-                if (newPos > this.dragAndMoveRange) {
-                    this.playPreview();
-                }
-                else if (newPos < -this.dragAndMoveRange) {
-                    this.playNext();
-                } else {
-                    this.currentPosition = null;
-
-                    let storyContainer = document.querySelector('.' + this.styles.modalStoryContainer);
-
-                    setTimeout(() => {
-                        _doc.addStyles(storyContainer, {
-                            'transition': 'all 0.3s cubic-bezier(.46,0,0,1.01) 0s',
-                            'transform': 'translateX(0px)'
-                        })
-
-                        setTimeout(() => {
-                            _doc.removeStyles(storyContainer, ['transform', 'transition']);
-                        }, 300);
-                    }, 50);
-                }
+            afterMove: (e, newPosX, newPosY) => {
+                this.afterMoveProcess(e, newPosX);
             }
         });
     }
@@ -1386,7 +1503,7 @@ class ModalStoryProcess {
 
     run(startIndex = 0) {
 
-        this.instalProgress();
+        this.installProgress();
         this.moveProcess(startIndex);
 
 
@@ -1394,7 +1511,7 @@ class ModalStoryProcess {
         this.nextClick.addEventListener('click', (e) => { this.playNext(e) }, false);
         this.pauseClick.addEventListener('click', (e) => { this.pauseIt(e) }, false);
 
-        this.progress.map(el => el.addEventListener('animationend', (e) => { this.playNextAnimate(e) }, false));
+        this.progress.map(el => el.addEventListener('animationend', (e) => { this.playNext(e) }, false));
         this.progress.map(el => el.addEventListener('click', (e) => { this.clickHandler(e) }, false));
 
 
@@ -1410,6 +1527,10 @@ class ModalStoryProcess {
             this.progressContainer.removeChild(this.progressContainer.lastChild);
         }
     }
+
+}
+
+class StoryProcessAnimation {
 
 }
 
@@ -1508,10 +1629,10 @@ class DragAndMoveMe {
 
         if (this.xMove) {
             transform = 'translateX(' + (this.movePosX) + 'px)';
-        } 
+        }
         if (this.yMove) {
             transform = 'translateY(' + (this.movePosY) + 'px)';
-        } 
+        }
         if (this.xMove && this.yMove) {
             transform = 'translate(' + (this.movePosX) + 'px, ' + this.movePosY + 'px)';
         }
