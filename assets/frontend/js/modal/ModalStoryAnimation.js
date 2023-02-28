@@ -13,8 +13,10 @@ class ModalStoryAnimation extends AnimationSctruct {
     }
 
 
-    animateIn(element) {
+    animateIn(elementCall, modalElement) {
 
+        console.log(elementCall, modalElement);
+        
         let timeoutLength = 300;
 
         setTimeout(() => {
@@ -25,7 +27,7 @@ class ModalStoryAnimation extends AnimationSctruct {
 
     }
 
-    animateOut(element) {
+    animateOut(elementCall, modalElement) {
 
         document.querySelector('.' + this.styles.modalStoryWrap).style.opacity = '0';
 

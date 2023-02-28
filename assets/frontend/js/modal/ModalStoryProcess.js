@@ -71,7 +71,11 @@ class ModalStoryProcess {
 
 
     getStoryContainer(classNameOnly = false) {
-        return classNameOnly === false ? document.querySelector('.' + this.styles.modalStoryContainer) : '.' + this.styles.modalStoryContainer;
+        return classNameOnly === false ? this.getStoryContentWrap().querySelector('.' + this.styles.modalStoryContainer) : '.' + this.styles.modalStoryContainer;
+    }
+
+    getStoryContentWrap(classNameOnly = false) {
+        return classNameOnly === false ? document.querySelector('.' + this.styles.modalStoryContentWrap) : this.styles.modalStoryContentWrap;
     }
 
 
@@ -85,7 +89,7 @@ class ModalStoryProcess {
 
 
         let timeoutLength = this.storyAnimation.animateChangeContent({
-            wrap: document.querySelector('.' + this.styles.modalStoryContentWrap),
+            wrap: this.getStoryContentWrap(),
             element: this.getStoryContainer(),
             content: this.storyesPages[changeTo],
             next: next,

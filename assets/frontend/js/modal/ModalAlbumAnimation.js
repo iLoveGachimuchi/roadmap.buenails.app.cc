@@ -46,8 +46,8 @@ class ModalAlbumAnimation extends AnimationSctruct {
 
             clonnedNodes.push(el.cloneNode(true));
 
-            let rect = getBoundingClientRect(el);
-            let rotation = getCurrentRotation(el) + 'deg';
+            let rect = this.getBoundingClientRect(el);
+            let rotation = this.getCurrentRotation(el) + 'deg';
 
 
             if (index == 0)
@@ -59,12 +59,12 @@ class ModalAlbumAnimation extends AnimationSctruct {
             if (index == 3)
                 _doc.addStyles(el, { transform: 'translateX(40%) translateY(40%) rotate(0deg)' });
 
-            let rect1 = getBoundingClientRect(el);
+            let rect1 = this.getBoundingClientRect(el);
 
             originalPosition[index] = rect1;
             originalPosition[index].rotation = rotation;
-            originalPosition[index].width = getBoundingClientRect(el.parentNode).width;
-            originalPosition[index].height = getBoundingClientRect(el.parentNode).height;
+            originalPosition[index].width = this.getBoundingClientRect(el.parentNode).width;
+            originalPosition[index].height = this.getBoundingClientRect(el.parentNode).height;
 
             _doc.removeStyles(el, 'transform');
 
@@ -77,7 +77,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
             let imgsIndex = (typeof imgs[index] === 'undefined' ? imgs[0] : imgs[index]);
 
             let viewportOffset = imgsIndex.getBoundingClientRect();
-            let rotation = getCurrentRotation(imgsIndex) + 'deg';
+            let rotation = this.getCurrentRotation(imgsIndex) + 'deg';
 
             if (typeof clonnedNodes[index] === 'undefined')
                 index = 0;
@@ -179,7 +179,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
 
             clonnedNodes.push(el.cloneNode(true));
 
-            let rotation = getCurrentRotation(el) + 'deg';
+            let rotation = this.getCurrentRotation(el) + 'deg';
 
 
             _doc.addStyles(el, {
@@ -201,8 +201,8 @@ class ModalAlbumAnimation extends AnimationSctruct {
 
             _doc.addStyles(clonnedNodes[index], {
                 position: 'fixed',
-                width: getBoundingClientRect(el.parentNode).width + 'px',
-                height: getBoundingClientRect(el.parentNode).height + 'px',
+                width: this.getBoundingClientRect(el.parentNode).width + 'px',
+                height: this.getBoundingClientRect(el.parentNode).height + 'px',
                 transition: '0s',
                 left: '0px',
                 top: '0px',
@@ -225,7 +225,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
                 index = 0;
 
             let viewportOffset = imgs[index].getBoundingClientRect();
-            let rotation = getCurrentRotation(imgs[index]) + 'deg';
+            let rotation = this.getCurrentRotation(imgs[index]) + 'deg';
 
             let transitonProp = (index == 0 ? 'transform .5s ease-in-out' : (index == 1 ? 'transform .55s ease' : (index == 2 ? 'transform .4s ease-in' : 'transform .46s ease-in-out')));
 

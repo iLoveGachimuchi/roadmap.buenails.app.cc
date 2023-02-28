@@ -106,12 +106,12 @@ class ModalStory extends ModalStruct {
             this.storyDesctruct();
         });
 
-        this.animation.animateIn(this.elementCall);
+        this.animation.animateIn(this.elementCall, this.progressModal.getStoryContentWrap());
 
     }
 
     storyDesctruct() {
-        this.animation.animateOut(this.elementCall);
+        this.animation.animateOut(this.elementCall, this.progressModal.getStoryContentWrap());
 
         setTimeout(() => {
             this.progressModal.destroy();
@@ -138,7 +138,7 @@ class ModalStory extends ModalStruct {
 
                 this.desctructTimeOut = 400;
                 this.onDesctruct = () => {
-                    this.animation.animateOut(this.elementCall);
+                    this.animation.animateOut(this.elementCall, this.progressModal.getStoryContentWrap());
 
                     setTimeout(() => {
                         this.progressModal.destroy();
