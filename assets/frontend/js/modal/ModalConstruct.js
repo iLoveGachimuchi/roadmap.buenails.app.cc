@@ -36,7 +36,7 @@ class ModalConstruct {
             return false;
 
         let modalView = null;
-        let elementCall = document.querySelector("[data-event-click=\"" + eventCallName + "\"]").parentNode;
+        let elementCall = document.querySelector("[data-event-click=\"" + eventCallName + "\"]"); //.parentNode;
 
         switch (this.modal.view.toLowerCase()) {
             case 'album': modalView = new ModalAlbum(this.modal); break;

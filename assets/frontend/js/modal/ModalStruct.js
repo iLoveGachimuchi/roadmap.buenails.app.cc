@@ -330,7 +330,7 @@ class ModalStruct {
         localRender();
 
 
-        this.innerModal(document.querySelector('body'));
+        this.innerModal(_doc.body());
     }
 
 

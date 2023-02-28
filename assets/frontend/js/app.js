@@ -9,6 +9,10 @@ const DOCUMENT_SCRIPTS_LOADS = [];
 
 const _doc = {
 
+    body() {
+        return document.querySelector('body')
+    },
+
     createElement(element, param = {}) {
         let el = document.createElement(element);
 
@@ -249,8 +253,8 @@ const documentLoadEvent = (responce) => {
 const scriptsLoader = () => {
 
     let jsloadelem = _doc.createElement('div', { id: 'text/javascript-load' });
-    
-    document.querySelector('body').appendChild(jsloadelem);
+
+    _doc.body().appendChild(jsloadelem);
 
     let scriptIndex = 0;
 
@@ -258,7 +262,7 @@ const scriptsLoader = () => {
 
         if (typeof DOCUMENT_SCRIPTS_LOADS[scriptIndex] === 'undefined')
             return;
-            
+
         scriptIndex++;
 
         let scriptElem = _doc.createElement('script', { type: 'text/javascript', 'src': _script.src });

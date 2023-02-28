@@ -101,6 +101,18 @@ class Sticker {
 
 
 
+    stickerEventSet(event, stickerInsp) {
+        if (event === null || typeof event == 'undefined')
+            return;
+
+        stickerInsp.classList.add(this.stickerEventedClass);
+
+        if (typeof event === 'object')
+            stickerEvents.add(event, stickerInsp);
+    }
+    
+
+
     setDefaultData(data, stickerInsp) {
         if (typeof data.text != 'undefined')
             this.setStickerText(data.text, stickerInsp);
