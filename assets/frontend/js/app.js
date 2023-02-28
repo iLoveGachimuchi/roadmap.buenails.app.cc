@@ -2,6 +2,10 @@ const Months = ['Январь', 'Февраль', 'Март', 'Апрель', '�
 
 const stickerRequest = '/stickers';
 const stickerEvents = new StickerEvents;
+const defaultScriptPath = '/assets/frontend/js';
+const DOCUMENT_SCRIPTS_LOADS = [];
+
+
 
 const _doc = {
 
@@ -241,8 +245,60 @@ const documentLoadEvent = (responce) => {
 
 }
 
-makeFetchJson(stickerRequest, documentLoadEvent);
 
+const scriptsLoader = () => {
+
+    let jsloadelem = _doc.createElement('div', { id: 'text/javascript-load' });
+    
+    document.querySelector('body').appendChild(jsloadelem);
+
+    let scriptIndex = 0;
+
+    let loadScriptFunc = (_script) => {
+
+        if (typeof DOCUMENT_SCRIPTS_LOADS[scriptIndex] === 'undefined')
+            return;
+            
+        scriptIndex++;
+
+        let scriptElem = _doc.createElement('script', { type: 'text/javascript', 'src': _script.src });
+
+        scriptElem.onload = (e) => {
+            console.log('LOADED', _script.src);
+            loadScriptFunc(DOCUMENT_SCRIPTS_LOADS[scriptIndex]);
+        }
+
+        jsloadelem.appendChild(scriptElem);
+    }
+
+
+    loadScriptFunc(DOCUMENT_SCRIPTS_LOADS[scriptIndex]);
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // scriptsLoader();
+
+    makeFetchJson(stickerRequest, documentLoadEvent);
+
+});
+
+
+
+
+// TODO: make scroll effects on sticker load
+// {
+//     out {
+//         opacity: 0;
+//         transform: scale(0.35) translateZ(0px);
+//         transition: 0s;
+//     }
+//     in {
+//         opacity: 1;
+//         transition: .3s;
+//     }
+// }
 
 
 let testFormater = () => {

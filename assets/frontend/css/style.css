@@ -194,7 +194,7 @@ nav .nav-step {
 
     height: 80px;
 
-    border-right: 2px solid #EEEEEE;
+    border-right: 1px solid #EEEEEE;
 
     align-self: stretch;
     
@@ -276,13 +276,13 @@ nav .nav-step {
         backdrop-filter: blur(10px);
         z-index: 2;
         /* border-width: 0px 2px 2px 0px; */
-        border-bottom: 2px solid #EEEEEE;
+        border-bottom: 1px solid #EEEEEE;
     }
 
     .column-body {
         padding-top: 132px;
         z-index: 1;
-        border-width: 0px 2px 0px 0px;
+        border-width: 0px 1px 0px 0px;
     }
 }
 

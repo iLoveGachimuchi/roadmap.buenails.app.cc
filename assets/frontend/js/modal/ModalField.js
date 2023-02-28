@@ -1,0 +1,1 @@
+class ModalField extends ModalStruct { }

@@ -15,9 +15,9 @@
     padding: 0px;
     gap: 10px;
 
-    min-width: 360px;
-    max-width: 360px;
-    max-height: 400px;
+    min-width: 20vw;
+    max-width: 20vw;
+    /* max-height: 21vh; */
 
     cursor: default;
     height: auto;
@@ -453,3 +453,16 @@
 
 
 /*********** END STICKER COLORS ************/
+
+
+
+
+
+@media (max-width: 1330px) {
+    .sticker-box {
+
+        min-width: 280px;
+        max-width: 280px;
+        max-height: 400px;
+    }
+}
