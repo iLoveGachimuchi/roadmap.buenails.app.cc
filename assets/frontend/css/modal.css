@@ -228,7 +228,7 @@
     align-items: center;
     -webkit-align-items: center;
     opacity: 0;
-    transition: .4s;
+    transition: .2s cubic-bezier(.46,0,0,1.17);
 
     z-index: 41;
 }
@@ -268,7 +268,7 @@
 }
 
 
-.modal-story--image::before {
+.modal-story--image.backlight::before {
     content: "";
     position: fixed;
     background: inherit;

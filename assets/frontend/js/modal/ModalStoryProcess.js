@@ -1,8 +1,11 @@
+// TODO: make dragAndMove for touch events
+
 class ModalStoryProcess {
 
-    constructor(storyesPages, styles) {
+    constructor(storyesPages, styles, params) {
         this.storyesPages = storyesPages;
         this.styles = styles;
+        this.params = params;
 
         this.progressContainer = document.querySelector('.' + this.styles.modalStoryProgressContainer);
         this.progress = [];
@@ -71,11 +74,15 @@ class ModalStoryProcess {
 
 
     getStoryContainer(classNameOnly = false) {
-        return classNameOnly === false ? this.getStoryContentWrap().querySelector('.' + this.styles.modalStoryContainer) : '.' + this.styles.modalStoryContainer;
+        return classNameOnly === false ? document.querySelector('.' + this.styles.modalStoryContainer) : '.' + this.styles.modalStoryContainer;
     }
 
     getStoryContentWrap(classNameOnly = false) {
         return classNameOnly === false ? document.querySelector('.' + this.styles.modalStoryContentWrap) : this.styles.modalStoryContentWrap;
+    }
+
+    getStoryWrap(classNameOnly = false) {
+        return classNameOnly === false ? document.querySelector('.' + this.styles.modalStoryWrap) : this.styles.modalStoryWrap;
     }
 
 
@@ -136,6 +143,10 @@ class ModalStoryProcess {
 
         if (!img) {
             img = _doc.createElement('div', { class: this.styles.modalStoryImage });
+            
+            if (typeof this.params['modal-backlight'] !== 'undefined' && this.params['modal-backlight'] === true)
+                img.classList.add('backlight');
+
             element.appendChild(img);
         }
 

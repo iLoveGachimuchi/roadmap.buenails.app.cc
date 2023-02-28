@@ -339,8 +339,9 @@ class ModalStruct {
         if (this.hotkeyCloseHandler)
             document.removeEventListener('keyup', this.hotkeyCloseHandler);
 
-        if (!this.modalElement)
-            this.modalElement = document.querySelector('.modal-wrap');
+        if (!this.modalElement && !document.querySelector('.modal-wrap'))
+            return;
+        // this.modalElement = document.querySelector('.modal-wrap');
 
         if (this.onDesctruct)
             this.onDesctruct();
@@ -349,9 +350,15 @@ class ModalStruct {
         // this.modal.style.opacity = '0';
 
         setTimeout(() => {
+            if (!this.modalElement)
+                return;
+
             this.modalElement.style.opacity = '0';
 
             setTimeout(() => {
+                if (!this.modalElement)
+                    return;
+                    
                 if (this.modalElement.parentNode)
                     this.modalElement.parentNode.removeChild(this.modalElement);
 

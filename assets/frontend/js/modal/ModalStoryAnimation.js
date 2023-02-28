@@ -13,15 +13,42 @@ class ModalStoryAnimation extends AnimationSctruct {
     }
 
 
+    setModalPosition(elementCall, modalElement, scale) {
+        let elementPos = this.getBoundingClientRect(elementCall);
+        let modalPos = this.getBoundingClientRect(modalElement);
+        let bodyWidth = _doc.body('body').clientWidth;
+        let bodyHeight = _doc.body('body').clientHeight;
+
+        let leftPos = elementPos.left > modalPos.width + 10;
+        let rightPos = bodyWidth - elementPos.right > modalPos.width + 10;
+
+        let cssTransform =  'scale(' + scale + ')';
+
+        if (leftPos || rightPos) {
+            let posx = leftPos ? elementPos.left - modalPos.width - 10 : elementPos.right + 10;
+
+            cssTransform = 'translate(' + posx + 'px,' + elementPos.top + 'px) ' + cssTransform;
+            _doc.addStyles(modalElement, {
+                top: '0px',
+                left: '0px',
+                transform: cssTransform
+            });
+        }
+
+        return cssTransform.replace('scale(' + scale + ')', 'scale(1)');
+    }
+
     animateIn(elementCall, modalElement) {
 
-        console.log(elementCall, modalElement);
-        
-        let timeoutLength = 300;
+        let cssTransform = this.setModalPosition(elementCall, modalElement, .8);
+        let timeoutLength = 200;
 
         setTimeout(() => {
-            document.querySelector('.' + this.styles.modalStoryWrap).style.opacity = '1';
-        }, 300);
+            _doc.addStyles(modalElement, {
+                opacity: 1,
+                'transform': cssTransform
+            })
+        }, timeoutLength);
 
         return timeoutLength;
 
@@ -29,10 +56,10 @@ class ModalStoryAnimation extends AnimationSctruct {
 
     animateOut(elementCall, modalElement) {
 
-        document.querySelector('.' + this.styles.modalStoryWrap).style.opacity = '0';
+        _doc.addStyles(modalElement, { opacity: 0 });
+        modalElement.style.cssText = modalElement.style.cssText.replace('scale(1)', 'scale(.8)')
 
-
-        let timeoutLength = 300;
+        let timeoutLength = 200;
 
         return timeoutLength;
     }

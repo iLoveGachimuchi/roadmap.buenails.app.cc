@@ -99,23 +99,23 @@ class ModalStory extends ModalStruct {
         this.modalElement.appendChild(_doc.formatToElement(storyElement));
 
 
-        this.progressModal = new ModalStoryProcess(this.data.content, this.styles);
+        this.progressModal = new ModalStoryProcess(this.data.content, this.styles, this.data.params);
         this.progressModal.run(0);
 
         document.querySelector('.' + this.styles.modalStoryEventClose).addEventListener('click', () => {
             this.storyDesctruct();
         });
 
-        this.animation.animateIn(this.elementCall, this.progressModal.getStoryContentWrap());
+        this.animation.animateIn(this.elementCall, this.progressModal.getStoryWrap());
 
     }
 
     storyDesctruct() {
-        this.animation.animateOut(this.elementCall, this.progressModal.getStoryContentWrap());
+        let timeoutLength = this.animation.animateOut(this.elementCall, this.progressModal.getStoryWrap());
 
         setTimeout(() => {
             this.progressModal.destroy();
-        }, 300);
+        }, timeoutLength);
 
         this.elementCall = null;
         this.onDesctruct = null;
@@ -136,13 +136,13 @@ class ModalStory extends ModalStruct {
                 this.makeModalStory();
 
 
-                this.desctructTimeOut = 400;
+                this.desctructTimeOut = 100;
                 this.onDesctruct = () => {
-                    this.animation.animateOut(this.elementCall, this.progressModal.getStoryContentWrap());
+                    let timeoutLength = this.animation.animateOut(this.elementCall, this.progressModal.getStoryWrap());
 
                     setTimeout(() => {
                         this.progressModal.destroy();
-                    }, 300);
+                    }, timeoutLength);
                 }
 
             });
