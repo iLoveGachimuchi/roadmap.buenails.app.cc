@@ -35,6 +35,6 @@
     "params": {
         "overlay-blur": true,
         "overlay-click-to-close": true,
-        "overlay-hotkey-to-lose": true
+        "overlay-hotkey-to-close": true
     }
 }

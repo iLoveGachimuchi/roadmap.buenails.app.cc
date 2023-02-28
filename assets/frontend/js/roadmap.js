@@ -419,7 +419,7 @@ class StickerType extends Sticker {
 
             let stickerImgBox = _doc.createElement('div', { class: this.stickerImgBoxClass });
             let stickerImg = _doc.createElement('div', { class: this.stickerImgClass });
-            let elementImg = _doc.createElement('img', img[i]);
+            let elementImg = _doc.createElement('img', Object.assign(img[i], { draggable: 'false' }));
 
             stickerImg.appendChild(elementImg);
             stickerImgBox.appendChild(stickerImg);
@@ -440,7 +440,7 @@ class StickerType extends Sticker {
         stickerInsp.classList.add(this.stickerFullClass);
 
         let stickerFullImg = _doc.createElement('div', { class: this.stickerFullImgClass });
-        let elementImg = _doc.createElement('img', this.sticker.data.img);
+        let elementImg = _doc.createElement('img', Object.assign(this.sticker.data.img, { draggable: 'false' }));
 
         stickerFullImg.appendChild(elementImg);
         stickerInsp.insertBefore(stickerFullImg, stickerInsp.firstChild);
@@ -461,7 +461,7 @@ class StickerType extends Sticker {
 
         let stickerAnimate = _doc.createElement('div', { class: this.stickerAnimateClass });
         let stickerAnimateImg = _doc.createElement('div', { class: this.StickerAnimateImgClass });
-        let elementImg = _doc.createElement('img', this.sticker.data.img);
+        let elementImg = _doc.createElement('img', Object.assign(this.sticker.data.img, { draggable: 'false' }));
 
         stickerAnimateImg.appendChild(elementImg);
         stickerAnimate.appendChild(stickerAnimateImg);
@@ -533,6 +533,9 @@ class StickerEvents {
 
 
         let stickerEvent = (e, k) => {
+            if (isDragging())
+                return;
+
             e.preventDefault();
 
             if (typeof func === 'string')
@@ -600,6 +603,7 @@ class ContentDrugToScroll {
         this.mousemoveHandler = null;
         this.mouseupHandler = null;
 
+        this.afterMove = false;
     }
 
     mouseDownHandler(e) {
@@ -622,7 +626,8 @@ class ContentDrugToScroll {
         this.content.addEventListener('mousemove', this.mousemoveHandler);
         this.content.addEventListener('mouseup', this.mouseupHandler);
 
-        
+        this.afterMove = false;
+        removeDragging()
     };
 
     mouseMoveHandler(e) {
@@ -630,6 +635,10 @@ class ContentDrugToScroll {
         let dx = e.clientX - this.pos.x;
 
         this.content.scrollLeft = this.pos.left - dx;
+
+
+        this.afterMove = true;
+        setDragging();
     };
 
     mouseUpHandler() {
@@ -641,6 +650,15 @@ class ContentDrugToScroll {
 
         this.content.style.cursor = null;
         this.content.style.removeProperty('user-select');
+
+
+
+        if (this.afterMove) {
+            if (typeof this.afterMoveCall === 'function')
+                this.afterMoveCall(e, this.movePosX, this.movePosY);
+
+            this.afterMove = false;
+        }
     };
 
     run() {

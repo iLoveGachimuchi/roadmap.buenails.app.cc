@@ -40,8 +40,8 @@
         }
     },
     "params": {
-        "overlay-blur": true,
+        "overlay-blur": false,
         "overlay-click-to-close": true,
-        "overlay-hotkey-to-lose": true
+        "overlay-hotkey-to-close": true
     }
 }

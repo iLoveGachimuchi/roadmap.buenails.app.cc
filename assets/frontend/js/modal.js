@@ -129,25 +129,23 @@ class ModalStruct {
 
     modalApplyParams() {
 
-        if (typeof this.data.params['overlay-blur'] !== 'undefined')
+        if (typeof this.data.params['overlay-blur'] !== 'undefined' && this.data.params['overlay-blur'] === true)
             this.modalElement.classList.add(this.styles.modalBlur)
 
-        if (typeof this.data.params['overlay-click-to-close'] !== 'undefined') {
+        if (typeof this.data.params['overlay-click-to-close'] !== 'undefined' && this.data.params['overlay-click-to-close'] === true) {
             this.modalElement.classList.add(this.styles.modalCursorPointer);
             this.modalElement.addEventListener('click', (e) => {
 
-                if (isDragging())
+                if (isDragging() || !e.target.classList.contains(this.styles.modalCursorPointer))
                     return;
 
-                if (!e.target.classList.contains(this.styles.modalCursorPointer))
-                    return;
                 e.preventDefault();
 
                 this.destroy();
             })
         }
 
-        if (typeof this.data.params['overlay-hotkey-to-close']) {
+        if (typeof this.data.params['overlay-hotkey-to-close'] !== 'undefined' && this.data.params['overlay-hotkey-to-close'] === true) {
             this.hotkeyCloseHandler = this.hotkeyCloseEvent.bind(this);
             document.addEventListener('keyup', this.hotkeyCloseHandler);
         }
@@ -165,13 +163,9 @@ class ModalStruct {
 
         actionXClose.appendChild(icon);
 
-        actionXClose.addEventListener('click', (
-            desctructorCall === null ?
-                (e) => {
-                    this.destroy();
-                } :
-                desctructorCall
-        ));
+        actionXClose.addEventListener('click', (e) => {
+            this.destroy();
+        });
 
         return actionXClose;
     }
@@ -403,7 +397,6 @@ class ModalStruct {
         if (this.hotkeyCloseHandler)
             document.removeEventListener('keyup', this.hotkeyCloseHandler);
 
-
         if (!this.modalElement)
             this.modalElement = document.querySelector('.modal-wrap');
 
@@ -508,7 +501,6 @@ class ModalAlbum extends ModalStruct {
 
 
 
-        // xClose = this.getModalXClose(desctructFunc);
         xClose = this.getModalXClose();
 
         if (typeof this.data.title === 'string')
@@ -724,7 +716,6 @@ class ModalStory extends ModalStruct {
             this.modalPreload(this.getImages(), () => {
 
                 this.removePreload();
-
                 this.makeModalStory();
 
 
@@ -776,7 +767,6 @@ class ModalAlbumAnimation extends AnimationSctruct {
 
     // DONT TOUCH - tce zalupa, yebet
     infoCardAnimateIn(element) {
-
 
         let imgs = element.querySelectorAll('.' + this.styles.stickerImgBox);
 
@@ -1070,7 +1060,7 @@ class ModalStoryAnimation extends AnimationSctruct {
      * @param {Object} params.content
      * @param {number} params.currentPosition
      */
-    changeContentanimate(params) {
+    animateChangeContent(params) {
         let wrap = params.wrap;
         let element = params.element;
         let content = params.content;
@@ -1130,6 +1120,22 @@ class ModalStoryAnimation extends AnimationSctruct {
 
         return timeoutLength;
     }
+
+    animateResetMove(storyContainer) {
+        setTimeout(() => {
+            _doc.addStyles(storyContainer, {
+                'transition': 'all 0.3s cubic-bezier(.46,0,0,1.01) 0s',
+                'transform': 'translateX(0px)'
+            })
+
+            setTimeout(() => {
+                _doc.removeStyles(storyContainer, ['transform', 'transition']);
+            }, 300);
+        }, 50);
+
+        return 350;
+    }
+
 }
 
 
@@ -1179,6 +1185,21 @@ class ModalStoryProcess {
     }
 
 
+    setProgress(index) {
+
+        if (index < 1)
+            return;
+
+
+        let progress = Array.from(this.progressContainer.querySelectorAll('.progress'));
+        for (let i = 0; i < index; i++)
+            progress[i].classList.add('passed');
+
+        this.progressContainer.childNodes[index - 1].classList.add('active');
+
+    }
+
+
     getCurrentActive() {
         let current = 0;
         let mapBreak = false;
@@ -1195,23 +1216,25 @@ class ModalStoryProcess {
         return current;
     }
 
-    getStoryContainer() {
-        return document.querySelector('.' + this.styles.modalStoryContainer);
+
+    getStoryContainer(classNameOnly = false) {
+        return classNameOnly === false ? document.querySelector('.' + this.styles.modalStoryContainer) : '.' + this.styles.modalStoryContainer;
     }
 
-    animateMoving(activeNumber, next = true) {
 
-        if (activeNumber === -1) {
+
+    changeContent(changeTo, next = true) {
+
+        if (changeTo === -1) {
             this.drawContent(this.getStoryContainer(), this.storyesPages[0]);
             return;
         }
 
 
-        let timeoutLength = this.storyAnimation.changeContentanimate({
+        let timeoutLength = this.storyAnimation.animateChangeContent({
             wrap: document.querySelector('.' + this.styles.modalStoryContentWrap),
             element: this.getStoryContainer(),
-            content: this.storyesPages[activeNumber],
-            activeNumber: activeNumber,
+            content: this.storyesPages[changeTo],
             next: next,
             currentPosition: this.currentPosition,
             onDrawCall: (el, cont) => {
@@ -1219,67 +1242,14 @@ class ModalStoryProcess {
             }
         });
 
-        this.currentPosition = null;
 
         setTimeout(() => {
             this.dragAndMove.resetMoveContent(this.getStoryContainer());
         }, timeoutLength);
 
-        // let wrap = document.querySelector('.' + this.styles.modalStoryContentWrap);
 
-        // let element = wrap.querySelector('.' + this.styles.modalStoryContainer);
-        // let elementNext = element.cloneNode(true);
+        this.currentPosition = null;
 
-        // if (activeNumber === -1) {
-        //     activeNumber = 0;
-        //     this.drawContent(element, this.storyesPages[activeNumber]);
-        //     return;
-        // }
-
-        // let moveLength = element.offsetWidth + 40;
-
-        // if (!this.currentPosition)
-        //     _doc.addStyles(element, 'transform: translateX(0px)');
-
-        // _doc.addStyles(elementNext, {
-        //     'transform': 'translateX(' + (moveLength * (next ? 1 : -1) + 'px)')
-        // });
-
-
-        // (next ?
-        //     wrap.appendChild(elementNext) :
-        //     wrap.insertBefore(elementNext, wrap.firstChild)
-        // );
-
-        // this.drawContent(elementNext, this.storyesPages[activeNumber]);
-
-
-
-
-        // let posx = (moveLength * (next ? -1 : 1));
-        // setTimeout(() => {
-        //     _doc.addStyles(element, {
-        //         'transition': 'all 0.' + (this.currentPosition === null ? 6 : 4) + 's cubic-bezier(.46,0,0,1.01) 0s',
-        //         'transform': 'translateX(' + posx + 'px)'
-        //     });
-
-        //     setTimeout(() => {
-        //         _doc.addStyles(elementNext, {
-        //             'transition': 'all 0.6s cubic-bezier(.46,0,0,1.01) 0s',
-        //             'transform': 'translateX(0px)'
-        //         })
-        //     }, 50);
-        // }, 50);
-
-
-
-        // setTimeout(() => {
-        //     wrap.removeChild(element);
-        //     _doc.removeStyles(elementNext, ['transform', 'transition']);
-        // }, 600);
-
-        // this.currentPosition = null;
-        // this.dragAndMove.resetMoveContent(elementNext);
     }
 
 
@@ -1329,7 +1299,6 @@ class ModalStoryProcess {
             )
         }
 
-
         if (typeof content.text === 'string') {
             modalContent.appendChild(
                 _doc.createElement('p', {
@@ -1365,7 +1334,7 @@ class ModalStoryProcess {
             current = -1;
 
 
-        this.animateMoving(current, true);
+        this.changeContent(current, true);
     };
 
     playPreview() {
@@ -1388,7 +1357,7 @@ class ModalStoryProcess {
         this.progress[current].classList.add('active');
 
 
-        this.animateMoving(current, false);
+        this.changeContent(current, false);
     };
 
     clickHandler() {
@@ -1418,30 +1387,15 @@ class ModalStoryProcess {
 
             this.progress[current].classList.add('active');
         }
-        this.animateMoving(current, true);
-        // this.drawContent(current);
+
+
+        this.changeContent(current, true);
     }
 
     pauseIt(e) {
-        let current = this.getCurrentActive();
-        this.progress[current].classList.toggle('pause');
+        this.progress[this.getCurrentActive()].classList.toggle('pause');
     }
 
-
-
-    moveProcess(index) {
-
-        if (index < 1)
-            return;
-
-
-        let progress = Array.from(this.progressContainer.querySelectorAll('.progress'));
-        for (let i = 0; i < index; i++)
-            progress[i].classList.add('passed');
-
-        this.progressContainer.childNodes[index - 1].classList.add('active');
-
-    }
 
 
     whileMoveProcess() {
@@ -1467,18 +1421,7 @@ class ModalStoryProcess {
 
         this.currentPosition = null;
 
-        let storyContainer = document.querySelector('.' + this.styles.modalStoryContainer);
-
-        setTimeout(() => {
-            _doc.addStyles(storyContainer, {
-                'transition': 'all 0.3s cubic-bezier(.46,0,0,1.01) 0s',
-                'transform': 'translateX(0px)'
-            })
-
-            setTimeout(() => {
-                _doc.removeStyles(storyContainer, ['transform', 'transition']);
-            }, 300);
-        }, 50);
+        this.storyAnimation.animateResetMove(this.getStoryContainer())
 
     }
 
@@ -1488,7 +1431,7 @@ class ModalStoryProcess {
         this.dragAndMove = new DragAndMoveMe({
             // handler: document.querySelector('.' + this.styles.modalStoryWrap),
             handler: document.querySelector('.' + this.styles.modalWrap),
-            move: document.querySelector('.' + this.styles.modalStoryContainer),
+            move: this.getStoryContainer(),
             xMove: true,
             yMove: false,
             whileMove: () => {
@@ -1504,7 +1447,7 @@ class ModalStoryProcess {
     run(startIndex = 0) {
 
         this.installProgress();
-        this.moveProcess(startIndex);
+        this.setProgress(startIndex);
 
 
         this.backClick.addEventListener('click', (e) => { this.playPreview(e) }, false);
