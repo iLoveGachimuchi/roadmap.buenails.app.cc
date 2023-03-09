@@ -107,12 +107,19 @@
             "date": 1676595600000,
             "type": "photo",
             "version": 1.00,
-            "event": null,
+            "event": {
+                "event": "click",
+                "type": "modal",
+                "call": null,
+                "data": {
+                    "src": "/assets/frontend/var/modal/12-1676595600000.json"
+                }
+            },
             "data": {
                 "text": "Планирование, макетирование, проработка идеи",
                 "time": 1676595600000,
                 "img": {
-                    "src": "/assets/frontend/img/exphoto-3.jpg"
+                    "src": "/assets/frontend/img/exphoto-5.jpg"
                 }
             }
         },

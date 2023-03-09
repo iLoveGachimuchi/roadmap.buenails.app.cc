@@ -230,7 +230,7 @@
     opacity: 0;
     transition: .2s cubic-bezier(.46,0,0,1.17);
 
-    box-shadow: var(--box-shadow-photos);
+    box-shadow: 0 4px 12px 0 rgba(0,2,71,.03),0 14px 34px 0 rgba(0,2,71,.2);
 
     z-index: 41;
 }

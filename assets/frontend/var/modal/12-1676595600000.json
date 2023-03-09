@@ -1,0 +1,37 @@
+{
+    "type": "modal",
+    "view": "field",
+    "version": "1.00",
+    "date": 1673658000000,
+    "content": [
+        {
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore"
+        },
+        {
+            "text": "sed do eiusmod tempor incididunt ut labore et dolore"
+        },
+        {
+            "write": "Lorem ipsum dolor"
+        },
+        {
+            "img": {
+                "src": "/assets/frontend/img/slide-4.jpg"
+            }
+        },
+        {
+            "button": {
+                "text": "с др... 🍰",
+                "style": "background: rgb(51, 133, 35);",
+                "event": {
+                    "type": "click",
+                    "func": "bithShowsMe2"
+                }
+            }
+        }
+    ],
+    "params": {
+        "overlay-blur": false,
+        "overlay-click-to-close": true,
+        "overlay-hotkey-to-close": true
+    }
+}

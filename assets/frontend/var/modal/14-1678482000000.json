@@ -33,7 +33,7 @@
         "onclose": "bithShowsMe3"
     },
     "params": {
-        "overlay-blur": true,
+        "overlay-blur": false,
         "overlay-click-to-close": true,
         "overlay-hotkey-to-close": true
     }
