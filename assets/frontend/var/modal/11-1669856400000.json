@@ -48,6 +48,6 @@
         "overlay-blur": false,
         "overlay-click-to-close": true,
         "overlay-hotkey-to-close": true,
-        "modal-backlight": true
+        "modal-backlight": false
     }
 }
