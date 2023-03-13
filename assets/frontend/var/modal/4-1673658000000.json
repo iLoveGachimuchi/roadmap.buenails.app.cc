@@ -41,7 +41,7 @@
     },
     "params": {
         "overlay-blur": false,
-        "overlay-click-to-close": true,
+        "overlay-click-to-close": false,
         "overlay-hotkey-to-close": true
     }
 }
