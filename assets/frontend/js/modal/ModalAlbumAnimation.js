@@ -117,7 +117,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
 
             // cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s
             clonnedNodes.forEach((el, index) => {
-                let transitonProp = (index == 0 ? 'all 0.5s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 1 ? 'all .55s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 2 ? 'all .4s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : 'all .46s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s')));
+                let transitonProp = (index == 0 ? 'all 0.6s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 1 ? 'all .65s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 2 ? 'all .5s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : 'all .56s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s')));
 
                 _doc.addStyles(el, {
                     width: originalPosition[index].width + 'px',
@@ -135,7 +135,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
             _doc.addStyles(animateElment, { opacity: 1 });
 
             modalWrap.removeChild(clonnedNodesContainer);
-        }, 600);
+        }, 700);
 
     }
 
@@ -228,7 +228,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
             let viewportOffset = imgs[index].getBoundingClientRect();
             let rotation = this.getCurrentRotation(imgs[index]) + 'deg';
 
-            let transitonProp = (index == 0 ? 'transform .5s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 1 ? 'transform .55s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 2 ? 'transform .4s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : 'transform .46s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s')));
+            let transitonProp = (index == 0 ? 'all .6s cubic-bezier(.39,-0.01,.16,1.17) 0s' : (index == 1 ? 'all .65s cubic-bezier(.39,-0.01,.16,1.17) 0s' : (index == 2 ? 'all .5s cubic-bezier(.39,-0.01,.16,1.17) 0s' : 'all .56s cubic-bezier(.39,-0.01,.16,1.17) 0s')));
 
             _doc.addStyles(el, {
                 transition: transitonProp,
@@ -245,15 +245,19 @@ class ModalAlbumAnimation extends AnimationSctruct {
         // }, 50);
 
         setTimeout(() => {
-            _doc.addStyles(animateElment, { opacity: 0 });
 
             imgs.forEach((el, index) => {
                 _doc.addStyles(el, { opacity: 1 });
             });
 
+        }, 600);
+        setTimeout(() => {
+            _doc.addStyles(animateElment, { opacity: 0 });
+
+
             modalWrap.removeChild(clonnedNodesContainer);
 
-        }, 600);
+        }, 750);
 
 
 

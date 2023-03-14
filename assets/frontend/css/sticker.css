@@ -182,11 +182,11 @@
     z-index: 4;
 }
 
-.evented .sticker-img-group:hover .sticker-img-box:nth-child(2) {
+.sticker-insp.evented:hover .sticker-img-group .sticker-img-box:nth-child(2) {
     transform: rotate(-4deg);
 }
 
-.evented .sticker-img-group:hover .sticker-img-box:nth-child(3) {
+.sticker-insp.evented:hover .sticker-img-group .sticker-img-box:nth-child(3) {
     transform: rotate(4deg);
 }
 
