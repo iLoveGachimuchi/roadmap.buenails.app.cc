@@ -39,4 +39,42 @@ class AnimationSctruct {
         }
         return 0;
     }
+    
+    setModalPosition(elementCall, modalElement, scale) {
+        let elementPos = this.getBoundingClientRect(elementCall);
+        let modalPos = this.getBoundingClientRect(modalElement);
+        let bodyWidth = _doc.body('body').clientWidth;
+        let bodyHeight = _doc.body('body').clientHeight;
+
+        let leftPos = elementPos.left > modalPos.width + 10;
+        let rightPos = bodyWidth - elementPos.right > modalPos.width + 10;
+        let topPos = elementPos.top + modalPos.height + 10 < bodyHeight;
+        let bottomPos = elementPos.bottom - modalPos.height - 10 > 0;
+
+        let cssTransform = 'scale(' + scale + ')';
+
+        
+        if ((leftPos || rightPos) && (topPos || bottomPos)) {
+            let posx = leftPos ? elementPos.left - modalPos.width - 10 : elementPos.right + 10;
+            let posy = topPos ? elementPos.top : elementPos.bottom - modalPos.height;
+
+            if (bottomPos && elementPos.bottom > bodyHeight)
+                posy = bodyHeight - modalPos.height - 10;
+
+
+            cssTransform = 'translate(' + posx + 'px,' + posy + 'px) ' + cssTransform;
+            _doc.addStyles(modalElement, {
+                top: '0px',
+                left: '0px',
+                transform: cssTransform
+            });
+        } else {
+            cssTransform += ' translate(-50%, -50%)';
+            _doc.addStyles(modalElement, {
+                transform: cssTransform
+            });
+        }
+
+        return cssTransform.replace('scale(' + scale + ')', 'scale(1)');
+    }
 }

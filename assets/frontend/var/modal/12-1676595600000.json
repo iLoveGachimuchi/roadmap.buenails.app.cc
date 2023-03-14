@@ -3,20 +3,29 @@
     "view": "field",
     "version": "1.00",
     "date": 1673658000000,
+    "title": "Title",
     "content": [
         {
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore"
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore",
+            "x": "100px",
+            "y": "100px"
         },
         {
-            "text": "sed do eiusmod tempor incididunt ut labore et dolore"
+            "text": "sed do eiusmod tempor incididunt ut labore et dolore",
+            "x": "150px",
+            "y": "150px"
         },
         {
-            "write": "Lorem ipsum dolor"
+            "text": "Lorem ipsum dolor",
+            "x": "200px",
+            "y": "200px"
         },
         {
             "img": {
                 "src": "/assets/frontend/img/slide-4.jpg"
-            }
+            },
+            "x": "350px",
+            "y": "350px"
         },
         {
             "button": {
@@ -26,7 +35,9 @@
                     "type": "click",
                     "func": "bithShowsMe2"
                 }
-            }
+            },
+            "x": "350px",
+            "y": "450px"
         }
     ],
     "params": {

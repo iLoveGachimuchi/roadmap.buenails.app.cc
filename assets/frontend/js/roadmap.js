@@ -33,6 +33,10 @@ const roadmapScripts = [
     {
         src: defaultContentPath + '/DragAndMoveMe.js',
         module: 'DragAndMoveMe'
+    },
+    {
+        src: defaultContentPath + '/DragAndMoveGlob.js',
+        module: 'DragAndMoveGlob'
     }];
 
 

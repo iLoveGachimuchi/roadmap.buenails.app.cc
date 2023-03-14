@@ -1,4 +1,4 @@
-class DragAndMoveMe {
+class DragAndMoveGlob {
     /**
      * 
      * @param {Object} config 
@@ -26,7 +26,6 @@ class DragAndMoveMe {
         this.contentHandler.addEventListener('pointerdown', (e) => {
             this.mouseDownHandler(e)
         });
-
 
         this.afterMove = false;
         this.movePosX = 0;
@@ -72,6 +71,7 @@ class DragAndMoveMe {
         let dx = (e.clientX - this.pos.x) * -1;
         let dy = (e.clientY - this.pos.y) * -1;
 
+        console.log(e);
         this.movePosX = this.pos.left - dx;
         this.movePosY = this.pos.top - dy;
 

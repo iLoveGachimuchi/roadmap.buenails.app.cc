@@ -127,7 +127,7 @@ class ModalStruct {
      * @param {Object} actionsObj.butonName.event - custom or null
      * @param {string} actionsObj.butonName.style - css styles
      * @param {string} actionsObj.butonName.class - css class name
-     * @param {integer} actionsObj.butonName.textIndex
+     * @param {number} actionsObj.butonName.textIndex
      */
     getModalActions(actionsObj) {
         let modalAction = _doc.createElement('div', { class: this.styles.modalActions });

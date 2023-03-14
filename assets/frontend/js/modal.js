@@ -26,6 +26,10 @@ const modalScripts = [
         module: 'ModalField'
     },
     {
+        src: defaultModalPath + '/ModalFieldAnimation.js',
+        module: 'ModalFieldAnimation'
+    },
+    {
         src: defaultModalPath + '/ModalStory.js',
         module: 'ModalStory'
     },
