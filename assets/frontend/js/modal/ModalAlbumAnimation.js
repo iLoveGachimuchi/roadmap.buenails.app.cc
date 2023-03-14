@@ -51,13 +51,13 @@ class ModalAlbumAnimation extends AnimationSctruct {
 
 
             if (index == 0)
-                _doc.addStyles(el, { transform: 'translateX(-40%) translateY(44%) rotate(0deg)' });
+                _doc.addStyles(el, { transform: 'translateX(-40%) translateY(44%) rotate(0deg) scale(.98)' });
             if (index == 1)
-                _doc.addStyles(el, { transform: 'translateX(40%) translateY(-41%) rotate(0deg)' });
+                _doc.addStyles(el, { transform: 'translateX(40%) translateY(-41%) rotate(0deg) scale(.98)' });
             if (index == 2)
-                _doc.addStyles(el, { transform: 'translateX(-40%) translateY(-40%) rotate(0deg)' });
+                _doc.addStyles(el, { transform: 'translateX(-40%) translateY(-40%) rotate(0deg) scale(.98)' });
             if (index == 3)
-                _doc.addStyles(el, { transform: 'translateX(40%) translateY(40%) rotate(0deg)' });
+                _doc.addStyles(el, { transform: 'translateX(40%) translateY(40%) rotate(0deg) scale(.98)' });
 
             let rect1 = this.getBoundingClientRect(el);
 
@@ -91,7 +91,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
                 top: '0px',
                 opacity: 1,
                 overflow: 'none',
-                transform: 'translate(' + viewportOffset.x + 'px, ' + viewportOffset.y + 'px) rotate(' + rotation + ')',
+                transform: 'translate(' + viewportOffset.x + 'px, ' + viewportOffset.y + 'px) rotate(' + rotation + ') scale(1)',
                 zIndex: (index > 2 ? 11 : 10 - index)
             });
 
@@ -115,8 +115,9 @@ class ModalAlbumAnimation extends AnimationSctruct {
                 _doc.removeStyles(infoCardAnimate, 'display');
             }
 
+            // cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s
             clonnedNodes.forEach((el, index) => {
-                let transitonProp = (index == 0 ? 'transform .5s ease-in-out' : (index == 1 ? 'transform .55s ease' : (index == 2 ? 'transform .4s ease-in' : 'transform .46s ease-in-out')));
+                let transitonProp = (index == 0 ? 'all 0.5s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 1 ? 'all .55s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 2 ? 'all .4s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : 'all .46s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s')));
 
                 _doc.addStyles(el, {
                     width: originalPosition[index].width + 'px',
@@ -126,7 +127,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
 
                     transform: 'translate(' + originalPosition[index].x + 'px, ' + originalPosition[index].y + 'px) rotate(' + originalPosition[index].rotation + ')'
                 });
-            })
+            });
         }, 100);
 
 
@@ -227,7 +228,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
             let viewportOffset = imgs[index].getBoundingClientRect();
             let rotation = this.getCurrentRotation(imgs[index]) + 'deg';
 
-            let transitonProp = (index == 0 ? 'transform .5s ease-in-out' : (index == 1 ? 'transform .55s ease' : (index == 2 ? 'transform .4s ease-in' : 'transform .46s ease-in-out')));
+            let transitonProp = (index == 0 ? 'transform .5s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 1 ? 'transform .55s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : (index == 2 ? 'transform .4s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s' : 'transform .46s cubic-bezier(0.7, -0.18, 0.29, 1.36) 0s')));
 
             _doc.addStyles(el, {
                 transition: transitonProp,

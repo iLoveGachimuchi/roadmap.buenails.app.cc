@@ -52,6 +52,7 @@
     /* opacity: 0; */
 }
 
+
 .modal-album-layer .modal-album-card:nth-child(1),
 .clone-album-container .modal-photo:nth-child(1) {
     cursor: default;
@@ -150,13 +151,13 @@
     box-shadow: var(--box-shadow-photos);
     transform: translateX(35%) translateY(44%);
 
-    transition: transform .5s ease-in-out;
+    transition: all .4s cubic-bezier(.7,-0.18,.29,1.36);
 
     opacity: 0;
 
     z-index: 45;
 
-    animation: card-info-in .5s ease-in-out;
+    animation: card-info-in .4s cubic-bezier(.7,-0.18,.29,1.36);
 
     cursor: default;
 }
@@ -477,6 +478,19 @@
 
 /* *********** FIELD MODAL TYPE ************* */
 .modal-field-wrap {
+    position: fixed;
+    display: none;
+}
+
+.modal-field {
+
+}
+
+.modal-field-content {
+
+}
+
+.modal-field-item{
 
 }
 /* *********** END FIELD MODAL TYPE ************* */
