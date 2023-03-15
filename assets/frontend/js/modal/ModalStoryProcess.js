@@ -296,9 +296,9 @@ class ModalStoryProcess {
 
 
     dragAndMoveInit() {
-        this.dragAndMove = new DragAndMoveMe({
+        this.dragAndMove = new DragAndMoveLoc({
             // handler: document.querySelector('.' + this.styles.modalStoryWrap),
-            handler: document.querySelector('.' + this.styles.modalWrap),
+            handler: this.getStoryWrap(),
             move: this.getStoryContainer(),
             xMove: true,
             yMove: false,

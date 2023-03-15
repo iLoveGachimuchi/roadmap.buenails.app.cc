@@ -67,7 +67,10 @@ class ModalField extends ModalStruct {
 
         this.data.content.forEach(el => {
             let elem = _doc.createElement('div', {
-                "class": this.styles.modalFieldItem
+                'class': this.styles.modalFieldItem,
+                'style': {
+                    'zIndex': 45
+                }
             });
 
             let it = null;
@@ -75,13 +78,16 @@ class ModalField extends ModalStruct {
             if (typeof el.text !== 'undefined')
                 it = _doc.createElement('p', { innerText: el.text });
             if (typeof el.img !== 'undefined')
-                it = _doc.createElement('img', { 'src': el.img.src, 'draggable' : 'false'});
+                it = _doc.createElement('img', { 'src': el.img.src, 'draggable': 'false' });
             if (typeof el.button !== 'undefined')
                 it = this.getModalActions({ el });
 
 
             if (it === null)
                 return;
+
+            if (typeof el.rotate !== 'undefined')
+                _doc.addStyles(it, { 'transform': 'rotate(' + el.rotate + ')' });
 
 
             if (typeof el.x === 'undefined')
@@ -90,10 +96,8 @@ class ModalField extends ModalStruct {
                 el.y = '0px';
 
 
-
             elem.appendChild(it);
             _doc.addStyles(elem, { 'transform': 'translate(' + el.x + ',' + el.y + ')' });
-
 
 
             this.setDragAndDrop(elem);
@@ -113,15 +117,13 @@ class ModalField extends ModalStruct {
 
     setDragAndDrop(elem) {
         new DragAndMoveGlob({
-            handler: elem,
+            handler: this.modalElement.querySelector('.' + this.styles.modalFieldContent),
             move: elem,
             xMove: true,
             yMove: true,
-            whileMove: () => {
-                // this.whileMoveProcess();
-            },
+            zIndexUp: true,
             afterMove: (e, newPosX, newPosY) => {
-                this.animation.afterMoveProcess(e, newPosX);
+                this.animation.afterMoveProcess(e, newPosX, newPosY);
             }
         });
     }

@@ -12,6 +12,7 @@
         },
         {
             "text": "sed do eiusmod tempor incididunt ut labore et dolore",
+            "rotate": "4deg",
             "x": "150px",
             "y": "150px"
         },
@@ -24,6 +25,7 @@
             "img": {
                 "src": "/assets/frontend/img/slide-4.jpg"
             },
+            "rotate": "-1deg",
             "x": "350px",
             "y": "350px"
         },

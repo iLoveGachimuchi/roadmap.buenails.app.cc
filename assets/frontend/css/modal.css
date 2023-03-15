@@ -506,12 +506,12 @@
 }
 
 .modal-field-title h2 {
-	display: block;
-	margin: 0;
-	padding: 0;
-	color: var(--black);
-	min-width: 10px;
-	min-height: 29px;
+    display: block;
+    margin: 0;
+    padding: 0;
+    color: var(--black);
+    min-width: 10px;
+    min-height: 29px;
 }
 
 .modal-field-title .modal-field--event-close {
@@ -546,24 +546,24 @@
 }
 
 .modal-field-layer {
-	position: relative;
-	width: 100%;
-	height: 500px;
-	border-radius: 12px;
-	border: 1px solid #e2e2e2;
+    position: relative;
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    border: 1px solid #e2e2e2;
 }
 
 .modal-field-layer::before {
-	content: '';
-	position: absolute;
-	background-color: var(--field-bg);
-	background-image: linear-gradient(rgba(211, 211, 211, 0.2) 2px, transparent 2px), linear-gradient(90deg, rgba(211, 211, 211, 0.2) 2px, transparent 1px), linear-gradient(rgba(211, 211, 211, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(211, 211, 211, 0.2) 1px, transparent 1px);
-	background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-	background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
-	width: 100%;
-	height: 100%;
-	display: block;
-	border-radius: 12px;
+    content: '';
+    position: absolute;
+    background-color: var(--field-bg);
+    background-image: linear-gradient(rgba(211, 211, 211, 0.2) 2px, transparent 2px), linear-gradient(90deg, rgba(211, 211, 211, 0.2) 2px, transparent 1px), linear-gradient(rgba(211, 211, 211, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(211, 211, 211, 0.2) 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 12px;
 }
 
 .modal-field-content {
@@ -592,6 +592,9 @@
     line-height: 30px;
     text-align: left;
     color: var(--black-40);
+    padding: 0;
+    margin: 0;
+    transition: transform .1s cubic-bezier(0.7, -0.18, 0.29, 1.36);
 }
 
 .modal-field-item button {
@@ -618,11 +621,13 @@
     cursor: pointer;
     box-shadow: var(--box-shadow-fat-shadow);
     outline: none !important;
+    transition: transform .1s cubic-bezier(0.7, -0.18, 0.29, 1.36);
 }
 
 .modal-field-item img {
     width: 160px;
     border-radius: 12px;
+    transition: transform .1s cubic-bezier(0.7, -0.18, 0.29, 1.36);
 }
 
 

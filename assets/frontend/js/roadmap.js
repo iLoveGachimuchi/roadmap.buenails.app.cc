@@ -31,8 +31,8 @@ const roadmapScripts = [
         module: 'ContentDrugToScroll'
     },
     {
-        src: defaultContentPath + '/DragAndMoveMe.js',
-        module: 'DragAndMoveMe'
+        src: defaultContentPath + '/DragAndMoveLoc.js',
+        module: 'DragAndMoveLoc'
     },
     {
         src: defaultContentPath + '/DragAndMoveGlob.js',

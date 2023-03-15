@@ -1,4 +1,4 @@
-class DragAndMoveMe {
+class DragAndMoveLoc {
     /**
      * 
      * @param {Object} config 
@@ -16,7 +16,6 @@ class DragAndMoveMe {
         this.whileMove = typeof config.whileMove === 'function' ? config.whileMove : null;
         this.afterMoveCall = typeof config.afterMove === 'function' ? config.afterMove : null;
         this.xMove = typeof config.xMove === 'boolean' ? config.xMove : true;
-        this.yMove = typeof config.yMove === 'boolean' ? config.yMove : true;
 
         this.pos = { top: 0, left: 0, x: 0, y: 0 };
 
@@ -27,10 +26,12 @@ class DragAndMoveMe {
             this.mouseDownHandler(e)
         });
 
-
         this.afterMove = false;
         this.movePosX = 0;
-        this.movePosY = 0;
+
+        this.contentHandler.addEventListener('mouseleave', (e) => {
+            this.mouseUpHandler(e);
+        });
     }
 
     resetMoveContent(moveElement) {
@@ -44,19 +45,22 @@ class DragAndMoveMe {
 
             this.afterMove = false;
             removeDragging();
+
+            this.removeAddProp();
         }
 
         if (e.button > 0)
             return;
 
-        this.contentHandler.style.cursor = 'grabbing';
-        this.contentHandler.style.userSelect = 'none';
+        this.contentMove.style.cursor = 'grabbing';
+        this.contentMove.style.userSelect = 'none';
+
+        let rect = this.getTranformStyles(this.contentMove);
 
         this.pos = {
-            left: this.contentMove.scrollLeft,
-            top: this.contentMove.scrollTop,
+            left: rect.x,
             x: e.clientX,
-            y: e.clientY,
+            zIndex: window.getComputedStyle(this.contentMove).getPropertyValue('z-index')
         };
 
         this.mousemoveHandler = this.mouseMoveHandler.bind(this);
@@ -66,28 +70,19 @@ class DragAndMoveMe {
         this.contentHandler.addEventListener('pointerup', this.mouseupHandler);
 
 
+        if (this.contentMove.children.length === 1)
+            if (this.contentMove.children[0].style.transform.indexOf('scale(0.95)') === -1)
+                this.contentMove.children[0].style.transform += 'scale(0.95)';
+
     }
 
     mouseMoveHandler(e) {
         let dx = (e.clientX - this.pos.x) * -1;
-        let dy = (e.clientY - this.pos.y) * -1;
 
         this.movePosX = this.pos.left - dx;
-        this.movePosY = this.pos.top - dy;
 
-        let transform = '';
+        this.contentMove.style.transform = 'translateX(' + (this.movePosX) + 'px)';
 
-        if (this.xMove) {
-            transform = 'translateX(' + (this.movePosX) + 'px)';
-        }
-        if (this.yMove) {
-            transform = 'translateY(' + (this.movePosY) + 'px)';
-        }
-        if (this.xMove && this.yMove) {
-            transform = 'translate(' + (this.movePosX) + 'px, ' + this.movePosY + 'px)';
-        }
-
-        this.contentMove.style.transform = transform;
 
         if (typeof this.whileMove === 'function')
             this.whileMove(e);
@@ -108,16 +103,59 @@ class DragAndMoveMe {
         this.touchmoveHandler = null;
         this.touchendHandler = null;
 
-        this.contentHandler.style.cursor = null;
-        this.contentHandler.style.removeProperty('user-select');
+
+        this.removeAddProp();
 
 
         if (this.afterMove) {
             if (typeof this.afterMoveCall === 'function')
-                this.afterMoveCall(e, this.movePosX, this.movePosY);
+                this.afterMoveCall(this.contentMove, this.movePosX);
 
             this.afterMove = false;
         }
+    }
+
+    removeAddProp() {
+        this.contentMove.style.cursor = null;
+        this.contentMove.style.removeProperty('user-select');
+    }
+
+    getTranformStyles(element) {
+
+        let getTranslatePos = (pos) => {
+            let temp = transform.substring(transform.indexOf(pos) + (pos).length).replace('px', '');
+            temp = temp.split(')');
+            return temp[0].trim();
+        }
+
+        let pos = {
+            x: 0
+        }
+
+
+        if (!element.style.transform || element.style.transform.indexOf('translate') === -1)
+            return pos;
+
+        let x = 0;
+
+        let transform = element.style.transform;
+        if (transform.indexOf('translateX(') !== -1) {
+            x = parseFloat(getTranslatePos('translateX('));
+        }
+
+        if (transform.indexOf('translate(') !== -1) {
+            let temp = transform.replace('translate(', '').replace('px', '').split(')')[0].split(',');
+            try {
+                x = parseFloat(temp[0].trim());
+            } catch {
+                x = 0;
+            }
+        }
+
+
+        pos.x = x;
+
+        return pos;
     }
 
 }
