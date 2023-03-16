@@ -52,29 +52,22 @@ html, body {
     overflow: hidden;
 
     cursor: default;
-}
-
-body {
-    background: var(--background);
-    position: relative;
     font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
 }
 
+body {
+    background: var(--background);
+    position: relative;
+}
+
 header {
-    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     padding: 30px 80px;
     gap: 10px;
-
-    width: 100%;
-
-    font-weight: 700;
-    font-size: 26px;
-    line-height: 31px;
 
     /* Black */
     color: var(--black);
@@ -85,11 +78,30 @@ header small {
     font-family: 'Lato';
     font-style: normal;
     font-weight: 500;
-    font-size: 26px;
-    line-height: 31px;
+    font-size: 24px;
 
     color: var(--black-40);
 
+}
+
+header h1 {
+    padding: 0;
+    margin: 0;
+
+    font-weight: 700;
+    font-size: 26px;
+}
+
+header a {
+    padding: 0;
+    margin: 0;
+
+    text-decoration: none;
+    margin-left: auto;
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
 }
 
 main {
@@ -105,7 +117,7 @@ main {
 
     -ms-overflow-style: none;
     scrollbar-width: none;
-    
+
     scroll-behavior: smooth;
 }
 
@@ -159,6 +171,12 @@ nav .nav-step {
     color: var(--black20);
 }
 
+button {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+}
+
 .content {
     display: flex;
     flex-direction: row;
@@ -198,7 +216,7 @@ nav .nav-step {
     border-right: 1px solid #EEEEEE;
 
     align-self: stretch;
-    
+
 }
 
 
@@ -263,15 +281,53 @@ nav .nav-step {
     display: none;
 }
 
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--light);
+    background: var(--black);
+    /* height: 50px; */
+    flex-grow: 0;
+
+    padding: 0 16px;
+    margin: 0px 10px;
+
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 32px;
+
+    border-radius: 12px;
+    transition: all .2s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    text-align: center;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--box-shadow-fat-shadow);
+    outline: none !important;
+}
+
+.button:hover {
+    filter: brightness(115%);
+}
+
+.button:active {
+    box-shadow: inset 0 0 4px 2px rgba(53, 53, 53, 1)
+}
+
 
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
 
     .column-title {
         position: absolute;
         top: 0px;
-        left:0px;
+        left: 0px;
         right: 0px;
-        
+
         background: rgba(250, 250, 250, .5);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
@@ -286,16 +342,3 @@ nav .nav-step {
         border-width: 0px 1px 0px 0px;
     }
 }
-
-
-/* .column-body {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 4px;
-    grid-template-rows: repeat(4, 1fr);
-    grid-auto-flow: row dense;
-    padding: 2px 2px 70px 8px;
-    height: 100%;
-    flex-grow: 1;
-    border-right: 1px solid #eee;
-} */

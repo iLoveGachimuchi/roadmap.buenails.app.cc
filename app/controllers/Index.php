@@ -13,7 +13,7 @@ class Index extends \System\Controllers
     {
         parent::__construct();
 
-        $this->defaultAssetsPath = "/assets/frontend/";
+        $this->defaultAssetsPath = '/assets/frontend/';
     }
 
     public function Home()
