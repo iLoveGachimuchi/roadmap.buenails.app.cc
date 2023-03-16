@@ -7,12 +7,12 @@ use Exception;
 abstract class Controllers
 {
 
-    protected $validator;
     protected $request;
     protected $responce;
     protected $session;
     protected $cache;
     protected $cookie;
+    protected $auth;
 
     protected $view = null;
 
@@ -21,6 +21,8 @@ abstract class Controllers
         $this->request = new Request;
         $this->responce = new Responce();
         $this->session = new Session;
+
+        $this->auth = new \Models\Auth();
     }
 
 
@@ -40,7 +42,7 @@ abstract class Controllers
                 'Controller View was not installed'
             );
 
-        return Helper\Methods::callMethod($this->view, $action, $params);
+        return Helper\Methods::callMethod($this->view, $action, array($params));
     }
 
     protected function callModel($modelMethodName, $args = array())
@@ -53,31 +55,25 @@ abstract class Controllers
     {
         return Helper\Methods::callMethod($model, $modelMethodName, $args);
     }
+    
 
-    protected function requestMethodToOperName($methodCallName)
+    
+    protected function callMethod($modelName, $methodName, $args = array())
     {
-        return $this->getOperNameByRequestMethod() . $methodCallName;
+        if ($methodName == null)
+            return false;
+
+        $model = $this->callModel($modelName);
+        $callResult = $this->callModelMethod($model, $methodName, $args);
+
+        return $callResult;
     }
 
-    protected function getOperNameByRequestMethod()
-    {
-        $methodName = null;
-        if ($this->request->getRequestMethod() == 'GET')
-            $methodName = 'get';
-        elseif ($this->request->getRequestMethod() == 'POST')
-            $methodName = 'create';
-        elseif ($this->request->getRequestMethod() == 'DELETE')
-            $methodName = 'delete';
-        elseif ($this->request->getRequestMethod() == 'PUT')
-            $methodName = 'update';
 
-        return $methodName;
-    }
 
     private function installMethodNamespace(&$methodName, $namespace)
     {
         if (strpos($methodName, $namespace) === false)
             $methodName = $namespace . $methodName;
     }
-    
 }

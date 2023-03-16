@@ -5,18 +5,16 @@ namespace System;
 final class App
 {
 
-    protected static $config;
-    protected static $router;
-    protected static $session;
-    protected static $responce;
-    protected static $request;
+    protected $config;
+    protected $router;
+    protected $responce;
+    protected $request;
 
     public function __construct($config)
     {
         $this->autoloadInit();
 
         $this->config = $config;
-        $this->session = new Session();
         $this->router = new Router();
         $this->request = new Request($this->config);
         $this->responce = new Responce();
@@ -79,7 +77,7 @@ final class App
             $class = explode('\\', $class);
             $i = 0;
             $c = count($class);
-            $realclass = "";
+            $realclass = '';
             foreach ($class as $ns) {
                 if ($c - 1 == $i) {
                     $realclass .= $ns;

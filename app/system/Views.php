@@ -12,8 +12,4 @@ abstract class Views
         $this->responce = $responce;
     }
 
-    public function sendView($data, $template)
-    {
-
-    }
 }

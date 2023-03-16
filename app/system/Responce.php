@@ -13,15 +13,14 @@ class Responce
     private $dataResponce;
 
     private $contentType = [
-        'png' => "Content-type: image/png; charset=UTF-8",
-        'json' => "Content-type: application/json; charset=UTF-8",
-        'html' => "Content-Type: text/html; charset=UTF-8",
-        'text' => "Content-Type: text/html; charset=UTF-8",
+        'json' => 'Content-type: application/json; charset=UTF-8',
+        'html' => 'Content-Type: text/html; charset=UTF-8',
+        'text' => 'Content-Type: text/html; charset=UTF-8',
     ];
 
     private $htmlCodes = [
-        200 => "200 OK",
-        404 => "HTTP/1.0 404 Not Found",
+        200 => '200 OK',
+        404 => 'HTTP/1.0 404 Not Found',
         301 => 'HTTP/1.1 301 Moved Permanently',
     ];
 
@@ -74,16 +73,11 @@ class Responce
         $this->useFormatResponce = $useit;
     }
 
-
-    /**
-     * $data {any}
-     * $call {function} send+$call //sendWithText()
-     */
     public function send($data)
     {
         $this->setDataResponce($data);
-        if (is_array($data))
-            $this->setContentType('json');
+        // if (is_array($data))
+        //     $this->setContentType('json');
 
         if ($this->contentTypeResponce == 'json')
             $this->withJson($data);
@@ -102,24 +96,28 @@ class Responce
     {
         $this->sendHeader($this->contentType[$this->contentTypeResponce]);
         $this->sendCode($this->codeResponce);
-        echo print_r($data === null ? $this->dataResponce : $data, true);
+        $this->withData($data);
     }
 
     public function withJson($data = null)
     {
         $this->sendCode($this->codeResponce);
-        $this->sendHeader($this->contentType[$this->contentTypeResponce]);
+        $this->sendHeader($this->contentType['json']);
         echo json_encode($this->seteResponceFormat($data === null ? $this->dataResponce : $data));
+    }
+
+    public function withData($data = null)
+    {
+        echo print_r($data === null ? $this->dataResponce : $data, true);
     }
 
     public function withHtml($templateData)
     {
         if (!is_object($templateData))
-            throw "Unsupported file Template";
+            throw 'Unsupported file Template';
 
         $template = new \System\Template();
-        $template->render($templateData);
-        // var_dump('ff');
+        $this->setContentType('html')->withData($template->render($templateData));
     }
 
     public function redirectTo($location)

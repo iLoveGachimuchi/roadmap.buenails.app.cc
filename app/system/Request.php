@@ -39,6 +39,22 @@ class Request
         return ($var == null ? $this->get : (isset($this->get[$var]) ? $this->get[$var] : null));
     }
 
+    public function getContentType()
+    {
+        switch ($_SERVER['CONTENT_TYPE']) {
+            case 'application/json':
+                return 'json';
+            case 'form-data':
+            case 'x-www-form-urlencoded':
+            case 'text/html':
+                return 'html';
+            case 'application/xml': 
+                return 'xml';
+            default:
+                return 'html';
+        }
+    }
+
     public function isGet()
     {
         if ($this->requestMethod === 'GET') {
@@ -102,7 +118,7 @@ class Request
 
     public function getDomainProtocol()
     {
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
         return $protocol;
     }
 
@@ -139,6 +155,11 @@ class Request
         }
 
         return ($request == null ? null : ($valueName == null ? $request : $request[$valueName]));
+    }
+
+    public function issetGet($valueName)
+    {
+        return isset($_GET[$valueName]);
     }
 
     /**
@@ -185,7 +206,7 @@ class Request
     {
         return $this->throwIfValueNotExist($valueName, $requestMethod);
     }
-    
+
 
     /**
      * $param - @array (
@@ -204,7 +225,7 @@ class Request
         $headers = $param['headers'] ? $param['headers'] : array();
         $returnResponce = $param['returnResponce'] ? $param['returnResponce'] : true;
 
-        if (strtolower($method) == "post" && !$headers['Content-type']) {
+        if (strtolower($method) == 'post' && !$headers['Content-type']) {
             $headers['Content-type'] = 'application/x-www-form-urlencoded';
         }
 
@@ -223,8 +244,8 @@ class Request
                         'header'  => $headersvars,
                         'content' => http_build_query($requestValue)
                     ), 'ssl' => array(
-                        "verify_peer" => false,
-                        "verify_peer_name" => false,
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
                     ),
                 )
             ));
@@ -255,15 +276,17 @@ class Request
 
     private function requestVluesPrepare($s)
     {
-        if (!is_null($s))
-            Helper\StringHelper::strTrim(Helper\StringHelper::htmlChars($s));
+        if (!is_null($s)) {
+            $s = Helper\StringHelper::htmlChars($s);
+            Helper\StringHelper::strTrim($s);
+        }
 
         return $s;
     }
 
     private function parseRequests()
     {
-        parse_str(file_get_contents("php://input"), $request);
+        parse_str(file_get_contents('php://input'), $request);
         foreach ($request as $key => $value) {
             unset($request[$key]);
 

@@ -25,6 +25,7 @@ function ShutdownHandler()
 
 register_shutdown_function('ShutdownHandler');
 
+
 // ----------------------------------------------------------------------------------------------------
 // - Error Handler
 // ----------------------------------------------------------------------------------------------------
@@ -53,9 +54,10 @@ function ErrorHandler($type, $message, $file, $line)
         $name = 'E_UNKNOWN';
     };
 
-    return(print(@sprintf("%s Error in file \xBB%s\xAB at line %d: %s\n", $name, @basename($file), $line, $message)));
+    return(print(@sprintf("<pre>%s Error in file \xBB%s\xAB at line %d: %s\n", $name, @basename($file), $line, $message . "</pre>")));
 };
 
 $old_error_handler = set_error_handler("ErrorHandler");
+
 
 // other php code

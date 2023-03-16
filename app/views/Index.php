@@ -7,13 +7,14 @@ class Index extends \System\Views
 
     public function __construct()
     {
-        $responce = new \System\Responce('json');
-        parent::__construct($responce);
+        parent::__construct(new \System\Responce('json'));
+
+        $this->responce->useFormatResponce(false);
     }
 
     public function StickersView($args)
     {
-        return $this->responce->setContentType('json')->withText($args);
+        return $this->responce->withText($args[0]);
     }
 
 }

@@ -75,4 +75,21 @@ class Install extends \System\Controllers
 
         return $callResult;
     }
+
+    private function requestMethodToOperName($methodCallName)
+    {
+        $methodName = null;
+        if ($this->request->getRequestMethod() == 'GET')
+            $methodName = 'get';
+        elseif ($this->request->getRequestMethod() == 'POST')
+            $methodName = 'create';
+        elseif ($this->request->getRequestMethod() == 'DELETE')
+            $methodName = 'delete';
+        elseif ($this->request->getRequestMethod() == 'PUT')
+            $methodName = 'update';
+
+        return $methodName . $methodCallName;
+
+
+    }
 }

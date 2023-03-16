@@ -9,7 +9,7 @@ class Template
     public function render($templateData)
     {
         if (!is_object($templateData))
-            throw "TemplateData not found";
+            throw 'TemplateData not found';
 
         if (!file_exists($templateData->getTemplatePath()))
             throw new Exception('Page not found', 404);
@@ -18,10 +18,10 @@ class Template
 
         extract($templateData->getVariables());
         chdir(dirname($tempalte));
-        // ob_start();
+        ob_start();
             
         include basename($tempalte);
 
-        // return ob_get_clean();
+        return ob_get_clean();
     }
 }

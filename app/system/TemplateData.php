@@ -7,7 +7,7 @@ use Exception;
 class TemplateData
 {
 
-    protected $dir = "assets/templates/html/";
+    protected $dir = 'assets/templates/html/';
     protected $template;
     protected $variables = array();
 
@@ -29,9 +29,10 @@ class TemplateData
 
     public function setVariables($array = [])
     {
-        foreach ($array as $key => $value) {
-            $this->setVariable($key, $value);
-        }
+        if ($array)
+            foreach ($array as $key => $value) {
+                $this->setVariable($key, $value);
+            }
 
         return $this;
     }
