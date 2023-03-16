@@ -30,7 +30,7 @@ class ContentDrugToScroll {
         this.content.addEventListener('mouseup', this.mouseupHandler);
 
         this.afterMove = false;
-        removeDragging()
+        _doc.removeDragging();
     };
 
     mouseMoveHandler(e) {
@@ -41,7 +41,7 @@ class ContentDrugToScroll {
 
 
         this.afterMove = true;
-        setDragging();
+        _doc.setDragging();
     };
 
     mouseUpHandler() {

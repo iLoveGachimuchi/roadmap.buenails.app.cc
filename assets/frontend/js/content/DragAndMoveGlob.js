@@ -49,7 +49,7 @@ class DragAndMoveGlob {
             this.contentMove.removeEventListener('pointerup', this.mouseupHandler);
 
             this.afterMove = false;
-            removeDragging();
+            _doc.removeDragging();
 
             this.removeAddProp();
         }
@@ -113,7 +113,7 @@ class DragAndMoveGlob {
             this.whileMove(e);
 
         this.afterMove = true;
-        setDragging();
+        _doc.setDragging();
 
     }
 
@@ -121,7 +121,7 @@ class DragAndMoveGlob {
         this.contentHandler.removeEventListener('pointermove', this.mousemoveHandler);
         this.contentMove.removeEventListener('pointerup', this.mouseupHandler);
 
-        removeDragging();
+        _doc.removeDragging();
 
         this.mousemoveHandler = null;
         this.mouseupHandler = null;

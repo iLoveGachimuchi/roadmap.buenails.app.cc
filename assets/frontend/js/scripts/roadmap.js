@@ -37,7 +37,12 @@ const roadmapScripts = [
     {
         src: defaultContentPath + '/DragAndMoveGlob.js',
         module: 'DragAndMoveGlob'
-    }];
+    },
+    {
+        src: defaultContentPath + '/ContentAnimation.js',
+        module: 'ContentAnimation'
+    }
+];
 
 
 roadmapScripts.forEach(_script => {

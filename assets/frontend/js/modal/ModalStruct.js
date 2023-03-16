@@ -78,7 +78,7 @@ class ModalStruct {
             this.modalElement.classList.add(this.styles.modalCursorPointer);
             this.modalElement.addEventListener('click', (e) => {
 
-                if (isDragging() || !e.target.classList.contains(this.styles.modalCursorPointer))
+                if (_doc.isDragging() || !e.target.classList.contains(this.styles.modalCursorPointer))
                     return;
 
                 e.preventDefault();
@@ -201,7 +201,7 @@ class ModalStruct {
 
             if (typeof event.func === 'function')
                 button.addEventListener(event.type, (e) => {
-                    if (isDragging())
+                    if (_doc.isDragging())
                         return;
                     event.func(e, this);
                 });

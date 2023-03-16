@@ -44,7 +44,7 @@ class DragAndMoveLoc {
             this.contentHandler.removeEventListener('pointerup', this.mouseupHandler);
 
             this.afterMove = false;
-            removeDragging();
+            _doc.removeDragging();
 
             this.removeAddProp();
         }
@@ -88,7 +88,7 @@ class DragAndMoveLoc {
             this.whileMove(e);
 
         this.afterMove = true;
-        setDragging();
+        _doc.setDragging();
 
     }
 
@@ -96,7 +96,7 @@ class DragAndMoveLoc {
         this.contentHandler.removeEventListener('pointermove', this.mousemoveHandler);
         this.contentHandler.removeEventListener('pointerup', this.mouseupHandler);
 
-        removeDragging();
+        _doc.removeDragging();
 
         this.mousemoveHandler = null;
         this.mouseupHandler = null;

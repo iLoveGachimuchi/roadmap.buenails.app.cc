@@ -2,7 +2,7 @@ class StickerType extends Sticker {
     constructor(stickerData = null) {
         super();
 
-        this.setStuckerData(stickerData);
+        this.setStickerData(stickerData);
     }
 
     space() {

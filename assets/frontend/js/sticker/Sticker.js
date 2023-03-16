@@ -43,7 +43,7 @@ class Sticker {
         this.stickerEventedClass = 'evented';
     }
 
-    setStuckerData(stickerData) {
+    setStickerData(stickerData) {
         this.sticker = stickerData;
 
         this.type = this.sticker !== null ? this.sticker.type : 'space';

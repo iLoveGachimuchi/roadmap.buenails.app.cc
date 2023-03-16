@@ -27,7 +27,7 @@ class StickerEvents {
 
 
         let stickerEvent = (e, k) => {
-            if (isDragging())
+            if (_doc.isDragging())
                 return;
 
             e.preventDefault();

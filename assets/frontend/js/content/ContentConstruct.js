@@ -5,6 +5,11 @@ class ContentConstruct {
         this.columnClass = 'roadmap-column';
         this.columntitleClass = 'column-title';
         this.columnBodyClass = 'column-body';
+
+
+        this.columnList = [];
+
+        this.scrollAnimation = new ContentAnimation;
     }
 
     sortData(data) {
@@ -43,19 +48,17 @@ class ContentConstruct {
     constructColumnBody(data) {
 
         let columnBody = _doc.createElement('div', { class: this.columnBodyClass });
-
         let stickers = new StickerStruct(data).extract();
 
         stickers.forEach(stickerEl => {
             columnBody.appendChild(stickerEl);
         });
 
-
         return columnBody;
     }
 
     constructColumn(data) {
-        let column = _doc.createElement('div', { class: this.columnClass });
+        let column = _doc.createElement('div', { class: this.columnClass, style: { opacity: 0 } });
 
         column.appendChild(this.constructColumnTitle(data));
         column.appendChild(this.constructColumnBody(data));
@@ -63,12 +66,23 @@ class ContentConstruct {
         return column;
     }
 
+    setVisabillity(content) {
+        for (let i = 0; i < content.children.length; i++) {
+            let column = content.children[i];
+            if (_doc.isVisibleElement(column, false)) {
+                _doc.removeStyles(column, 'opacity');
+                column.setAttribute('data-visibility', 1);
+            } else {
+                this.columnList.push(column);
+            }
+        }
 
+
+    }
 
     render(dataObj) {
 
         let content = _doc.createElement('div', { class: this.contentClass });
-
         let sortData = this.sortData(dataObj);
 
         for (let k in sortData)
@@ -76,8 +90,20 @@ class ContentConstruct {
 
         document.querySelector('main').appendChild(content);
 
+
+        this.setVisabillity(content);
+
+
         this.dragToScroll = new ContentDrugToScroll(document.querySelector('main'));
         this.dragToScroll.run();
+
+
+        this.scrollAnimation.setColumnList(this.columnList);
+
+
+        document.querySelector('main').addEventListener('scroll', () => {
+            this.scrollAnimation.scrollEvent();
+        })
 
     }
 }
