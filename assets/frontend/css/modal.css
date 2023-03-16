@@ -595,6 +595,7 @@
     padding: 0;
     margin: 0;
     transition: transform .1s cubic-bezier(0.7, -0.18, 0.29, 1.36);
+    text-shadow: var(--box-shadow-light);
 }
 
 .modal-field-item button {
@@ -622,12 +623,14 @@
     box-shadow: var(--box-shadow-fat-shadow);
     outline: none !important;
     transition: transform .1s cubic-bezier(0.7, -0.18, 0.29, 1.36);
+    box-shadow: var(--box-shadow-photos);
 }
 
 .modal-field-item img {
     width: 160px;
     border-radius: 12px;
     transition: transform .1s cubic-bezier(0.7, -0.18, 0.29, 1.36);
+    box-shadow: var(--box-shadow-photos);
 }
 
 

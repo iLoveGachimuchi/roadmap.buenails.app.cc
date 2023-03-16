@@ -201,6 +201,8 @@ class ModalStruct {
 
             if (typeof event.func === 'function')
                 button.addEventListener(event.type, (e) => {
+                    if (isDragging())
+                        return;
                     event.func(e, this);
                 });
 

@@ -80,7 +80,7 @@ class ModalField extends ModalStruct {
             if (typeof el.img !== 'undefined')
                 it = _doc.createElement('img', { 'src': el.img.src, 'draggable': 'false' });
             if (typeof el.button !== 'undefined')
-                it = this.getModalActions({ el });
+                it = this.getModalActions( { 'button': el.button } );
 
 
             if (it === null)
