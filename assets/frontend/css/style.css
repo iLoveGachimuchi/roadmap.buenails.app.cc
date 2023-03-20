@@ -326,7 +326,7 @@ button {
 @keyframes column-show-in {
     from {
         opacity: 0;
-        transform: scale(.8);
+        transform: scale(.35);
     }
 
     70% {

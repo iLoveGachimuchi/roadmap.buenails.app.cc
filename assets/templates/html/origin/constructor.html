@@ -6,9 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="icon" href="/assets/frontend/img/favicon/favicon.ico">
+
     <link rel="stylesheet" href="/assets/frontend/fonts/fonts.css">
 
     <link rel="stylesheet" href="/assets/frontend/css/style.css">
+    <link rel="stylesheet" href="/assets/frontend/css/sticker.css">
+    <link rel="stylesheet" href="/assets/frontend/css/modal.css">
+    <link rel="stylesheet" href="/assets/frontend/css/modal-events.css">
     <link rel="stylesheet" href="/assets/frontend/css/constructor.css">
 
     <title>ManicureApp - RoadMap | Constructor</title>
@@ -18,15 +23,89 @@
 <body>
 
     <header>
-        <h1>ManicureApp</h1> <small class="header-b">Constructor</small><a href="/"><button class="button">RoadMap</button></a>
+        <h1>ManicureApp</h1> <small class="header-b">Constructor</small><a href="/"><button
+                class="button">RoadMap</button></a>
     </header>
 
-    <main>
+    <main class="container">
 
+        <div class="sticker-create">
+            <h1>Новый стикер</h1>
+            <div class="form">
+                <div class="form-group">
+                    <label for="title">Заголовок</label>
+                    <input type="text" name="title" value="Заголовок">
+                </div>
+                <div class="form-group">
+                    <label for="description">Описание</label>
+                    <textarea type="textarea" name="description" value="Описание">Описание</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="color">Цвет</label>
+                    <div class="radio-group radio-color-select">
 
+                        <input type="radio" name="color" class="blue" value="1" id="radio-color-1">
+                        <label for="radio-color-1"><span></span></label>
+
+                        <input type="radio" name="color" class="yellow" value="2" id="radio-color-2">
+                        <label for="radio-color-2"><span></span></label>
+
+                        <input type="radio" name="color" class="green" value="3" id="radio-color-3">
+                        <label for="radio-color-3"><span></span></label>
+
+                        <input type="radio" name="color" class="pink" value="4" id="radio-color-4">
+                        <label for="radio-color-4"><span></span></label>
+
+                        <input type="radio" name="color" class="purple" value="5" id="radio-color-5">
+                        <label for="radio-color-5"><span></span></label>
+
+                        <input type="radio" name="color" class="red" value="6" id="radio-color-6">
+                        <label for="radio-color-6"><span></span></label>
+
+                        <input type="radio" name="color" class="gray" value="7" id="radio-color-7">
+                        <label for="radio-color-7"><span></span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sticker-example">
+            <h1>Превью</h1>
+            <div class="sticker-view"></div>
+        </div>
 
     </main>
+
+
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalStruct.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/AnimationSctruct.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalAlbum.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalAlbumAnimation.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalConstruct.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalField.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalFieldAnimation.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalStory.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalStoryAnimation.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/modal/ModalStoryProcess.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/sticker/Sticker.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/sticker/StickerEvents.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/sticker/StickerStruct.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/sticker/StickerType.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/content/NavConstruct.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/content/ContentConstruct.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/content/ContentDrugToScroll.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/content/ContentAnimation.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/content/DragAndMoveGlob.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/content/DragAndMoveLoc.js"></script>
+
+
+
+    <script type="text/javascript" src="/assets/frontend/js/modal-events.js"></script>
+    <script type="text/javascript" src="/assets/frontend/js/utils.js"></script>
+
+    <script type="text/javascript" src="/assets/frontend/js/constructor.js"></script>
+
+
 </body>
 
-<script type="text/javascript" src="/assets/frontend/js/prototype.js"></script>
+
 </html>

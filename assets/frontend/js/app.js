@@ -60,20 +60,3 @@ document.addEventListener("DOMContentLoaded", () => {
     makeFetchJson(stickerRequest, documentLoadEvent);
 
 });
-
-
-
-
-// TODO: make scroll effects on sticker load
-// {
-//     out {
-//         opacity: 0;
-//         transform: scale(0.35) translateZ(0px);
-//         transition: 0s;
-//     }
-//     in {
-//         opacity: 1;
-//         transition: .3s;
-//     }
-// }
-

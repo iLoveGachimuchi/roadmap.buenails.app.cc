@@ -110,7 +110,7 @@ class Sticker {
         if (typeof event === 'object')
             stickerEvents.add(event, stickerInsp);
     }
-    
+
 
 
     setDefaultData(data, stickerInsp) {
@@ -131,8 +131,9 @@ class Sticker {
             return '';
 
         time = new Date(time)
-
-        return (time.getDate() > 9 ? time.getDate() : '0' + time.getDate()) + ' ' + Months[time.getMonth()];
+        let month = (typeof Months === 'undefined' ? time.toLocaleString('en-us', { month: 'long' }) : Months[time.getMonth()]);
+        
+        return (time.getDate() > 9 ? time.getDate() : '0' + time.getDate()) + ' ' + month;
     }
 
 }
