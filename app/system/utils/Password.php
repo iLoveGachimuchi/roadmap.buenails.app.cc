@@ -12,4 +12,13 @@ class Password
             
         return sha1($password);
     }
+
+    public static function uniqueHash($key)
+    {
+        $config = new \System\Config();
+        if (isset($config['salt']))
+            $key .= $config['salt'];
+
+        return sha1($key . TimeWorker::timeToStamp());
+    }
 }

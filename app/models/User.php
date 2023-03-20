@@ -20,7 +20,7 @@ final class User extends Client
             $password = \System\Utils\Password::hash($password);
 
         $filter = 'uLogin=?' . ($password !== '' ? ' AND uPass=?' : '');
-        
+
         return $this->connection->fetch1($this->connection->select('Users', 'uID', $filter, array($login, $password)));
     }
 
@@ -36,9 +36,9 @@ final class User extends Client
         return $newId;
     }
 
-    public function loadUser()
+    public function loadUser($newSession = false)
     {
-       
+
         if ($this->offsetGet('uID') < 1)
             return $this->setData(['uAccess' => 0]);
 
@@ -47,6 +47,9 @@ final class User extends Client
 
         if (count($qr))
             $this->setData($qr);
+
+        if ($newSession === true)
+            $this->keepUserOnline();
     }
 
     public function accessLevel()
@@ -66,5 +69,12 @@ final class User extends Client
             $this->offsetSet($k, $v);
 
         return $this;
+    }
+
+
+    public function keepUserOnline()
+    {
+        if ($this->offsetGet('uID') > 0)
+            $this->connection->update('Users', array('uLTS' => \System\Utils\TimeWorker::timeToStamp()), '', 'uID=?d', array($this->offsetGet('uID')));
     }
 }

@@ -14,8 +14,4 @@ trait Router
         return $router;
     }
 
-    public function findRoute()
-    {
-        
-    }
 }

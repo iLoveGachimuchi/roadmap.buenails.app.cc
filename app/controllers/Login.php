@@ -38,8 +38,9 @@ class Login extends \System\Controllers
 
         $username = $this->request->val('username', 'POST');
         $password = $this->request->val('password', 'POST');
+        $remember = $this->request->val('remember', 'POST');
 
-        if (!$this->auth->newAccess($username, $password)) {
+        if (!$this->auth->newAccess($username, $password, $remember)) {
             return $this->responce->withHtml(
                 new \System\TemplateData(
                     'login.html',
