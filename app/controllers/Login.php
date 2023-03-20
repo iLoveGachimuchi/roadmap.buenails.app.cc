@@ -83,7 +83,7 @@ class Login extends \System\Controllers
         $this->auth->signout();
 
         $router = $this->getRouter();
-        return $this->responce->redirectTo($router->handlerToLink('Controllers\Login@Login'));
+        return $this->responce->redirectTo($router->handlerToLink('Controllers\Login@LoginPage'));
     }
 
 

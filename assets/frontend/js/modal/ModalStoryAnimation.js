@@ -66,7 +66,6 @@ class ModalStoryAnimation extends AnimationSctruct {
         let timeoutLength = 600;
 
 
-
         if (!currentPosition)
             _doc.addStyles(element, 'transform: translateX(0px)');
 
@@ -103,7 +102,11 @@ class ModalStoryAnimation extends AnimationSctruct {
 
 
         setTimeout(() => {
-            wrap.removeChild(element);
+
+            try {
+                wrap.removeChild(element);
+            } catch { }
+
             _doc.removeStyles(elementNext, ['transform', 'transition']);
         }, timeoutLength);
 

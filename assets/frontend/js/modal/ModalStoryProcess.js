@@ -13,6 +13,8 @@ class ModalStoryProcess {
         this.nextClick = document.querySelector('.' + this.styles.modalStoryEventNext);
         this.pauseClick = document.querySelector('.' + this.styles.modalStoryEventPause);
 
+        this.lockEvents = false;
+
         this.currentPosition = null;
         this.dragAndMoveRange = 110;
 
@@ -86,6 +88,11 @@ class ModalStoryProcess {
     }
 
 
+    isEventLocked()
+    {
+        return this.lockEvents;
+    }
+
 
     changeContent(changeTo, next = true) {
 
@@ -94,6 +101,7 @@ class ModalStoryProcess {
             return;
         }
 
+        this.lockEvents = true;
 
         let timeoutLength = this.storyAnimation.animateChangeContent({
             wrap: this.getStoryContentWrap(),
@@ -109,6 +117,7 @@ class ModalStoryProcess {
 
         setTimeout(() => {
             this.dragAndMove.resetMoveContent(this.getStoryContainer());
+            this.lockEvents = false;
         }, timeoutLength);
 
 
@@ -180,6 +189,9 @@ class ModalStoryProcess {
 
 
     playNext(e) {
+        if (this.isEventLocked())
+            return;
+
         let current = this.getCurrentActive();
 
 
@@ -206,6 +218,9 @@ class ModalStoryProcess {
     };
 
     playPreview() {
+        if (this.isEventLocked())
+            return;
+
         let current = this.getCurrentActive();
 
         this.progress[current].classList.remove('active');
@@ -229,6 +244,9 @@ class ModalStoryProcess {
     };
 
     clickHandler() {
+        if (this.isEventLocked())
+            return;
+
         if (!e.target)
             return;
 
@@ -261,6 +279,9 @@ class ModalStoryProcess {
     }
 
     pauseIt(e) {
+        if (this.isEventLocked())
+            return;
+
         this.progress[this.getCurrentActive()].classList.toggle('pause');
     }
 
