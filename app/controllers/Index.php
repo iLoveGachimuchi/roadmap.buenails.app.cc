@@ -48,7 +48,7 @@ class Index extends \System\Controllers
         if (strpos($stickerName, '.json') === false)
             $stickerName .= '.json';
 
-        $stickerData = \System\Helper\Files::getFileContent(AssetsDirectory . '/frontend/var/' . $stickerName);
+        $stickerData = \System\Utils\Files::getFileContent(AssetsDirectory . '/frontend/var/' . $stickerName);
 
         return $this->setView('Index')->renderView('StickersView', array($stickerData));
     }

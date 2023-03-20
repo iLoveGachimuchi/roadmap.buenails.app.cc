@@ -14,6 +14,7 @@ class Request
     protected $get;
     protected $post;
     protected $acceptMethods;
+    protected $phpInput;
 
     public function __construct($config = null)
     {
@@ -25,6 +26,8 @@ class Request
         $this->get = $this->requestVluesPrepare($_GET);
         $this->post = $this->requestVluesPrepare($_POST);
         $this->acceptMethods = $this->config['acceptMethods'];
+
+        $this->phpInput = null;
 
         $this->parseRequests();
     }
@@ -48,7 +51,7 @@ class Request
             case 'x-www-form-urlencoded':
             case 'text/html':
                 return 'html';
-            case 'application/xml': 
+            case 'application/xml':
                 return 'xml';
             default:
                 return 'html';
@@ -136,23 +139,31 @@ class Request
             $requestMethod = $this->getRequestMethod();
 
         $request = null;
-        switch ($requestMethod) {
-            case 'GET':
-                $request = &$_GET;
-                break;
-            case 'POST':
-                $request = &$_POST;
-                break;
-            case 'DELETE':
-            case 'PUT':
-            case 'OPTIONS':
-            case 'HEAD':
-                $request = &$_REQUEST;
-                break;
-            default:
-                $request = null;
-                break;
-        }
+
+
+        if ($this->getContentType() === 'json') {
+            if (!$this->phpInput)
+                $this->phpInput = json_decode(file_get_contents('php://input'), true);
+                
+            $request = $this->phpInput;
+        } else
+            switch ($requestMethod) {
+                case 'GET':
+                    $request = &$_GET;
+                    break;
+                case 'POST':
+                    $request = &$_POST;
+                    break;
+                case 'DELETE':
+                case 'PUT':
+                case 'OPTIONS':
+                case 'HEAD':
+                    $request = &$_REQUEST;
+                    break;
+                default:
+                    $request = null;
+                    break;
+            }
 
         return ($request == null ? null : ($valueName == null ? $request : $request[$valueName]));
     }
@@ -277,8 +288,8 @@ class Request
     private function requestVluesPrepare($s)
     {
         if (!is_null($s)) {
-            $s = Helper\StringHelper::htmlChars($s);
-            Helper\StringHelper::strTrim($s);
+            $s = Utils\StringUtils::htmlChars($s);
+            Utils\StringUtils::strTrim($s);
         }
 
         return $s;

@@ -20,9 +20,9 @@ try {
     $app($routes);
 } catch (Exception $e) {
 
-    $requset = new System\Request();
+    $request = new System\Request();
     $responce = new System\Responce();
     $responce->setHtmlCode($e->getCode());
-    $responce->setContentType($requset->getContentType());
+    $responce->setContentType($request->getContentType());
     $responce->send($e->getMessage());
 }

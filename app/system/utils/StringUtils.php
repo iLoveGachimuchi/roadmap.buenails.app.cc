@@ -1,9 +1,9 @@
 <?
 
-namespace System\Helper;
+namespace System\Utils;
 
 
-class StringHelper
+class StringUtils
 {
 
     public static function strTrim(&$s)
@@ -12,7 +12,7 @@ class StringHelper
             $s = trim($s);
         else
             foreach ($s as $i => $v)
-                StringHelper::strTrim($s[$i]);
+                StringUtils::strTrim($s[$i]);
     }
 
     public static function htmlChars($s)
@@ -22,7 +22,7 @@ class StringHelper
             $s = htmlspecialchars($s);
         else
             foreach ($s as $i => $v)
-                $s[$i] = StringHelper::htmlChars($s[$i]);
+                $s[$i] = StringUtils::htmlChars($s[$i]);
         return $s;
     }
 }

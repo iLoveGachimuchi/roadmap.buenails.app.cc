@@ -94,15 +94,15 @@ final class Install
         clearstatcache();
         $dirMove = AssetsDirectory . '/deleted/MVC/';
         $filePath = $dir . $className . '.php';
-        $filePathNew = $dirMove . \System\Helper\TimeWorker::timeToStamp() . '_' . $className . '.php';
+        $filePathNew = $dirMove . \System\Utils\TimeWorker::timeToStamp() . '_' . $className . '.php';
 
         if (!file_exists($filePath))
             return true;
 
-        if (!\System\Helper\Files::isWritable_r($dir))
+        if (!\System\Utils\Files::isWritable_r($dir))
             return -1;
 
-        if (!\System\Helper\Files::isWritable_r($dirMove))
+        if (!\System\Utils\Files::isWritable_r($dirMove))
             return -2;
 
         if (copy($filePath, $filePathNew))
@@ -120,10 +120,10 @@ final class Install
         if (file_exists($filePath))
             return 2;
 
-        if (!\System\Helper\Files::isWritable_r($dir))
+        if (!\System\Utils\Files::isWritable_r($dir))
             return -1;
 
-        \System\Helper\Files::fileRewrite($filePath, $content);
+        \System\Utils\Files::fileRewrite($filePath, $content);
 
         return true;
     }
@@ -135,10 +135,10 @@ final class Install
 
         $content = '';
 
-        if (!\System\Helper\Files::isWritable_r($dir))
+        if (!\System\Utils\Files::isWritable_r($dir))
             return -1;
 
-        if (!\System\Helper\Files::isWritable_r($filePath))
+        if (!\System\Utils\Files::isWritable_r($filePath))
             return -3;
 
         $_t = "    ";
@@ -157,7 +157,7 @@ final class Install
 
         $content = $this->setTamplateVars($this->loadTemplate('Install_Routes.txt'), array('routes' => $content));
         
-        \System\Helper\Files::fileRewrite($filePath, $content);
+        \System\Utils\Files::fileRewrite($filePath, $content);
     }
 
     private function setTamplateVars($template, $vars)

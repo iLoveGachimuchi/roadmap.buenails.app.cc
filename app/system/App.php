@@ -20,6 +20,7 @@ final class App
         $this->responce = new Responce();
 
         $this->setConfig($this->config);
+        $this->loadConstants();
     }
 
     public function __invoke($routes)
@@ -92,5 +93,11 @@ final class App
                 require_once $path;
             }
         });
+    }
+
+    private function loadConstants()
+    {
+        foreach(\System\Utils\Files::getFilesDirectory(AppDirectory . '/system/constants') as $file)
+            @include_once($file);
     }
 }

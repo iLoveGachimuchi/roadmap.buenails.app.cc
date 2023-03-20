@@ -2,7 +2,7 @@
 
 namespace System;
 
-final class Connection extends \System\Helper\CustomPDO
+final class Connection extends \System\Utils\CustomPDO
 {
     private $pdo;
     private $config;
@@ -11,6 +11,11 @@ final class Connection extends \System\Helper\CustomPDO
     {
         $this->config = (!is_object($config) ? new \System\Config : $config);
 
+        $this->useConnect();
+    }
+
+    public function useConnect()
+    {
         $this->connect($this->config['connection']);
     }
 

@@ -29,5 +29,14 @@ return array(
             'PUT' => 'Controllers\Install@Route',
             'DELETE' => 'Controllers\Install@Route'
         ],
+    ],
+
+    'salt'=> '&*%#5uA4A3nhw$&',
+    'connection' => [
+        'host' => '127.0.0.1',
+        'database' => 'roadmap-manicure-app',
+        'username' => 'root',
+        'password' => '',
+        'charset' => 'utf8mb4'
     ]
 );

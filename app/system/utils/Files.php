@@ -1,6 +1,6 @@
 <?
 
-namespace System\Helper;
+namespace System\Utils;
 
 class Files
 {
@@ -10,8 +10,8 @@ class Files
             if (is_writable($dir)) {
                 $objects = scandir($dir);
                 foreach ($objects as $object) {
-                    if ($object != "." && $object != "..") {
-                        if (!\System\Helper\Files::isWritable_r($dir . "/" . $object)) return false;
+                    if ($object != '.' && $object != '..') {
+                        if (!\System\Utils\Files::isWritable_r($dir . "/" . $object)) return false;
                         else continue;
                     }
                 }
@@ -33,11 +33,19 @@ class Files
         clearstatcache();
     }
 
-    public static function getFileContent($filePath){
-        if (!file_exists($filePath)) {
-            throw new \Exception("File '$filePath' is not found", 404); 
-        }
+    public static function getFileContent($filePath)
+    {
+        if (!file_exists($filePath)) 
+            throw new \Exception("File '$filePath' is not found", 404);
 
         return file_get_contents($filePath);
+    }
+
+    public static function getFilesDirectory($fileDir)
+    {
+        if (!file_exists($fileDir)) 
+            throw new \Exception("Directory '$fileDir' is not found", 404);
+            
+        return array_diff(scandir($fileDir), array('.', '..'));
     }
 }

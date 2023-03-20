@@ -1,6 +1,6 @@
 <?
 
-namespace System\Helper;
+namespace System\Utils;
 
 class TimeWorker
 {

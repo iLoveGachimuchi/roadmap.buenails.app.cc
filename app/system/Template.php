@@ -12,7 +12,7 @@ class Template
             throw 'TemplateData not found';
 
         if (!file_exists($templateData->getTemplatePath()))
-            throw new Exception('Page not found', 404);
+            throw new Exception('TemplatePage not found', 404);
 
         $tempalte = $templateData->getTemplatePath();
 

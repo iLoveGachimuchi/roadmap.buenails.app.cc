@@ -17,7 +17,7 @@ final class User extends Client
     public function findUser($login, $password = '')
     {
         if ($password !== '')
-            $password = \System\Helper\Password::hash($password);
+            $password = \System\Utils\Password::hash($password);
 
         $filter = 'uLogin=?' . ($password !== '' ? ' AND uPass=?' : '');
         
@@ -29,7 +29,7 @@ final class User extends Client
         if ($this->findUser($login))
             throw new Exception('User already exists', 403);
 
-        $password = \System\Helper\Password::hash($password);
+        $password = \System\Utils\Password::hash($password);
 
         $newId = $this->connection->insert('Users', array('uLogin' => $login, 'uPass' => $password, 'uAccess' => $access));
 

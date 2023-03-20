@@ -93,9 +93,11 @@ final class Router
         return $this;
     }
 
-    public function isFound()
+    public function isFound($requestUrl = null)
     {
-        $requestUrl = $this->request->getRequestUrl();
+        if (!$requestUrl)
+            $requestUrl = $this->request->getRequestUrl();
+
         if (isset($this->routes[$requestUrl])) {
             $this->requestHandler = $this->routes[$requestUrl];
             return true;
@@ -118,6 +120,22 @@ final class Router
         return false;
     }
 
+    public function handlerToLink($handler, $method = null)
+    {
+        foreach ($this->getRoutes() as $link => $handlers) {
+            if (is_array($handlers)) {
+                foreach ($handlers as $req => $handlr)
+                    if (($method === null or $req === $method) and $handlr === $handler)
+                        return $link;
+            } else {
+                if ($handlers === $handler)
+                    return $link;
+            }
+        }
+
+        return null;
+    }
+
     public function executeHandler($handler = null, $params = null)
     {
         if ($handler === null) {
@@ -137,8 +155,8 @@ final class Router
             $method = $restAction[0];
             $action = $restAction[1];
 
-            $method = Helper\Methods::installMethod($method);
-            return Helper\Methods::callMethod($method, $action, $params);
+            $method = Utils\Methods::installMethod($method);
+            return Utils\Methods::callMethod($method, $action, $params);
         }
     }
 

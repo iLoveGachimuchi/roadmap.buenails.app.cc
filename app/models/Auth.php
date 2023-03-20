@@ -38,7 +38,7 @@ final class Auth
         return true;
     }
 
-    public function newClient($login, $password)
+    public function createUser($login, $password)
     {
         $user = new User(0, $this->connection);
 
@@ -69,7 +69,7 @@ final class Auth
     public function isAccess($level)
     {
         $this->userLoaded();
-        
+
         return ($this->accessLevel >= $level);
     }
 
