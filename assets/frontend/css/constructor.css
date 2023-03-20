@@ -75,6 +75,9 @@ ul {
     padding: 12px 20px;
 }
 
+.form .form-group input[type="checkbox"] {
+    width: auto;
+}
 .form .form-group .radio-group.radio-color-select {
     outline: none;
     display: flex;

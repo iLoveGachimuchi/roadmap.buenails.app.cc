@@ -34,11 +34,31 @@
             <div class="form">
                 <div class="form-group">
                     <label for="title">Заголовок</label>
-                    <input type="text" name="title" value="Заголовок">
+                    <input type="text" name="title" id="title" value="Заголовок">
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>
-                    <textarea type="textarea" name="description" value="Описание">Описание</textarea>
+                    <textarea type="textarea" name="description" id="description" value="Описание">Описание</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="type">Вид стикера</label>
+                    <select name="type" id="type">
+                        <option value="sticker" selected>Стандартный</option>
+                        <option value="hand-write">Рукописный</option>
+                        <option value="two-stickers">Двойное поле</option>
+                        <option value="album">Альбом</option>
+                        <option value="photo">Фото/Видео</option>
+                        <option value="animate">Анимация (вызов функции)</option>
+                        <option value="sticker-3d">Стикер 3D</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Дата публикации</label>
+                    <input type="date" name="date" id="date" value="Дата">
+                </div>
+                <div class="form-group">
+                    <label for="time">Указать время</label>
+                    <input type="checkbox" name="time" id="time" checked>
                 </div>
                 <div class="form-group">
                     <label for="color">Цвет</label>
