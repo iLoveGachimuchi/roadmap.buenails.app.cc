@@ -25,6 +25,8 @@ class StickerType extends Sticker {
 
         this.setDefaultData(data, this.stickerBox.querySelector('.' + this.stickerInspClass));
 
+        if (typeof data['insp-mod'] != 'undefined' && data['insp-mod'].length > 0)
+            this.stickerBox.querySelector('.' + this.stickerInspClass).classList.add(data['insp-mod']);
 
         return this.stickerBox;
     }

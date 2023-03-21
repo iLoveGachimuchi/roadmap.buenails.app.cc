@@ -9,6 +9,11 @@ const liveConstruct = () => {
     let date = document.querySelector('input[name="date"]').value;
     let time = document.querySelector('input[name="time"]');
 
+
+
+    let _event = document.querySelector('input[name="event"]').checked;
+
+
     color = color == null ? 1 : color.value;
     type = type.selectedIndex ? type.options[type.selectedIndex].value : 'sticker';
     version = version.selectedIndex ? version.options[version.selectedIndex].value : '1.00';
@@ -32,10 +37,10 @@ const liveConstruct = () => {
     };
 
     if (type === 'hand-write') {
-        document.querySelector('.sticker-create input[name="option-rotate"]').closest('.form-group').style.display = null;
-        data['rotate'] = parseInt(document.querySelector('.sticker-create input[name="option-rotate-range"]').value);
+        document.querySelector('.sticker-construct input[name="option-rotate"]').closest('.form-group').style.display = null;
+        data['rotate'] = parseInt(document.querySelector('.sticker-construct input[name="option-rotate-range"]').value);
     } else {
-        document.querySelector('.sticker-create input[name="option-rotate"]').closest('.form-group').style.display = 'none';
+        document.querySelector('.sticker-construct input[name="option-rotate"]').closest('.form-group').style.display = 'none';
     }
 
 
@@ -78,7 +83,17 @@ const liveConstruct = () => {
         document.querySelector('input[name="insp-mode"]').closest('.form-group').style.display = 'none';
     }
 
+    if (_event == true) {
+        
+        document.querySelector('label[for="tab-btn-4"]').style.display = null;
+        data.event = {
 
+        }
+    } else {
+        // document.querySelector('label[for="tab-btn-4"]').style.display = 'none';
+        document.querySelector('input[id="tab-btn-4"]').checked = false;
+        document.querySelector('input[id="tab-btn-1"]').checked = true;
+    }
 
     stickerData.data = data;
 
@@ -140,11 +155,15 @@ const restoreStickerData = () => {
     }
 
     if (stickerData.type === 'hand-write') {
-        let rotate = document.querySelector('.sticker-create input[name="option-rotate"]');
-        rotate.value = document.querySelector('.sticker-create input[name="option-rotate-range"]').value = stickerData.data.rotate
+        let rotate = document.querySelector('.sticker-construct input[name="option-rotate"]');
+        rotate.value = document.querySelector('.sticker-construct input[name="option-rotate-range"]').value = stickerData.data.rotate
         rotate.closest('.form-group').style.display = null;
     }
+    
 
+    if (stickerData.event != null) {
+        // document.querySelector('label[for="tab-btn-4"]').style.display = null;
+    }
 }
 
 const tryRestoreStickerData = () => {
@@ -189,11 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    document.querySelector('.sticker-create input[name="option-rotate"]').addEventListener('input', () => {
-        document.querySelector('.sticker-create input[name="option-rotate-range"]').value = document.querySelector('.sticker-create input[name="option-rotate"]').value;
+    document.querySelector('.sticker-construct input[name="option-rotate"]').addEventListener('input', () => {
+        document.querySelector('.sticker-construct input[name="option-rotate-range"]').value = document.querySelector('.sticker-construct input[name="option-rotate"]').value;
     });
-    document.querySelector('.sticker-create input[name="option-rotate-range"]').addEventListener('change', () => {
-        document.querySelector('.sticker-create input[name="option-rotate"]').value = document.querySelector('.sticker-create input[name="option-rotate-range"]').value
+    document.querySelector('.sticker-construct input[name="option-rotate-range"]').addEventListener('change', () => {
+        document.querySelector('.sticker-construct input[name="option-rotate"]').value = document.querySelector('.sticker-construct input[name="option-rotate-range"]').value
     }, false);
 
 
@@ -207,11 +226,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    document.querySelectorAll('.sticker-create input').forEach(eventFunc);
-    document.querySelectorAll('.sticker-create textarea').forEach(eventFunc);
-    document.querySelectorAll('.sticker-create select').forEach(eventFunc);
-    document.querySelectorAll('.sticker-create input[name="option-rotate"]').forEach(eventFunc);
-    document.querySelectorAll('.sticker-create input[name="option-rotate-2"]').forEach(eventFunc);
+    document.querySelectorAll('.sticker-construct input').forEach(eventFunc);
+    document.querySelectorAll('.sticker-construct textarea').forEach(eventFunc);
+    document.querySelectorAll('.sticker-construct select').forEach(eventFunc);
+    document.querySelectorAll('.sticker-construct input[name="option-rotate"]').forEach(eventFunc);
+    document.querySelectorAll('.sticker-construct input[name="option-rotate-2"]').forEach(eventFunc);
 
 
     liveConstruct();

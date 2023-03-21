@@ -30,145 +30,218 @@
     <main class="container">
 
         <div class="sticker-create">
-            <h1>Новый стикер</h1>
-            <div class="form">
-                <div class="form-group">
-                    <label for="version">Версия</label>
-                    <select name="version" id="version">
-                        <option value="1.00" selected>v 1.00</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="title">Заголовок</label>
-                    <input type="text" name="title" id="title" value="Заголовок">
-                </div>
-                <div class="form-group">
-                    <label for="description">Описание</label>
-                    <textarea type="textarea" name="description" id="description" value="Описание">Описание</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="type">Вид стикера</label>
-                    <select name="type" id="type">
-                        <option value="sticker" selected>Стандартный</option>
-                        <option value="hand-write">Рукописный</option>
-                        <option value="two-stickers">Двойное поле</option>
-                        <option value="album">Альбом</option>
-                        <option value="photo">Фото/Видео</option>
-                        <option value="animate">Анимация (вызов функции)</option>
-                        <option value="sticker-3d">Стикер 3D</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="date">Дата публикации</label>
-                    <input type="date" name="date" id="date" value="Дата">
-                </div>
-                <div class="form-group">
-                    <label for="time">Указать время</label>
-                    <input type="checkbox" name="time" id="time" checked>
-                </div>
-                <div class="form-group">
-                    <label for="color">Цвет</label>
-                    <div class="radio-group radio-color-select">
-                        <input type="radio" name="color" class="null" value="0" id="radio-color-0">
-                        <label for="radio-color-0"><span></span></label>
 
-                        <input type="radio" name="color" class="blue" value="1" id="radio-color-1">
-                        <label for="radio-color-1"><span></span></label>
+            <div class="tabs">
+                <h1>Новый стикер</h1>
 
-                        <input type="radio" name="color" class="yellow" value="2" id="radio-color-2">
-                        <label for="radio-color-2"><span></span></label>
+                <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
+                <label for="tab-btn-1">Основные</label>
 
-                        <input type="radio" name="color" class="green" value="3" id="radio-color-3">
-                        <label for="radio-color-3"><span></span></label>
+                <input type="radio" name="tab-btn" id="tab-btn-2" value="">
+                <label for="tab-btn-2">Загрузки</label>
 
-                        <input type="radio" name="color" class="pink" value="4" id="radio-color-4">
-                        <label for="radio-color-4"><span></span></label>
+                <input type="radio" name="tab-btn" id="tab-btn-3" value="">
+                <label for="tab-btn-3">События</label>
 
-                        <input type="radio" name="color" class="purple" value="5" id="radio-color-5">
-                        <label for="radio-color-5"><span></span></label>
-
-                        <input type="radio" name="color" class="red" value="6" id="radio-color-6">
-                        <label for="radio-color-6"><span></span></label>
-
-                        <input type="radio" name="color" class="gray" value="7" id="radio-color-7">
-                        <label for="radio-color-7"><span></span></label>
-                    </div>
-                </div>
-                <div class="form-group" style="display: none">
-                    <label for="option-rotate">Поворрот</label>
-                    <input type="text" name="option-rotate" id="option-rotate" value="15">
-                    <input type="range" name="option-rotate-range" id="option-rotate-range" value="15" min="-90"
-                        max="90">
-                </div>
-
-                <div class="form-group" style="display: none">
-                    <label for="insp-mode">Модификатор</label>
-                    <input type="text" name="insp-mode" id="insp-mode" value="">
-                </div>
+                <input type="radio" name="tab-btn" id="tab-btn-4" value="">
+                <label for="tab-btn-4">Оверлей</label>
 
 
-                <div class="double-field" style="display: none">
-                    <h3>Двойное поле</h3>
-                    <div class="form" style="width: auto;">
+                <!-- Основные -->
+                <div class="sticker-construct" id="content-1">
+                    <div class="form">
                         <div class="form-group">
-                            <label for="title-2">Заголовок-2</label>
-                            <input type="text" name="title-2" id="title-2" value="Заголовок-2">
-                        </div>
-                        <div class="form-group">
-                            <label for="description-2">Описание-2</label>
-                            <textarea type="textarea" name="description-2" id="description-2"
-                                value="Описание-2">Описание-2</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="time-2">Указать время-2</label>
-                            <input type="checkbox" name="time-2" id="time-2" checked>
-                        </div>
-                        <div class="form-group">
-                            <label for="color">Цвет-2</label>
-                            <div class="radio-group radio-color-select">
-                                <input type="radio" name="color-2" class="null" value="0" id="radio-color-0-2">
-                                <label for="radio-color-1-2"><span></span></label>
-
-                                <input type="radio" name="color-2" class="blue" value="1" id="radio-color-1-2">
-                                <label for="radio-color-1-2"><span></span></label>
-
-                                <input type="radio" name="color-2" class="yellow" value="2" id="radio-color-2-2">
-                                <label for="radio-color-2-2"><span></span></label>
-
-                                <input type="radio" name="color-2" class="green" value="3" id="radio-color-3-2">
-                                <label for="radio-color-3-2"><span></span></label>
-
-                                <input type="radio" name="color-2" class="pink" value="4" id="radio-color-4-2">
-                                <label for="radio-color-4-2"><span></span></label>
-
-                                <input type="radio" name="color-2" class="purple" value="5" id="radio-color-5-2">
-                                <label for="radio-color-5-2"><span></span></label>
-
-                                <input type="radio" name="color-2" class="red" value="6" id="radio-color-6-2">
-                                <label for="radio-color-6-2"><span></span></label>
-
-                                <input type="radio" name="color-2" class="gray" value="7" id="radio-color-7-2">
-                                <label for="radio-color-7-2"><span></span></label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="type-2">Вид стикера</label>
-                            <select name="type-2" id="type-2">
-                                <option value="sticker" selected>Стандартный</option>
-                                <option value="hand-write">Рукописный</option>
+                            <label for="version">Версия</label>
+                            <select name="version" id="version">
+                                <option value="1.00" selected>v 1.00</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="insp-mode-2">Модификатор</label>
-                            <input type="text" name="insp-mode-2" id="insp-mode-2" value="">
+                            <label for="title">Заголовок</label>
+                            <input type="text" name="title" id="title" value="Заголовок">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Описание</label>
+                            <textarea type="textarea" name="description" id="description"
+                                value="Описание">Описание</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Вид стикера</label>
+                            <select name="type" id="type">
+                                <option value="sticker" selected>Стандартный</option>
+                                <option value="hand-write">Рукописный</option>
+                                <option value="two-stickers">Двойное поле</option>
+                                <option value="album">Альбом</option>
+                                <option value="photo">Фото/Видео</option>
+                                <option value="animate">Анимация (вызов функции)</option>
+                                <option value="sticker-3d">Стикер 3D</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Дата публикации</label>
+                            <input type="date" name="date" id="date" value="Дата">
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Указать время</label>
+                            <input type="checkbox" name="time" id="time" checked>
+                        </div>
+                        <div class="form-group">
+                            <label for="color">Цвет</label>
+                            <div class="radio-group radio-color-select">
+                                <input type="radio" name="color" class="null" value="0" id="radio-color-0">
+                                <label for="radio-color-0"><span></span></label>
+
+                                <input type="radio" name="color" class="blue" value="1" id="radio-color-1">
+                                <label for="radio-color-1"><span></span></label>
+
+                                <input type="radio" name="color" class="yellow" value="2" id="radio-color-2">
+                                <label for="radio-color-2"><span></span></label>
+
+                                <input type="radio" name="color" class="green" value="3" id="radio-color-3">
+                                <label for="radio-color-3"><span></span></label>
+
+                                <input type="radio" name="color" class="pink" value="4" id="radio-color-4">
+                                <label for="radio-color-4"><span></span></label>
+
+                                <input type="radio" name="color" class="purple" value="5" id="radio-color-5">
+                                <label for="radio-color-5"><span></span></label>
+
+                                <input type="radio" name="color" class="red" value="6" id="radio-color-6">
+                                <label for="radio-color-6"><span></span></label>
+
+                                <input type="radio" name="color" class="gray" value="7" id="radio-color-7">
+                                <label for="radio-color-7"><span></span></label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: none">
+                            <label for="option-rotate">Поворрот</label>
+                            <input type="text" name="option-rotate" id="option-rotate" value="15">
+                            <input type="range" name="option-rotate-range" id="option-rotate-range" value="15" min="-90"
+                                max="90">
+                        </div>
+
+                        <div class="form-group" style="display: none">
+                            <label for="insp-mode">Модификатор</label>
+                            <input type="text" name="insp-mode" id="insp-mode" value="">
+                        </div>
+
+
+                        <div class="double-field" style="display: none">
+                            <h3>Двойное поле</h3>
+                            <div class="form" style="width: auto;">
+                                <div class="form-group">
+                                    <label for="title-2">Заголовок-2</label>
+                                    <input type="text" name="title-2" id="title-2" value="Заголовок-2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description-2">Описание-2</label>
+                                    <textarea type="textarea" name="description-2" id="description-2"
+                                        value="Описание-2">Описание-2</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="time-2">Указать время-2</label>
+                                    <input type="checkbox" name="time-2" id="time-2" checked>
+                                </div>
+                                <div class="form-group">
+                                    <label for="color">Цвет-2</label>
+                                    <div class="radio-group radio-color-select">
+                                        <input type="radio" name="color-2" class="null" value="0" id="radio-color-0-2">
+                                        <label for="radio-color-1-2"><span></span></label>
+
+                                        <input type="radio" name="color-2" class="blue" value="1" id="radio-color-1-2">
+                                        <label for="radio-color-1-2"><span></span></label>
+
+                                        <input type="radio" name="color-2" class="yellow" value="2"
+                                            id="radio-color-2-2">
+                                        <label for="radio-color-2-2"><span></span></label>
+
+                                        <input type="radio" name="color-2" class="green" value="3" id="radio-color-3-2">
+                                        <label for="radio-color-3-2"><span></span></label>
+
+                                        <input type="radio" name="color-2" class="pink" value="4" id="radio-color-4-2">
+                                        <label for="radio-color-4-2"><span></span></label>
+
+                                        <input type="radio" name="color-2" class="purple" value="5"
+                                            id="radio-color-5-2">
+                                        <label for="radio-color-5-2"><span></span></label>
+
+                                        <input type="radio" name="color-2" class="red" value="6" id="radio-color-6-2">
+                                        <label for="radio-color-6-2"><span></span></label>
+
+                                        <input type="radio" name="color-2" class="gray" value="7" id="radio-color-7-2">
+                                        <label for="radio-color-7-2"><span></span></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="type-2">Вид стикера</label>
+                                    <select name="type-2" id="type-2">
+                                        <option value="sticker" selected>Стандартный</option>
+                                        <option value="hand-write">Рукописный</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="insp-mode-2">Модификатор</label>
+                                    <input type="text" name="insp-mode-2" id="insp-mode-2" value="">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+                <!-- Загрузки -->
+                <div class="sticker-construct" id="content-2">
+                    Содержимое 2...
+                </div>
+
+
+                <!-- События -->
+                <div class="sticker-construct" id="content-3">
+                    <div class="form">
+                        <div class="form-group">
+                            <label for="event">Использовать событие</label>
+                            <input type="checkbox" name="event" id="event">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Оверлей -->
+                <div class="sticker-construct" id="content-4">
+                    <div class="form">
+                        
+                        <div class="form-group">
+                            <label for="overlay-blur">overlay-blur</label>
+                            <input type="checkbox" name="overlay-blur" id="overlay-blur" checked>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="overlay-click-to-close">overlay-click-to-close</label>
+                            <input type="checkbox" name="overlay-click-to-close" id="overlay-click-to-close" checked>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="overlay-hotkey-to-close">overlay-hotkey-to-close</label>
+                            <input type="checkbox" name="overlay-hotkey-to-close" id="overlay-hotkey-to-close" checked>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="modal-backlight">modal-backlight</label>
+                            <input type="checkbox" name="modal-backlight" id="modal-backlight" checked>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+
+
+
         </div>
         <div class="sticker-example">
-            <h1>Превью</h1>
-            <div class="sticker-view"></div>
+            <div class="sticky">
+                <h1>Превью</h1>
+                <div class="sticker-view"></div>
+            </div>
         </div>
 
     </main>
