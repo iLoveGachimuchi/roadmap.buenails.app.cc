@@ -68,9 +68,9 @@ class StickerType extends Sticker {
             this.stickerEventSet(data1.event, insp1);
 
 
-        if (typeof data0['insp-mod'] != 'undefined')
+        if (typeof data0['insp-mod'] != 'undefined' && data0['insp-mod'].length > 0)
             insp0.classList.add(data0['insp-mod']);
-        if (typeof data1['insp-mod'] != 'undefined')
+        if (typeof data1['insp-mod'] != 'undefined' && data1['insp-mod'].length > 0)
             insp1.classList.add(data1['insp-mod']);
 
 
