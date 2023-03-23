@@ -19,6 +19,12 @@ class StickerStruct {
             if (typeof b[1].date === 'undefined' || !b[1].date)
                 b[1].date = 0;
 
+            if (typeof a[1].date === 'string')
+                a[1].date = new Date(a[1].date).getTime();
+
+            if (typeof b[1].date === 'string')
+                b[1].date = new Date(b[1].date).getTime();
+                
             return a[1].date - b[1].date;
         });
 

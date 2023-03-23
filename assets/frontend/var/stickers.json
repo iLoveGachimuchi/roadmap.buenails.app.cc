@@ -4,14 +4,14 @@
     "data": [
         {
             "id": 10,
-            "date": 1664586000000,
+            "date": "2022-10-10",
             "type": "hand-write",
             "version": 1.00,
             "event": null,
             "data": {
-                "time": 1664586000000,
+                "time": "2022-10-10",
                 "text": "Новая идея проекта под названием MANICURE APP",
-                "rotate": 15 
+                "rotate": -15 
             }
         },
         {
