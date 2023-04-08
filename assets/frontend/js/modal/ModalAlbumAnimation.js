@@ -173,8 +173,7 @@ class ModalAlbumAnimation extends AnimationSctruct {
         if (infoCardAnimate) {
             if (window.screen.width > 850) {
                 _doc.addStyles(infoCardAnimate, { transform: 'translateX(0) translateY(250%)' });
-            }
-            if (window.screen.width > 475) {
+            } else {
                 _doc.addStyles(infoCardAnimate, { transform: 'translateX(0) translateY(250%)' });
             }
 
