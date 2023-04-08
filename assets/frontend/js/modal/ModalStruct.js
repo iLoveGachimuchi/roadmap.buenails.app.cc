@@ -3,6 +3,9 @@ const defaultAsetsPath = '/assets/frontend/';
 class ModalStruct {
     constructor(modalData) {
         this.data = modalData;
+        
+        this.data.params = typeof this.data.params === 'undefined' ? null : this.data.params;
+
         this.modalElement = null;
 
         this.hotkeyCloseHandler = null;
