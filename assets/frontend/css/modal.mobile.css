@@ -48,13 +48,15 @@
 }
 
 @media (max-width: 460px) {
-
+    .modal-wrap {
+        overflow-y: auto;
+    }
     .modal-album-layer .modal-album-card:nth-child(1) .modal-photo {
-        transform: translateX(0) translateY(40%) rotate(2deg);
+        transform: translateX(0) translateY(20%) rotate(2deg);
     }
 
     .modal-album-layer .modal-album-card:nth-child(2) .modal-photo {
-        transform: translateX(0) translateY(-21%) rotate(1deg);
+        transform: translateX(0) translateY(-30%) rotate(1deg);
     }
 
     .modal-album-layer .modal-album-card:nth-child(3) .modal-photo {
@@ -69,6 +71,10 @@
 
 @media (max-width: 400px) {
 
+    .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
 
     .modal-field-item {
         width: 200px;
